@@ -21,3 +21,7 @@ init/kernel.bin :
 
 clean:
 	rm -f *.o *.bin $(TARGET)
+
+	$(MAKE) clean -C boot 
+
+	$(MAKE) clean -C init 

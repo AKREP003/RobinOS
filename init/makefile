@@ -12,3 +12,8 @@ kernel.o: kernel.asm
 
 ../drivers/tty_driver.o:
 	$(MAKE) -C ../drivers
+
+clean:
+	rm -f *.o *.bin $(TARGET)
+	
+	$(MAKE) -C ../drivers clean

@@ -7,3 +7,7 @@ LDFLAGS=-m elf_i386 -T linker.ld
 
 tty_driver.o: tty_driver.asm
 	$(AS) $(ASFLAGS) tty_driver.asm -o tty_driver.o
+
+
+clean:
+	rm -f *.o *.bin $(TARGET)
