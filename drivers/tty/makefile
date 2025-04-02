@@ -5,11 +5,9 @@ CFLAGS=-m32 -ffreestanding -nostdlib -m16 -c -fno-pic
 ASFLAGS=-f elf32
 LDFLAGS=-m elf_i386 -T linker.ld
 
-tty/tty_driver.o: tty/tty_driver.asm
-	$(MAKE) -C tty
+tty_driver.o: tty_driver.asm
+	$(AS) $(ASFLAGS) tty_driver.asm -o tty_driver.o
 
 
 clean:
 	rm -f *.o *.bin $(TARGET)
-
-	$(MAKE) -C tty clean
