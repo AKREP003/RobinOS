@@ -16,7 +16,7 @@ boot/boot.bin :
 	$(MAKE) -C boot CC=gcc AS=nasm LD=ld CFLAGS="-m32 -ffreestanding -nostdlib -m16 -c -fno-pic" ASFLAGS="-f elf32" LDFLAGS="-m elf_i386 -T linker.ld"
 
 init/kernel.bin :
-	$(MAKE) -C init CC=gcc AS=nasm LD=ld CFLAGS="-m32 -ffreestanding -nostdlib -m16 -c -fno-pic" ASFLAGS="-f elf32" LDFLAGS="-m elf_i386 -T linker.ld"
+	$(MAKE) -C init CC=gcc AS=nasm LD=ld CFLAGS="-m32 -ffreestanding -nostdlib -m16 -c -fno-pic" ASFLAGS="-f elf32" LDFLAGS="-m elf_i386 -T linker.ld" 
 
 
 clean:
