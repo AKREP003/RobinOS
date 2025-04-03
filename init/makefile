@@ -7,7 +7,7 @@ kernel.bin: kernel.o $(drivers) main.o
 	$(LD) $(LDFLAGS) kernel.o $(drivers) main.o -o kernel.bin
 
 main.o: main.c
-	$(CC) $(CFLAGS) main.c -o main.o
+	$(CC) $(CFLAGS) -fno-stack-protector main.c -o main.o
 
 kernel.o: kernel.asm
 	$(AS) $(ASFLAGS) kernel.asm -o kernel.o
