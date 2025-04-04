@@ -11,20 +11,17 @@ void aaa() {
     
     
 
-    char* buffer = (char*) 0x8000;
+    char* stir = "aaa";
+    
+    print_string((char*) stir); 
 
-    buffer[0] = 'A';
-    buffer[1] = 'A';
-    buffer[2] = 'A';
+    disk_write(512, 0x0, (int) stir);
+
     
 
-    print_string(buffer); 
+    char* buffer = (char*) 0x7000;
 
-    //disk_write(512, 30000, (int) buffer);
-
-    print_string((char*) buffer); 
-
-    //disk_read(512, 30000, buffer);
+    disk_read(512, 0x0, (int) buffer);
 
     print_string((char*) buffer); 
 

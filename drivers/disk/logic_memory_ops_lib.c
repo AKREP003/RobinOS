@@ -29,9 +29,7 @@ void disk_write(int size, int disk_addr, int mem_addr) {
     int head = (disk_addr / SECTORS) % HEADS;
     int cylinder = (disk_addr / (SECTORS * HEADS)) % 1024; 
 
-    int sectors_to_read = (size + SECTOR_SIZE - 1) / SECTOR_SIZE;;
-
-    
+    int sectors_to_read = (size + SECTOR_SIZE - 1) / SECTOR_SIZE;
 
     write(sectors_to_read, cylinder, sector, head, mem_addr);
     
