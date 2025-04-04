@@ -5,23 +5,18 @@
 
 void read(int sector_numb, int cylinder, int sector, int head, int buffer);
 
-int ceil(float a) {
-    int b = (int)a;
-    if (a - b > 0) {
-        return b + 1;
-    }
-    return b;
-}
+
 
 void disk_read(int size, int disk_addr, int mem_addr) {
 
     int sector = (disk_addr % SECTORS) + 1;
     int head = (disk_addr / SECTORS) % HEADS;
-    int cylinder = (disk_addr / (SECTORS * HEADS)) % 1024; // Assuming 1024 cylinders
+    int cylinder = (disk_addr / (SECTORS * HEADS)) % 1024; 
 
-    int sectors_to_read = ceil((float)size / SECTOR_SIZE);
+    int sectors_to_read = (size + SECTOR_SIZE - 1) / SECTOR_SIZE;;
 
     read(sectors_to_read, cylinder, sector, head, mem_addr);
+    //read(0, 0, 0, 0, 100000);
 }
 
 

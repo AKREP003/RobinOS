@@ -1,17 +1,18 @@
 void print_string(char *str);
 void disk_read(int size, int disk_addr, int mem_addr);
+int alloc(int size);
 
-char buffer[512] = {0};;
 
 void aaa() {
     print_string("well come to HatcimOS!\n");
-    print_string("booting...\n");
-    //disk_read(0, 1000, (int) &buffer);
+    print_string("booting...");
 
-    //print_string("aaaaaaa");
+    int buffer = alloc(512);
 
-    //print_string(buffer);
+    disk_read(1, 0, buffer);
 
-    //print_string("aaaaaaa");
+    print_string((char*) buffer); 
+
+    
 }
 

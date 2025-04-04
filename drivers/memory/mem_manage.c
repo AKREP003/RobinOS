@@ -1,5 +1,5 @@
 
-#define ENDPOINT 0x3000
+#define ENDPOINT 0x100000
 
 
 struct memblock {
@@ -37,7 +37,7 @@ int alloc(int size) {
         
         if (buffer->next == 0) {
 
-            p_memblock alloc_addr = buffer->addr - alloc_size;
+            p_memblock alloc_addr = (p_memblock) (buffer->addr - alloc_size);
 
             buffer -> next = alloc_addr;
             
@@ -49,12 +49,26 @@ int alloc(int size) {
 
             alloc_addr -> next = 0;
 
-            return alloc_addr + sizeof(struct memblock);
+            return (int)((char*)alloc_addr + sizeof(struct memblock));
+
         }
         
-        if ( (get_end(buffer->next) - buffer->addr) >= alloc_size ) {
+        if ( (buffer->addr - get_end(buffer->next)) >= alloc_size ) {
 
-            break;
+            p_memblock alloc_addr = (p_memblock) (buffer->addr - alloc_size);
+            
+            alloc_addr -> next = buffer->next;
+
+            buffer -> next = alloc_addr;
+            
+            alloc_addr -> size = size;
+
+            alloc_addr -> addr = (int) alloc_addr;
+            
+            alloc_addr -> prev = buffer;
+
+            return (int)((char*)alloc_addr + sizeof(struct memblock));
+
 
         }
 
@@ -63,4 +77,38 @@ int alloc(int size) {
 
     
     return 0;
+}
+
+
+void free(int ptr) {
+    // Step back from the allocated memory to find the memblock header
+    p_memblock block = (p_memblock)(ptr - sizeof(struct memblock));
+
+    // Reconnect the previous and next blocks to bypass 'block'
+    if (block->prev != 0) {
+        block->prev->next = block->next;
+    }
+
+    if (block->next != 0) {
+        block->next->prev = block->prev;
+    }
+
+    // If the block was the last_free one, update last_free pointer
+    if (last_free == block) {
+        last_free = block->prev; // or set to head_allocation if you want a safe fallback
+    }
+
+    // Optional: zero out the block metadata (not required, but nice for debugging)
+    block->size = 0;
+    block->addr = 0;
+    block->prev = 0;
+    block->next = 0;
+}
+
+void dump_allocations() {
+    p_memblock b = &head_allocation;
+    while (b != 0) {
+        
+        b = b->next;
+    }
 }
