@@ -1,9 +1,4 @@
-void print_string(char *str);
-void disk_read(int size, int disk_addr, int mem_addr);
-int alloc(int size);
-void disk_write(int size, int disk_addr, int mem_addr);
-
-
+#include "../stdlib/kernel_headers.h"
 
 
 void aaa() {
@@ -19,7 +14,7 @@ void aaa() {
 
     
 
-    char* buffer = (char*) 0x7000;
+    char* buffer = (char*) alloc(512);
 
     disk_read(512, 0x0, (int) buffer);
 
@@ -27,4 +22,6 @@ void aaa() {
 
     
 }
+
+
 

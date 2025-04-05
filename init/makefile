@@ -1,10 +1,10 @@
 
 drivers = ../drivers/tty/tty_driver.o ../drivers/disk/bios_memory_ops.o ../drivers/disk/disk.o ../drivers/memory/mem_manage.o 
+stdlib = ../stdlib/std_types.o
 
-
-kernel.bin: kernel.o $(drivers) main.o
+kernel.bin: kernel.o $(drivers) $(stdlib) main.o
 	
-	$(LD) $(LDFLAGS) kernel.o $(drivers) main.o -o kernel.bin
+	$(LD) $(LDFLAGS) kernel.o $(stdlib) $(drivers) main.o -o kernel.bin
 
 main.o: main.c
 	$(CC) $(CFLAGS) -fno-stack-protector main.c -o main.o
@@ -19,3 +19,4 @@ clean:
 	rm -f *.o *.bin $(TARGET)
 	
 	$(MAKE) -C ../drivers clean
+	$(MAKE) -C ../stdlib clean

@@ -1,0 +1,7 @@
+void print_string(char *str);
+void disk_read(int size, int disk_addr, int mem_addr);
+int alloc(int size);
+void disk_write(int size, int disk_addr, int mem_addr);
+
+
+
