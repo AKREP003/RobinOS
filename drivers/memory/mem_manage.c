@@ -1,5 +1,4 @@
-
-#define ENDPOINT 0x100000
+#include "../../stdlib/kernel_headers.h"
 
 
 struct memblock {
@@ -17,9 +16,27 @@ struct memblock {
 typedef struct memblock* p_memblock;
 
 
-struct memblock head_allocation = {0, ENDPOINT, (p_memblock) 0, (p_memblock) 0};
+struct memblock protected_head_allocation = {0, 0b100000000000000, (p_memblock) 0, (p_memblock) 0};
 
-struct memblock* last_free = &head_allocation;
+struct memblock unprotected_head_allocation = {0, 0x10000000, (p_memblock) 0, (p_memblock) 0};
+
+struct memblock* last_free = &protected_head_allocation;
+
+void set_heap_mode(int mode) {
+
+    if (mode) {
+
+        last_free = &protected_head_allocation;
+
+    } else {
+
+        last_free = &unprotected_head_allocation;
+
+    }
+
+}
+
+
 
 int get_end(p_memblock block) {
     return block->addr + block->size + sizeof(struct memblock);
@@ -53,7 +70,7 @@ int alloc(int size) {
 
         }
         
-        if ( (buffer->addr - get_end(buffer->next)) >= alloc_size ) {
+        if (0) {//( (buffer->addr - get_end(buffer->next)) >= alloc_size ) {
 
             p_memblock alloc_addr = (p_memblock) (buffer->addr - alloc_size);
             
@@ -71,6 +88,10 @@ int alloc(int size) {
 
 
         }
+
+        
+
+        buffer = buffer -> next;
 
         
     };
@@ -106,7 +127,7 @@ void free(int ptr) {
 }
 
 void dump_allocations() {
-    p_memblock b = &head_allocation;
+    p_memblock b = &protected_head_allocation;
     while (b != 0) {
         
         b = b->next;

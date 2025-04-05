@@ -4,23 +4,24 @@
 void aaa() {
     print_string("well come to RobinOS!\n");
     
-    
+    char* res = (char*) alloc(100);
 
-    char* stir = "aaa";
-    
-    print_string((char*) stir); 
+    char* it = itoa((int) res, res, 10);
 
-    disk_write(512, 0x0, (int) stir);
+    print_string("a");
 
-    
+    print_string(it);
 
-    char* buffer = (char*) alloc(512);
+    res = (char*) alloc(100);
 
-    disk_read(512, 0x0, (int) buffer);
+    print_string("c");
 
-    print_string((char*) buffer); 
+    it = itoa((int) res, res, 10);
 
-    
+    print_string(it);
+
+    print_string("b");
+
 }
 
 

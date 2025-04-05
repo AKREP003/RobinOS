@@ -2,7 +2,7 @@
 drivers = ../drivers/tty/tty_driver.o ../drivers/disk/bios_memory_ops.o ../drivers/disk/disk.o ../drivers/memory/mem_manage.o 
 stdlib = ../stdlib/std_types.o
 
-kernel.bin: kernel.o $(drivers) $(stdlib) main.o
+kernel.bin: kernel.o $(stdlib) $(drivers)  main.o
 	
 	$(LD) $(LDFLAGS) kernel.o $(stdlib) $(drivers) main.o -o kernel.bin
 
@@ -12,8 +12,14 @@ main.o: main.c
 kernel.o: kernel.asm
 	$(AS) $(ASFLAGS) kernel.asm -o kernel.o
 
+
+$(stdlib) :
+	$(MAKE) -C ../stdlib
+
 $(drivers) :
 	$(MAKE) -C ../drivers
+
+
 
 clean:
 	rm -f *.o *.bin $(TARGET)

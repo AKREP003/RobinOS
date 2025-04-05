@@ -20,7 +20,7 @@ gdt_start: ;https://wiki.osdev.org/Global_Descriptor_Table
 gdt_end:
 
 gdt_descriptor:
-    dw gdt_end - gdt_start - 1  ; Size of GDT
+    dw 15  ; Size of GDT
     dd gdt_start                ; Address of GDT
 
 load_gdt:

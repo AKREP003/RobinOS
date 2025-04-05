@@ -39,13 +39,16 @@ void fill_gdt_entry(struct GDTEntry* entry, uint32_t base, uint32_t limit, uint8
     entry->base_high = (base >> 24) & 0xFF;
 }
 
-
+uint8_t text_priv[2] = {0x11111011, 0x10011011};
+uint8_t data_priv[2] = {0x11110111, 0x10010111};
 
 void create_gdt_for_process(struct Process* proc, struct GDTEntry* gdt) {
     
+    
+
     // Code segment
-    fill_gdt_entry(&gdt[0], proc->text_start, proc->text_size - 1, 0x9A, 0xC0); // execute/read
+    fill_gdt_entry(&gdt[0], proc->text_start, proc->text_size - 1, text_priv[proc -> typ], 0xC0); 
 
     // Data segment
-    fill_gdt_entry(&gdt[1], proc->data_start, proc->data_size - 1, 0x92, 0xC0); // read/write
+    fill_gdt_entry(&gdt[1], proc->data_start, proc->data_size - 1, data_priv[proc -> typ], 0xC0);
 }
