@@ -12,7 +12,11 @@ $(TARGET): boot/boot.bin init/kernel.bin files/files.bin
 
 	cat boot/boot.bin init/kernel.bin files/files.bin > $(TARGET)
 
-	
+	$(MAKE) clean -C boot 
+
+	$(MAKE) clean -C init 
+
+	$(MAKE) clean -C files
 
 
 boot/boot.bin : 
