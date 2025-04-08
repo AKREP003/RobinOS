@@ -36,3 +36,28 @@ char* itoa(int value, char* result, int base) {
     }
     return result;
 }
+
+
+void cpy(int* base, int* copied, int size) {
+
+    for (int i = 0; i < size; i++) {
+
+        base[i] = copied[i];
+
+    };
+
+}
+
+int str_size(char* str) {
+
+    int buffer = 0;
+
+    while(1) {
+
+        if (str[buffer] == 0x0) {return buffer;}
+
+        buffer++;
+
+    }
+
+}

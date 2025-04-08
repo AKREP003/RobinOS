@@ -1,5 +1,5 @@
 
-drivers = ../drivers/tty/tty_driver.o ../drivers/disk/bios_memory_ops.o ../drivers/disk/disk.o ../drivers/memory/mem_manage.o 
+drivers = ../drivers/tty/tty_driver.o ../drivers/disk/bios_memory_ops.o ../drivers/disk/disk.o ../drivers/disk/file_system.o ../drivers/memory/mem_manage.o  
 stdlib = ../stdlib/std_types.o
 
 kernel.bin: kernel.o $(stdlib) $(drivers)  main.o
