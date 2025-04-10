@@ -1,4 +1,10 @@
 void print_string(char *str);
+
+void read(int sector_numb, int cylinder, int sector, int head, int buffer);
+void long_disk_read(int size, int disk_addr, int mem_addr);
+void write(int sector_numb, int cylinder, int sector, int head, int buffer);
+
+void free(int ptr);
 void disk_read(int size, int disk_addr, int mem_addr);
 int alloc(int size);
 void disk_write(int size, int disk_addr, int mem_addr);

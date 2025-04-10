@@ -2,11 +2,11 @@
 
 
 void aaa() {
-    print_string("well come to RobinOS!\n");
+    print_string("welcome to RobinOS!\n");
     
     //create_file("a");
 
-    int addr = 0x0000;
+    int addr = 80;
 
     char* strin = (char*) alloc(512);
 
@@ -18,9 +18,7 @@ void aaa() {
 
     char* strin2 = (char*) alloc(512);
     
-    disk_read(50, 0, (int) strin2);
-
-    
+    disk_read(str_size(second_string), addr, (int) strin2);
 
     print_string(strin2);
 

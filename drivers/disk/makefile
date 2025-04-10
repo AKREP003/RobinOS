@@ -10,7 +10,7 @@ LDFLAGS=-m elf_i386 -T linker.ld
 bios_memory_ops.o disk.o file_system.o : bios_memory_ops.asm logic_memory_ops_lib.c file_system.c
 	$(AS) $(ASFLAGS) bios_memory_ops.asm -o bios_memory_ops.o 
 
-	$(CC) $(CFLAGS) logic_memory_ops_lib.c -o disk.o -lm
+	$(CC) $(CFLAGS) -fno-stack-protector logic_memory_ops_lib.c -o disk.o -lm
 
 	$(CC) $(CFLAGS) -fno-stack-protector file_system.c -o file_system.o
 

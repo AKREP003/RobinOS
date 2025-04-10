@@ -10,7 +10,9 @@ all: $(TARGET)
 
 $(TARGET): boot/boot.bin init/kernel.bin files/files.bin
 
-	cat boot/boot.bin init/kernel.bin files/files.bin > $(TARGET)
+	cat boot/boot.bin init/kernel.bin > $(TARGET)
+	
+	truncate -s 1024M $(TARGET)
 
 	$(MAKE) clean -C boot 
 
