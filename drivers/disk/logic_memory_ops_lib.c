@@ -22,12 +22,6 @@ int* shc_adressing(int disk_addr, int size) {
 
 void disk_read(int size, int disk_addr, int mem_addr) {
 
-    char* res = (char*) alloc(25);
-
-    print_string(itoa(disk_addr, res, 10));
-
-    
-
     int* buffer = shc_adressing(disk_addr, size);
 
     read(buffer[3], buffer[0], buffer[1], buffer[2], mem_addr);

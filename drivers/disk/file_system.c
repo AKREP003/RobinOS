@@ -1,7 +1,7 @@
 
 #include "../../stdlib/kernel_headers.h"
 
-#define FILE_SYTEM_HEADER 0x02FFF 
+#define FILE_SYTEM_HEADER 15
 #define BLOCK_SIZE 512
 
 enum file_type {
@@ -57,12 +57,6 @@ void write_file_header(int disk_ptr, char* file_name, enum file_type typ) {
     buffer -> type = typ;
 
     disk_write(sizeof(struct file_header), disk_ptr, (int) buffer);
-
-    struct file_header* disk_read_buffer = (struct file_header*) alloc(sizeof(struct file_header));
-
-    disk_read(sizeof(struct file_header), disk_ptr, (int) disk_read_buffer);
-
-    print_string(disk_read_buffer -> name);
 
 }
 
