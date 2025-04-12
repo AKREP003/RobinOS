@@ -58,12 +58,29 @@ void write_file_header(int disk_ptr, char* file_name, enum file_type typ) {
 
     disk_write(sizeof(struct file_header), disk_ptr, (int) buffer);
 
+    struct file_header* disk_read_buffer = (struct file_header*) alloc(sizeof(struct file_header)); //debug
+
+    disk_read(sizeof(struct file_header), disk_ptr, (int) disk_read_buffer);
+
+    print_string(disk_read_buffer -> name);
 }
 
-void create_file(char* query) {
+int parse_location(char* query) {
 
-    int disk_loc = FILE_SYTEM_HEADER; //default for now
+    return FILE_SYTEM_HEADER;
 
-    write_file_header(disk_loc, "eeeeee", text);
+}
+
+void create_file(char* location, char* name) {
+
+    int disk_loc = parse_location(location);
+
+    write_file_header(disk_loc, name, text);
+
+}
+
+void file_system_init() {
+
+    write_file_header(FILE_SYTEM_HEADER, "base", fold);
 
 }

@@ -1,8 +1,4 @@
-
-enum bool {
-    true = 1,
-    fale = 0
-};
+#include "kernel_headers.h"
 
 
 /**
@@ -59,5 +55,80 @@ int str_size(char* str) {
         buffer++;
 
     }
+
+}
+
+
+struct ll* new_ll(int size) {
+
+    struct ll* buffer = (struct ll*) alloc(sizeof(struct ll) + size);
+
+    buffer -> element_size = size; 
+
+    buffer->next = 0;
+    buffer->prev = 0;
+
+    return buffer;
+
+}
+
+void set_element_val(struct ll* carrier, int* element) {
+
+    cpy((int*)((char*)carrier + sizeof(struct ll)), element, carrier->element_size);
+
+
+}; 
+
+void push(struct ll* carrier, int* element) {
+
+    struct ll* carrier_buffer = carrier;
+
+    while((carrier_buffer -> next) != 0) {
+
+        carrier_buffer = carrier_buffer -> next;
+
+    }
+
+    struct ll* buffer = (struct ll*) alloc(sizeof(struct ll) + (carrier_buffer -> element_size));
+
+    buffer -> element_size = carrier_buffer -> element_size;
+
+    buffer -> prev = carrier_buffer;
+
+    buffer -> next = 0;
+
+    carrier_buffer -> next = buffer;
+
+    set_element_val(buffer, element);
+}
+
+int* get_element_val(struct ll* node) {
+    return (int*)((char*)node + sizeof(struct ll));
+}
+
+void free_ll(struct ll* carrier) {
+    struct ll* next;
+
+    while (carrier != 0) {
+
+        next = carrier->next;  
+
+        free((int) carrier);         
+
+        carrier = next;        
+    }
+}
+
+int* get_nth_element(struct ll* carrier, int index) {
+
+    struct ll* carrier_buffer = carrier;
+
+    for (int i = 1; i < index || carrier_buffer -> next != 0; i++) {
+
+        carrier_buffer = carrier_buffer -> next;
+
+    }
+
+    return get_element_val(carrier_buffer);
 
 }

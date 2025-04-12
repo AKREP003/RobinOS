@@ -4,9 +4,19 @@
 void aaa() {
     print_string("welcome to RobinOS!\n");
     
-    create_file("a");
+    //file_system_init();
 
-    print_string("no errors");
+    struct ll* linky = new_ll(5);
+
+    set_element_val(linky, (int*) "a");
+
+    push(linky, (int*) "b");
+
+    print_string((char*) get_nth_element(linky, 1));
+
+    free_ll(linky);
+
+    print_string("\n no errors");
 }
 
 
