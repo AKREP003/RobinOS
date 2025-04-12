@@ -12,7 +12,7 @@ start:
 
     ; Load kernel at 0x1000
     mov ah, 0x02
-    mov al, 10
+    mov al, 15
     mov ch, 0
     mov cl, 2
     mov dh, 0

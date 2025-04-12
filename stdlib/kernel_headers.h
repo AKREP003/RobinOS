@@ -23,6 +23,9 @@ int* get_nth_element(struct ll* carrier, int index);
 void print_ll(struct ll* carrier);
 void write_to_file(int file_loc, int* data, int size);
 int max(int a, int b);
+int min(int a, int b);
+int* read_file(int file_loc);
+
 
 struct ll {
 

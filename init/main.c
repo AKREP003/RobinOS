@@ -6,9 +6,11 @@ void aaa() {
     
     file_system_init();
 
-    char* data = "abb";
+    char* data = "abbwww";
 
-    write_to_file(15, (int*) data, 4);
+    write_to_file(25, (int*) data, 7);
+
+    print_string((char*) read_file(25));
 
     print_string("\n no errors");
 }
