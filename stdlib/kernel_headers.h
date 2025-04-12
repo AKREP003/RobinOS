@@ -12,7 +12,7 @@ void set_heap_mode(int mode);
 void cpy(int* base, int* copied, int size);
 char* itoa(int value, char* result, int base);
 int str_size(char* str);
-void create_file(char* location, char* name);
+void create_file(char* name);
 void file_system_init();
 struct ll* new_ll(int size);
 void set_element_val(struct ll* carrier, int* element);
@@ -21,6 +21,8 @@ int* get_element_val(struct ll* node);
 void free_ll(struct ll* carrier);
 int* get_nth_element(struct ll* carrier, int index);
 void print_ll(struct ll* carrier);
+void write_to_file(int file_loc, int* data, int size);
+int max(int a, int b);
 
 struct ll {
 

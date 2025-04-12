@@ -12,7 +12,7 @@ int* shc_adressing(int disk_addr, int size) {
 
     int* buffer = (int*) alloc(40);
 
-    buffer[0] = (disk_addr % SECTORS) + 1; 
+    buffer[0] = max(1, (disk_addr % SECTORS)); 
     buffer[1] = ((disk_addr / SECTORS) % HEADS) + 1;
     buffer[2] = (disk_addr / (SECTORS * HEADS)) % 1024; 
     buffer[3] = (size + SECTOR_SIZE - 1) / SECTOR_SIZE;

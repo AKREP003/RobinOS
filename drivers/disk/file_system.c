@@ -4,83 +4,106 @@
 #define FILE_SYTEM_HEADER 15
 #define BLOCK_SIZE 512
 
-enum file_type {
-
-    exec,
-    text,
-    lib,
-    fold
-
-};
+int free_slot = FILE_SYTEM_HEADER; // handle gaps in le future
 
 struct file_header {
     char name[64];
 
-    enum file_type type;
-
     int block_count;
 
-    struct disk_block* head_block;
+    int head_block;
 
 
 };
 
 struct disk_block {
 
-    struct disk_block* prev;
+    int cursor;
 
-    struct disk_block* next;
+    int next;
 };
 
-struct executable {
 
-    char* name;
+void write_disk_block(int disk_loc) {
 
-};
+    struct disk_block* block = (struct disk_block*) alloc(BLOCK_SIZE);
 
-struct folder {
+    block -> next = 0;
 
-    char* name;
+    block -> cursor = sizeof(struct disk_block);
 
-    struct file_header* file_array;
+    disk_write(1, disk_loc, (int) block);
 
-};
-
-void write_file_header(int disk_ptr, char* file_name, enum file_type typ) {
+    free_slot++;
 
 
-    struct file_header* buffer = (struct file_header*) alloc(sizeof(struct file_header));
 
+}
+
+void write_file_header( char* file_name) {
+
+
+    struct file_header* buffer = (struct file_header*) alloc(BLOCK_SIZE);
 
     cpy((int*) buffer->name, (int*) file_name, str_size(file_name));
 
-    buffer -> type = typ;
+    buffer -> head_block = free_slot + 1;
+    
 
-    disk_write(sizeof(struct file_header), disk_ptr, (int) buffer);
+    disk_write(1, free_slot, (int) buffer);
 
-    struct file_header* disk_read_buffer = (struct file_header*) alloc(sizeof(struct file_header)); //debug
+    free_slot++;
+    
+    write_disk_block(free_slot);
 
-    disk_read(sizeof(struct file_header), disk_ptr, (int) disk_read_buffer);
 
-    print_string(disk_read_buffer -> name);
-}
-
-int parse_location(char* query) {
-
-    return FILE_SYTEM_HEADER;
+    
 
 }
 
-void create_file(char* location, char* name) {
 
-    int disk_loc = parse_location(location);
 
-    write_file_header(disk_loc, name, text);
+void create_file(char* name) {
+
+    
+    write_file_header(name);
+
 
 }
 
 void file_system_init() {
 
-    write_file_header(FILE_SYTEM_HEADER, "base", fold);
+    write_file_header("base");
+
+}
+
+void write_to_file(int file_loc, int* data, int size) {
+
+    struct file_header* disk_read_buffer = (struct file_header*) alloc(BLOCK_SIZE);
+
+    disk_read(sizeof(struct file_header), file_loc, (int) disk_read_buffer);
+
+    
+    struct disk_block* block_buffer = (struct disk_block*) alloc(BLOCK_SIZE);
+
+    disk_read(1, disk_read_buffer -> head_block, (int) block_buffer);
+
+    cpy((int*)((char*)block_buffer + block_buffer->cursor), data, size);
+
+
+    block_buffer -> cursor += size;
+
+    disk_write(1, disk_read_buffer -> head_block, (int) block_buffer);
+
+
+
+    struct disk_block* block_buffer2 = (struct disk_block*) alloc(BLOCK_SIZE);
+
+
+    disk_read(1, disk_read_buffer -> head_block, (int) block_buffer2);
+
+    char* res = (char*) alloc(20);
+
+    print_string((char*) ((int) block_buffer2 + 8));
 
 }
