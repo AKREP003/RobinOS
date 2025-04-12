@@ -30,7 +30,7 @@ void write_disk_block(int disk_loc) {
 
     block -> next = 0;
 
-    block -> cursor = sizeof(struct disk_block);
+    block -> cursor = 0;
 
     disk_write(1, disk_loc, (int) block);
 
@@ -95,9 +95,9 @@ void write_to_file(int file_loc, int* data, int size) {
 
         
 
-        int to_be_written = min(size, BLOCK_SIZE - (block_buffer -> cursor));
+        int to_be_written = min(size, BLOCK_SIZE - (block_buffer -> cursor) - sizeof(struct disk_block));
 
-        cpy((int*)((char*)block_buffer + block_buffer->cursor), data, to_be_written);
+        cpy((int*)((char*)block_buffer + block_buffer->cursor + sizeof(struct disk_block)), data, to_be_written);
 
         size -= to_be_written;
         
@@ -116,10 +116,6 @@ void write_to_file(int file_loc, int* data, int size) {
             free_slot++;
 
             disk_read(1, block_buffer -> next, (int) block_buffer);
-
-            
-
-            disk_read_buffer -> size += sizeof(struct disk_block);
 
         } else {
 
@@ -158,7 +154,7 @@ int* read_file(int file_loc) {
 
     while(1) {
 
-        int block_to_read = min(BLOCK_SIZE, block_buffer -> cursor);
+        int block_to_read = min(BLOCK_SIZE, block_buffer -> cursor + sizeof(struct disk_block));
 
         cpy(data_buffer + (disk_read_buffer -> size - size_buffer) , (int*) ((char*) block_buffer + sizeof(struct disk_block)), block_to_read - sizeof(struct disk_block));
 
