@@ -6,15 +6,21 @@ void aaa() {
     
     //file_system_init();
 
-    struct ll* linky = new_ll(5);
+    struct ll* linky = new_ll(2);
 
     set_element_val(linky, (int*) "a");
 
     push(linky, (int*) "b");
 
-    print_string((char*) get_nth_element(linky, 1));
+    push(linky, (int*) "c");
 
-    free_ll(linky);
+    push(linky, (int*) "q");
+
+    //print_string((char*) get_nth_element(linky, 2));
+
+    print_ll(linky);
+
+    //free_ll(linky);
 
     print_string("\n no errors");
 }

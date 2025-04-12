@@ -20,6 +20,7 @@ void push(struct ll* carrier, int* element);
 int* get_element_val(struct ll* node);
 void free_ll(struct ll* carrier);
 int* get_nth_element(struct ll* carrier, int index);
+void print_ll(struct ll* carrier);
 
 struct ll {
 

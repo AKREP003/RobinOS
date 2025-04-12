@@ -123,12 +123,38 @@ int* get_nth_element(struct ll* carrier, int index) {
 
     struct ll* carrier_buffer = carrier;
 
-    for (int i = 1; i < index || carrier_buffer -> next != 0; i++) {
+    for (int i = 0; i < index ; i++) {
+
+        if (carrier_buffer->next == 0) {
+            return 0; // or some error signal
+        }
 
         carrier_buffer = carrier_buffer -> next;
 
     }
 
+    
+
     return get_element_val(carrier_buffer);
+
+}
+
+void for_each(struct ll* carrier, int f) { //later
+
+    
+
+}
+
+void print_ll(struct ll* carrier) {
+
+    struct ll* carrier_buffer = carrier;
+
+    while ((carrier_buffer) != 0) {
+
+        print_string((char*) get_element_val(carrier_buffer));
+
+        carrier_buffer = carrier_buffer -> next;
+
+    } ;
 
 }
