@@ -6,9 +6,13 @@ void aaa() {
     
     file_system_init();
 
-    char* data = "abbwww";
+    char* data = "aaaz";
 
-    write_to_file(25, (int*) data, 7);
+    write_to_file(25, (int*) data, str_size(data));
+
+    data = "aaa";
+
+    write_to_file(25, (int*) data, str_size(data));
 
     print_string((char*) read_file(25));
 

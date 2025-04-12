@@ -78,29 +78,66 @@ void file_system_init() {
 }
 
 void write_to_file(int file_loc, int* data, int size) {
+
+    int original_size = size;
     
     struct file_header* disk_read_buffer = (struct file_header*) alloc(BLOCK_SIZE);
 
     disk_read(sizeof(struct file_header), file_loc, (int) disk_read_buffer);
 
-    
     struct disk_block* block_buffer = (struct disk_block*) alloc(BLOCK_SIZE);
 
     disk_read(1, disk_read_buffer -> head_block, (int) block_buffer);
-
-    cpy((int*)((char*)block_buffer + block_buffer->cursor), data, size);
-
     
-    block_buffer -> cursor += size;
+    int block_ptr = disk_read_buffer -> head_block;
 
-    disk_write(1, disk_read_buffer -> head_block, (int) block_buffer);
+    while (true) {
 
-    
+        
 
-    disk_read_buffer -> size += size;
+        int to_be_written = min(size, BLOCK_SIZE - (block_buffer -> cursor));
+
+        cpy((int*)((char*)block_buffer + block_buffer->cursor), data, to_be_written);
+
+        size -= to_be_written;
+        
+        block_buffer -> cursor += to_be_written;
+
+        disk_write(1, block_ptr, (int) block_buffer);
+
+        if (size <= 0) {break;}
+
+        if (block_buffer -> next == 0) {
+
+            write_disk_block(free_slot);
+
+            block_buffer -> next = free_slot;
+
+            free_slot++;
+
+            disk_read(1, block_buffer -> next, (int) block_buffer);
+
+            
+
+            disk_read_buffer -> size += sizeof(struct disk_block);
+
+        } else {
+
+            disk_read(1, block_buffer -> next, (int) block_buffer);
+
+        }
+
+        block_ptr = block_buffer -> next;
+
+    }
+
+    disk_read_buffer -> size += original_size;
 
     disk_write(1, file_loc, (int) disk_read_buffer);
 
+    free((int) disk_read_buffer);
+
+    free((int) block_buffer);
 
 }
 
