@@ -1,8 +1,6 @@
 
 #include "../../stdlib/kernel_headers.h"
 
-#define FILE_SYTEM_HEADER 25
-#define BLOCK_SIZE 512
 
 int free_slot = FILE_SYTEM_HEADER; // handle gaps in le future
 

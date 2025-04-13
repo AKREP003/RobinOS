@@ -4,11 +4,11 @@
 void aaa() {
     print_string("welcome to RobinOS!\n");
     
-    char* chr = "abcefgthfsss";
+    char* chr = "a=26+f=28+d=2";
 
-    struct ll* linky = split_string(chr, 'f');
+    struct ll* linky = parse_folder(chr);
 
-    print_string((char*) get_nth_element(linky, 2));
+    int r = get_entry(linky, "f");
 
     print_string("\n no errors");
 }

@@ -147,10 +147,13 @@ int* get_nth_element(struct ll* carrier, int index) {
 
 }
 
-void for_each(struct ll* carrier, int f) { //later
+void for_each(struct ll* carrier, void (*f)(void*)) {
+    struct ll* current = carrier;
 
-    
-
+    while (current != 0) {
+        f(get_element_val(current));
+        current = current->next;
+    }
 }
 
 void print_ll(struct ll* carrier) {
@@ -164,6 +167,38 @@ void print_ll(struct ll* carrier) {
         carrier_buffer = carrier_buffer -> next;
 
     } ;
+
+}
+
+int get_str_ll_size(struct ll* carrier) {
+
+    int buffer = 0;
+
+    struct ll* carrier_buffer = carrier;
+
+    while ((carrier_buffer) != 0) {
+
+        buffer += str_size((char*) get_element_val(carrier_buffer)) ;
+
+        carrier_buffer = carrier_buffer -> next;
+
+    } ;
+
+    return buffer;
+
+}
+
+enum bool string_eq(char* x, char* y){
+
+    int length = min(str_size(x), str_size(y));
+
+    for (int i = 0; i < length; i++) {
+
+        if (x[i] != y[i]) {return  false;}
+
+    }
+
+    return true;
 
 }
 

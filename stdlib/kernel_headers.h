@@ -1,9 +1,11 @@
-void print_string(char *str);
+#define FILE_SYTEM_HEADER 25
+#define BLOCK_SIZE 512
 
+
+void print_string(char *str);
 void read(int sector_numb, int cylinder, int sector, int head, int buffer);
 void long_disk_read(int size, int disk_addr, int mem_addr);
 void write(int sector_numb, int cylinder, int sector, int head, int buffer);
-
 void free(int ptr);
 void disk_read(int size, int disk_addr, int mem_addr);
 int alloc(int size);
@@ -27,6 +29,10 @@ int min(int a, int b);
 int* read_file(int file_loc);
 struct ll* as_string(char* chr);
 struct ll* split_string(char* strin, char element);
+struct ll* parse_folder(char* data);
+int get_str_ll_size(struct ll* carrier);
+int get_entry(struct ll* fold, char* key);
+enum bool string_eq(char* x, char* y);
 
 struct ll {
 
