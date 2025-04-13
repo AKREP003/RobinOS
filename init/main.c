@@ -4,9 +4,9 @@
 void aaa() {
     print_string("welcome to RobinOS!\n");
     
-    char* chr = "abc";
+    char* chr = "abcefgthfsss";
 
-    struct ll* linky = as_string(chr);
+    struct ll* linky = split_string(chr, 'f');
 
     print_string((char*) get_nth_element(linky, 2));
 

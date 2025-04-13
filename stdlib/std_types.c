@@ -81,13 +81,17 @@ void set_element_val(struct ll* carrier, int* element) {
 
 void push(struct ll* carrier, int* element) {
 
+    
+
     struct ll* carrier_buffer = carrier;
 
     while((carrier_buffer -> next) != 0) {
-
+        
         carrier_buffer = carrier_buffer -> next;
-
+        
     }
+
+    
 
     struct ll* buffer = (struct ll*) alloc(sizeof(struct ll) + (carrier_buffer -> element_size));
 
@@ -98,8 +102,10 @@ void push(struct ll* carrier, int* element) {
     buffer -> next = 0;
 
     carrier_buffer -> next = buffer;
-
+    
     set_element_val(buffer, element);
+    
+    
 }
 
 int* get_element_val(struct ll* node) {
@@ -126,6 +132,8 @@ int* get_nth_element(struct ll* carrier, int index) {
     for (int i = 0; i < index ; i++) {
 
         if (carrier_buffer->next == 0) {
+
+            print_string("OUT OF BOUNDS YOU DUMB FUCK");
             return 0; // or some error signal
         }
 
@@ -172,29 +180,74 @@ int min(int a, int b) {
 }
 
 struct ll* as_string(char* chr) {
-
     int chr_index = 0;
 
-    struct ll* linky = new_ll(sizeof(char));
+    struct ll* linky = new_ll(sizeof(int*));
 
-    int* buffer = (int*) alloc(sizeof(char));
-
-    cpy(buffer, (int*) &chr[chr_index], sizeof(char));
-
-    set_element_val(linky, (int*) &chr[chr_index]);
+    char* first_char = (char*) alloc(sizeof(char));
+    *first_char = chr[chr_index];
+    set_element_val(linky, (int*) first_char);
 
     while (chr[chr_index] != 0x0) {
-
         chr_index++;
 
-        cpy(buffer, (int*) &chr[chr_index], sizeof(char));
+        char* next_char = (char*) alloc(sizeof(char));
+        *next_char = chr[chr_index];
+        push(linky, (int*) next_char);
+    }
 
-        push(linky, buffer);
-
-    };
-    
-    free((int) buffer);
-    
     return linky;
+}
+
+struct ll* split_string(char* strin, char element) {
+
+    struct ll* linked_buffer = new_ll(sizeof(char*));
+
+    int size = str_size(strin) + 1;
+
+    char* sub_unit = (char*) alloc(sizeof(char) * 64);
+    
+    int sub_index = 0;
+
+    enum bool first_flag = true;
+
+    for (int i = 0; i < size; i++) {
+
+        if (strin[i] == element || sub_index >= 63 || i == (size - 1)) {
+            
+            sub_unit[sub_index] = '\0'; 
+            
+            
+
+            if (first_flag) {
+
+                set_element_val(linked_buffer, (int*) sub_unit);
+
+                first_flag = false;
+
+            } else {    
+                
+                push(linked_buffer, (int*) sub_unit);
+                
+                
+
+            }
+
+                 
+
+            sub_index = 0;
+
+            sub_unit = (char*) alloc(sizeof(char) * 64);
+
+            continue;
+        }
+        
+        sub_unit[sub_index] = strin[i];
+
+        sub_index++;
+
+    }  
+
+    return linked_buffer;
 
 }

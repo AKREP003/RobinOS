@@ -26,6 +26,7 @@ int max(int a, int b);
 int min(int a, int b);
 int* read_file(int file_loc);
 struct ll* as_string(char* chr);
+struct ll* split_string(char* strin, char element);
 
 struct ll {
 
@@ -41,6 +42,6 @@ struct ll {
 
 enum bool {
     true = 1,
-    fale = 0
+    false = 0
 };
 
