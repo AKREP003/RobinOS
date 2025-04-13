@@ -4,19 +4,11 @@
 void aaa() {
     print_string("welcome to RobinOS!\n");
     
-    file_system_init();
+    char* chr = "abc";
 
-    char* data = "aaaz";
+    struct ll* linky = as_string(chr);
 
-    write_to_file(25, (int*) data, str_size(data));
-
-    data = "aaa";
-
-    write_to_file(25, (int*) data, str_size(data));
-
-    print_string((char*) read_file(25));
-
-    
+    print_string((char*) get_nth_element(linky, 2));
 
     print_string("\n no errors");
 }

@@ -70,7 +70,7 @@ int alloc(int size) {
 
         }
         
-        if (0) {//( (buffer->addr - get_end(buffer->next)) >= alloc_size ) {
+        if ( (buffer->addr - get_end(buffer->next)) >= alloc_size ) {
 
             p_memblock alloc_addr = (p_memblock) (buffer->addr - alloc_size);
             

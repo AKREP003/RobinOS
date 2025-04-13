@@ -170,3 +170,31 @@ int min(int a, int b) {
     return (a < b) ? a : b;
     
 }
+
+struct ll* as_string(char* chr) {
+
+    int chr_index = 0;
+
+    struct ll* linky = new_ll(sizeof(char));
+
+    int* buffer = (int*) alloc(sizeof(char));
+
+    cpy(buffer, (int*) &chr[chr_index], sizeof(char));
+
+    set_element_val(linky, (int*) &chr[chr_index]);
+
+    while (chr[chr_index] != 0x0) {
+
+        chr_index++;
+
+        cpy(buffer, (int*) &chr[chr_index], sizeof(char));
+
+        push(linky, buffer);
+
+    };
+    
+    free((int) buffer);
+    
+    return linky;
+
+}
