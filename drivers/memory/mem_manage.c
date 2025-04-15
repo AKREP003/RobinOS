@@ -16,7 +16,7 @@ struct memblock {
 typedef struct memblock* p_memblock;
 
 
-struct memblock protected_head_allocation = {0, 0b100000000000000, (p_memblock) 0, (p_memblock) 0};
+struct memblock protected_head_allocation = {0, 32767, (p_memblock) 0, (p_memblock) 0};
 
 struct memblock unprotected_head_allocation = {0, 0x10000000, (p_memblock) 0, (p_memblock) 0};
 
@@ -48,6 +48,8 @@ int alloc(int size) {
 
     p_memblock buffer = last_free;
 
+
+
     int alloc_size = size + sizeof(struct memblock);
 
     while (1) {
@@ -65,7 +67,7 @@ int alloc(int size) {
             alloc_addr -> prev = buffer;
 
             alloc_addr -> next = 0;
-
+            
             return (int)((char*)alloc_addr + sizeof(struct memblock));
 
         }

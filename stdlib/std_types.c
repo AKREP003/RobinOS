@@ -1,6 +1,5 @@
 #include "kernel_headers.h"
 
-
 /**
  * C++ version 0.4 char* style "itoa":
  * Written by Lukás Chmela
@@ -33,6 +32,31 @@ char* itoa(int value, char* result, int base) {
     return result;
 }
 
+int atoi(const char* str) {
+    int result = 0;
+    int sign = 1;
+
+    
+    while (*str == ' ' || *str == '\t' || *str == '\n') {
+        str++;
+    }
+
+    
+    if (*str == '-') {
+        sign = -1;
+        str++;
+    } else if (*str == '+') {
+        str++;
+    }
+
+    
+    while (*str >= '0' && *str <= '9') {
+        result = result * 10 + (*str - '0');
+        str++;
+    }
+
+    return sign * result;
+}
 
 void cpy(int* base, int* copied, int size) {
 
@@ -192,7 +216,7 @@ enum bool string_eq(char* x, char* y){
 
     int length = min(str_size(x), str_size(y));
 
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i <= length; i++) {
 
         if (x[i] != y[i]) {return  false;}
 
@@ -284,5 +308,13 @@ struct ll* split_string(char* strin, char element) {
     }  
 
     return linked_buffer;
+
+}
+
+void print_integer(int number) {
+
+    char* res = (char*) alloc(20);
+
+    print_string(itoa(number, res, 10));
 
 }

@@ -1,4 +1,4 @@
-#define FILE_SYTEM_HEADER 25
+#define FILE_SYTEM_HEADER 50
 #define BLOCK_SIZE 512
 
 
@@ -14,7 +14,7 @@ void set_heap_mode(int mode);
 void cpy(int* base, int* copied, int size);
 char* itoa(int value, char* result, int base);
 int str_size(char* str);
-void create_file(char* name);
+void create_file(char* name, char* location);
 void file_system_init();
 struct ll* new_ll(int size);
 void set_element_val(struct ll* carrier, int* element);
@@ -33,6 +33,11 @@ struct ll* parse_folder(char* data);
 int get_str_ll_size(struct ll* carrier);
 int get_entry(struct ll* fold, char* key);
 enum bool string_eq(char* x, char* y);
+int atoi(const char* str);
+int write_file_header( char* file_name);
+void print_integer(int number);
+void test_em_all();
+
 
 struct ll {
 
@@ -51,3 +56,12 @@ enum bool {
     false = 0
 };
 
+struct file_header {
+    char name[64];
+
+    int size;
+
+    int head_block;
+
+
+};
