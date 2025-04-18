@@ -135,3 +135,15 @@ void dump_allocations() {
         b = b->next;
     }
 }
+
+enum bool alloc_test() {
+
+    char* test_str = "aaaaaaaaa";
+
+    char* str = (char*) alloc(10);
+
+    cpy((int*) str, (int*) test_str, str_size(test_str));
+
+    return string_eq(test_str, str);
+
+}

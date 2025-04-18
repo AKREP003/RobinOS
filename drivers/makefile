@@ -1,18 +1,15 @@
-CC=gcc
-AS=nasm
-LD=ld
-CFLAGS=-m32 -ffreestanding -nostdlib -m16 -c -fno-pic
-ASFLAGS=-f elf32
-LDFLAGS=-m elf_i386 -T linker.ld
+drivers = ../drivers/tty/tty_driver.o ../drivers/tty/tty_logic.o ../drivers/disk/bios_memory_ops.o ../drivers/disk/disk.o ../drivers/disk/file_system.o ../drivers/disk/file_handling.o ../drivers/memory/mem_manage.o ../drivers/timing/timer.o ../drivers/timing/timer_logic.o 
 
 
 
-disk/disk.o disk/logic_memory_ops_lib.o tty/tty_driver.o memory/mem_manage.o:
+$(drivers):
 	$(MAKE) -C disk
 
 	$(MAKE) -C tty
 
 	$(MAKE) -C memory
+
+	$(MAKE) -C timing
 
 clean:
 	rm -f *.o *.bin $(TARGET)
@@ -20,3 +17,4 @@ clean:
 	$(MAKE) -C tty clean
 	$(MAKE) -C disk clean
 	$(MAKE) -C memory clean
+	$(MAKE) -C timing clean

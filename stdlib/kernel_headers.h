@@ -1,6 +1,8 @@
 #define FILE_SYTEM_HEADER 50
 #define BLOCK_SIZE 512
 
+#define SCREEN_LINE_SIZE 77
+
 
 void print_string(char *str);
 void read(int sector_numb, int cylinder, int sector, int head, int buffer);
@@ -37,7 +39,15 @@ int atoi(const char* str);
 int write_file_header( char* file_name);
 void print_integer(int number);
 void test_em_all();
+void print_char(char c);
+void for_each(struct ll* carrier, void (*f)(void*));
+void print_inline(char* a);
+void get_current_time();
+void wait_sec(int seconds);
 
+enum bool disk_test();
+enum bool alloc_test();
+enum bool std_test();
 
 struct ll {
 
@@ -65,3 +75,7 @@ struct file_header {
 
 
 };
+
+extern unsigned int HOUR;
+extern unsigned int MIN;
+extern unsigned int SEC;

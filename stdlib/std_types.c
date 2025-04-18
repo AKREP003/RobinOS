@@ -318,3 +318,11 @@ void print_integer(int number) {
     print_string(itoa(number, res, 10));
 
 }
+
+enum bool std_test() {
+
+    enum bool str_eq_test = string_eq("www", "www") && !(string_eq("www", "eee"));
+
+    return str_eq_test;
+
+}

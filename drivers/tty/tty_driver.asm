@@ -1,5 +1,6 @@
 [BITS 16]
 global print_string
+global print_char
 ; https://medium.com/@nadavlevy1000/functions-in-assembly-the-stack-34f5c1917a81
 print_string:
     push ebp
@@ -20,3 +21,15 @@ print_string:
     mov esp, ebp 
     pop ebp
     retn 4  
+
+print_char:
+    push ebp
+    mov ebp, esp
+
+    mov ah, 0Eh         
+    mov al, [ebp + 8]               
+    int 10h           
+
+    mov esp, ebp 
+    pop ebp          
+    retn 4
