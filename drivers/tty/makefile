@@ -1,5 +1,7 @@
 
-tty_driver.o tty_logic.o: tty_driver.asm tty_logic.o
+
+
+tty_driver.o tty_logic.o: tty_driver.asm tty_logic.c
 	$(AS) $(ASFLAGS) tty_driver.asm -o tty_driver.o
 
 	$(CC) $(CFLAGS) -fno-stack-protector tty_logic.c -o tty_logic.o

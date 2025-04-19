@@ -12,7 +12,7 @@ start:
 
     ; Load kernel at 0x1000
     mov ah, 0x02
-    mov al, 50
+    mov al, 40
     mov ch, 0
     mov cl, 2
     mov dh, 0
@@ -29,3 +29,5 @@ disk_error:
     ; Boot signature
     times 510-($-$$) db 0
     dw 0xAA55
+
+

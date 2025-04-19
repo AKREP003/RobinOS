@@ -1,7 +1,7 @@
 #include "../stdlib/kernel_headers.h"
 
 
-void aaa() {
+void main() {
     print_inline("welcome to RobinOS!");
     
     

@@ -1,0 +1,1 @@
+qemu-system-i386  -accel tcg,thread=single  -m 128 -no-reboot  -drive format=raw,file=os.flp,media=disk,if=floppy -serial stdio -smp 1 -usb -vga std 

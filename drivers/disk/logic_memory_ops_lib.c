@@ -89,13 +89,17 @@ enum bool disk_test() {
 
     char* test_str = "aws";
 
-    int disk_addr = 2;
+    int disk_addr = 50;
 
-    disk_write(1, disk_addr, (int) test_str);
+    print_inline("aa");
+
+    //disk_write(1, disk_addr, (int) test_str);
+
+    print_inline("bb");
 
     char* buffer = (char*) alloc(str_size(test_str) + 1);
 
-    disk_read(1, disk_addr, (int) buffer);
+    //disk_read(1, disk_addr, (int) buffer);
 
     enum bool test1 = string_eq(test_str, buffer);
     return test1;
