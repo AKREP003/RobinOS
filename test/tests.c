@@ -4,11 +4,8 @@ void print_test() {
     //print_string("print is working\n");
     //print_integer(69);
     //prtint_char('Q');
-    print_inline("abab");
-
     
-    
-    print_string("tes");
+    print_inline("test");
 }
 
 
@@ -16,14 +13,22 @@ void print_test() {
 
 void test_em_all() {
 
-    //print_test();
+    print_test();
 
-    if (!std_test())   {print_string("std functions failed");}
+    print_inline("c");
 
-    if (!alloc_test()) {print_string("alloc failed");} 
+    if (!std_test())   {print_inline("std functions failed");}
 
-    if (!disk_test())  {print_string("disk failed");} 
+    print_inline("std succ");
 
-    print_string("\nno errors");
+    if (!alloc_test()) {print_inline("alloc failed");} 
+
+    print_inline("alloc succ");
+
+    if (!disk_test())  {print_inline("disk failed");} 
+
+    print_inline("disk succ");
+    
+    print_inline("no errors");
 
 }

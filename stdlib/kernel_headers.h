@@ -44,6 +44,7 @@ void for_each(struct ll* carrier, void (*f)(void*));
 void print_inline(char* a);
 void get_current_time();
 void wait_sec(int seconds);
+int get_nth_fibo(int n);
 
 enum bool disk_test();
 enum bool alloc_test();

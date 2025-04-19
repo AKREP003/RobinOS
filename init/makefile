@@ -19,7 +19,7 @@ $(stdlib) :
 	$(MAKE) -C ../stdlib
 
 $(drivers) :
-	$(MAKE) -C ../drivers
+	$(MAKE) -C ../drivers mk_drivers
 
 $(test) :
 

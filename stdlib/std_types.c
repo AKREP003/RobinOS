@@ -315,7 +315,7 @@ void print_integer(int number) {
 
     char* res = (char*) alloc(20);
 
-    print_string(itoa(number, res, 10));
+    print_inline(itoa(number, res, 10));
 
 }
 

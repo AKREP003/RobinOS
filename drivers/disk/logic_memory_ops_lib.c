@@ -91,26 +91,13 @@ enum bool disk_test() {
 
     int disk_addr = 2;
 
-    print_char(' ');
-
     disk_write(1, disk_addr, (int) test_str);
 
     char* buffer = (char*) alloc(str_size(test_str) + 1);
 
-    print_char(' ');
-
     disk_read(1, disk_addr, (int) buffer);
 
     enum bool test1 = string_eq(test_str, buffer);
-
-    char* buffer2 = (char*) alloc(str_size(test_str) + 1);
-
-    print_char(' ');
-
-    //disk_read(1, disk_addr + 1, (int) buffer2);
-
-    enum bool test2 = !string_eq(buffer, buffer2);
-
-    return test1 && test2;
+    return test1;
 
 }

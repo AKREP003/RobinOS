@@ -1,34 +1,22 @@
 #include "../../stdlib/kernel_headers.h"
 
-void p_v() {
-
-    print_string("_");
-
-}
 
 void print_inline(char* a){
     
     int size = str_size(a);
 
-    for (int i = 0; i < size; i++) {print_char(a[i]);}
+    char* buffer = (char*) alloc(size + 3);
 
-    
-    const int blank = SCREEN_LINE_SIZE - size;
-    
+    cpy((int*) buffer, (int*) a, size);
 
-    for (int j = 0; j < blank; j++) {
+    buffer[size] = '\r';
 
-        p_v();
-    
-    }
+    buffer[size + 1] = '\n';
 
-    
+    buffer[size + 2] = 0x0;
 
-}
+    print_string(buffer);
 
-void print_parag(char* a) {
-
-    struct ll* split = split_string(a, '\n');
-   
+    free((int) buffer);
 
 }
