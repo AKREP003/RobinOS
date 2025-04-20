@@ -1,5 +1,4 @@
 
-
 timer_logic.o timer.o : timer_logic.c timer.asm
 	$(AS) $(ASFLAGS) timer.asm -o timer.o 
 

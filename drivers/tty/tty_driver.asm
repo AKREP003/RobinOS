@@ -1,4 +1,4 @@
-align 16
+[BITS 16]
 global print_string
 global print_char
 ; https://medium.com/@nadavlevy1000/functions-in-assembly-the-stack-34f5c1917a81
