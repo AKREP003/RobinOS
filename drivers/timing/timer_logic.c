@@ -2,20 +2,19 @@
 #include "../../stdlib/kernel_headers.h"
 
 
-void wait_sec(short seconds) {
+void wait_sec( short seconds) {
 
     get_current_time();
 
     short current_seconds = SEC;
 
-    while (true) {
+    while (1) {
 
         get_current_time();
 
-        print_integer(SEC - current_seconds);
+        print_char('\r');
 
-        
-        if ((SEC - current_seconds) > seconds) {break;}
+        if ((SEC - current_seconds) >= seconds) {break;}
 
     }
 

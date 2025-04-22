@@ -45,7 +45,7 @@ void print_char(char c);
 void for_each(struct ll* carrier, void (*f)(uintptr_t));
 void print_inline(char* a);
 void get_current_time();
-void wait_sec(short seconds);
+void wait_sec( short seconds);
 short get_nth_fibo(short n);
 
 enum bool disk_test();
@@ -79,9 +79,9 @@ struct file_header {
 
 };
 
-extern unsigned short HOUR;
-extern unsigned short MIN;
-extern unsigned short SEC;
+extern  short HOUR;
+extern  short MIN;
+extern  short SEC;
 
 
 #define PTR(addr) ((void*)(uintptr_t)(addr))
