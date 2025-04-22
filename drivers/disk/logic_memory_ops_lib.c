@@ -79,8 +79,7 @@ void disk_write(short size, short disk_addr, uintptr_t mem_addr) {
 
     write(buffer[3], buffer[0], buffer[1], buffer[2], mem_addr);
 
-    print_char('Q');
-
+    
     
     
 }
@@ -91,18 +90,13 @@ enum bool disk_test() {
 
     short disk_addr = 100;
 
-    print_inline("aaaa");
-    
-
     disk_write(1, disk_addr, (uintptr_t) test_str);
-
-    
 
     char* buffer = (char*) alloc(str_size(test_str) + 1);
 
     disk_read(1, disk_addr, (uintptr_t) buffer);
 
-    enum bool test1 = string_eq(test_str, "buffer");
+    enum bool test1 = string_eq(test_str, buffer);
     return test1;
 
 }

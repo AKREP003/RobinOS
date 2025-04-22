@@ -27,10 +27,12 @@ void test_em_all() {
 
     wait_sec(5);
 
-    //if (!disk_test())  {print_string("disk failed");} 
+    if (!disk_test())  {print_string("disk failed");} 
 
-    //print_string("disk succ");
+    print_string("disk succ\r\n");
 
-    print_string("no errors\r\n");
+    wait_sec(5);
+
+    
 
 }
