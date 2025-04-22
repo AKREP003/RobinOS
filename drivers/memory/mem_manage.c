@@ -3,9 +3,9 @@
 
 struct memblock {
 
-    int size;
+    short size;
 
-    int addr;
+    uintptr_t addr;
     
     struct memblock *prev;
 
@@ -16,13 +16,13 @@ struct memblock {
 typedef struct memblock* p_memblock;
 
 
-struct memblock protected_head_allocation = {0, 32767, (p_memblock) 0, (p_memblock) 0};
+struct memblock protected_head_allocation = {0, 30000, (p_memblock) 0, (p_memblock) 0};
 
-struct memblock unprotected_head_allocation = {0, 0x10000000, (p_memblock) 0, (p_memblock) 0};
+struct memblock unprotected_head_allocation = {0, 0x100, (p_memblock) 0, (p_memblock) 0};
 
 struct memblock* last_free = &protected_head_allocation;
 
-void set_heap_mode(int mode) {
+void set_heap_mode(short mode) {
 
     if (mode) {
 
@@ -38,19 +38,19 @@ void set_heap_mode(int mode) {
 
 
 
-int get_end(p_memblock block) {
+short get_end(p_memblock block) {
     return block->addr + block->size + sizeof(struct memblock);
 }
 
 
 
-int alloc(int size) {
+uintptr_t alloc(short size) {
 
     p_memblock buffer = last_free;
 
 
 
-    int alloc_size = size + sizeof(struct memblock);
+    short alloc_size = size + sizeof(struct memblock);
 
     while (1) {
         
@@ -62,13 +62,13 @@ int alloc(int size) {
             
             alloc_addr -> size = size;
 
-            alloc_addr -> addr = (int) alloc_addr;
+            alloc_addr -> addr = (uintptr_t) alloc_addr;
             
             alloc_addr -> prev = buffer;
 
             alloc_addr -> next = 0;
             
-            return (int)((char*)alloc_addr + sizeof(struct memblock));
+            return (uintptr_t)((char*)alloc_addr + sizeof(struct memblock));
 
         }
         
@@ -82,11 +82,11 @@ int alloc(int size) {
             
             alloc_addr -> size = size;
 
-            alloc_addr -> addr = (int) alloc_addr;
+            alloc_addr -> addr = (uintptr_t) alloc_addr;
             
             alloc_addr -> prev = buffer;
 
-            return (int)((char*)alloc_addr + sizeof(struct memblock));
+            return (uintptr_t)((char*)alloc_addr + sizeof(struct memblock));
 
 
         }
@@ -103,7 +103,7 @@ int alloc(int size) {
 }
 
 
-void free(int ptr) {
+void free(uintptr_t ptr) {
     // Step back from the allocated memory to find the memblock header
     p_memblock block = (p_memblock)(ptr - sizeof(struct memblock));
 
@@ -140,10 +140,22 @@ enum bool alloc_test() {
 
     char* test_str = "aaaaaaaaa";
 
-    char* str = (char*) alloc(10);
+    char* str = (char*) alloc(str_size(test_str) + 1);
 
-    cpy((int*) str, (int*) test_str, str_size(test_str));
+    cpy((uintptr_t) str, (uintptr_t) test_str, str_size(test_str) + 1);
 
-    return string_eq(test_str, str);
+    enum bool test1 = string_eq(test_str, str);
 
+    char* test_str2 = "aaaaaaaab";
+
+    char* str2 = (char*) alloc(str_size(test_str2) + 1);
+
+    cpy((uintptr_t) str2, (uintptr_t) test_str2, str_size(test_str2) + 1);
+
+
+    enum bool test2 = string_eq(str2, test_str2);
+
+    enum bool test3 = !string_eq(str2, str);
+
+    return test1 && test2 && test3;
 }

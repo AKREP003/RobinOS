@@ -1,7 +1,7 @@
 
 #include "../../stdlib/kernel_headers.h"
 
-int base_file_location = 0;
+short base_file_location = 0;
 
 struct ll* parse_folder(char* data){
 
@@ -9,9 +9,9 @@ struct ll* parse_folder(char* data){
    
 }
 
-int get_entry(struct ll* fold, char* key) {
+short get_entry(struct ll* fold, char* key) {
 
-   int buffer = 0;
+   short buffer = 0;
 
     struct ll* carrier_buffer = fold;
 
@@ -33,7 +33,7 @@ int get_entry(struct ll* fold, char* key) {
 
 }
 
-int parse_file_path(char* path) {
+short parse_file_path(char* path) {
 
    if (string_eq(path, "")) {return base_file_location;}
 
@@ -49,9 +49,9 @@ int parse_file_path(char* path) {
 
 void create_file(char* name, char* location) {
 
-   int disc_loc = write_file_header(name);
+   short disc_loc = write_file_header(name);
    
-   int parent_folder = parse_file_path(location);
+   short parent_folder = parse_file_path(location);
 
    print_integer(parent_folder);
 
@@ -61,13 +61,13 @@ void create_file(char* name, char* location) {
 
 void file_system_init() {
 
-   int disc_loc = write_file_header("base");
+   short disc_loc = write_file_header("base");
 
-   //write_to_file(disc_loc, (int*) "a", (str_size("a") + 1) * sizeof(char));
+   //write_to_file(disc_loc, (uintptr_t) "a", (str_size("a") + 1) * sizeof(char));
   
    base_file_location = disc_loc;
 
-   //write_to_file(FILE_SYTEM_HEADER, (int*) "bbaa", 5);
+   //write_to_file(FILE_SYTEM_HEADER, (uintptr_t) "bbaa", 5);
 
    
 

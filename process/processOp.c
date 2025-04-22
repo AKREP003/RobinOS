@@ -10,11 +10,11 @@ struct Process {
 
     enum bool typ;
 
-    int text_start;
-    int text_size;
+    short text_start;
+    short text_size;
 
-    int data_start;
-    int data_size;
+    short data_start;
+    short data_size;
 
 };
 

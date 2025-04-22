@@ -3,10 +3,17 @@ drivers = ../drivers/tty/tty_driver.o ../drivers/tty/tty_logic.o ../drivers/disk
 stdlib = ../stdlib/std_types.o
 test = ../test/test.o
 
+CC=gcc
+AS=nasm
+LD=ld
+CFLAGS= -ffreestanding -nostdlib -m16 -c -fno-pic
+ASFLAGS=-f elf
+LDFLAGS=-m elf_i386 -T linker.ld
+TARGET=os.flp
 
 kernel.bin: kernel.o $(stdlib) $(drivers) $(test) main.o
 	
-	$(LD) $(LDFLAGS) kernel.o $(stdlib) $(drivers) $(test) main.o -o kernel.bin
+	$(LD) $(LDFLAGS) -e _start kernel.o $(stdlib) $(drivers) $(test) main.o -o kernel.bin
 
 main.o: main.c
 	$(CC) $(CFLAGS) -fno-stack-protector main.c -o main.o

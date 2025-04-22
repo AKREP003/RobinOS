@@ -6,12 +6,12 @@
  * Released under GPLv3.
  */
 
-char* itoa(int value, char* result, int base) {
+char* itoa(short value, char* result, short base) {
     // check that the base if valid
     if (base < 2 || base > 36) { *result = '\0'; return result; }
 
     char* ptr = result, *ptr1 = result, tmp_char;
-    int tmp_value;
+    short tmp_value;
 
     do {
         tmp_value = value;
@@ -32,9 +32,9 @@ char* itoa(int value, char* result, int base) {
     return result;
 }
 
-int atoi(const char* str) {
-    int result = 0;
-    int sign = 1;
+short atoi(const char* str) {
+    short result = 0;
+    short sign = 1;
 
     
     while (*str == ' ' || *str == '\t' || *str == '\n') {
@@ -58,19 +58,19 @@ int atoi(const char* str) {
     return sign * result;
 }
 
-void cpy(int* base, int* copied, int size) {
+void cpy(uintptr_t  base, uintptr_t  copied, short size) {
 
-    for (int i = 0; i < size; i++) {
+    for (short i = 0; i < size; i++) {
 
-        base[i] = copied[i];
+        *((char*) base + i) = *((char*) copied + i);
 
     };
 
 }
 
-int str_size(char* str) {
+short str_size(char* str) {
 
-    int buffer = 0;
+    short buffer = 0;
 
     while(1) {
 
@@ -83,9 +83,9 @@ int str_size(char* str) {
 }
 
 
-struct ll* new_ll(int size) {
+struct ll* new_ll(short size) {
 
-    struct ll* buffer = (struct ll*) alloc(sizeof(struct ll) + size);
+    struct ll* buffer = (struct ll*)  alloc(sizeof(struct ll) + size);
 
     buffer -> element_size = size; 
 
@@ -96,14 +96,14 @@ struct ll* new_ll(int size) {
 
 }
 
-void set_element_val(struct ll* carrier, int* element) {
+void set_element_val(struct ll* carrier, uintptr_t element) {
 
-    cpy((int*)((char*)carrier + sizeof(struct ll)), element, carrier->element_size);
+    cpy((uintptr_t)((char*)carrier + sizeof(struct ll)), element, carrier->element_size);
 
 
 }; 
 
-void push(struct ll* carrier, int* element) {
+void push(struct ll* carrier, uintptr_t element) {
 
     
 
@@ -132,8 +132,8 @@ void push(struct ll* carrier, int* element) {
     
 }
 
-int* get_element_val(struct ll* node) {
-    return (int*)((char*)node + sizeof(struct ll));
+uintptr_t get_element_val(struct ll* node) {
+    return (uintptr_t)((char*)node + sizeof(struct ll));
 }
 
 void free_ll(struct ll* carrier) {
@@ -149,11 +149,11 @@ void free_ll(struct ll* carrier) {
     }
 }
 
-int* get_nth_element(struct ll* carrier, int index) {
+uintptr_t get_nth_element(struct ll* carrier, short index) {
 
     struct ll* carrier_buffer = carrier;
 
-    for (int i = 0; i < index ; i++) {
+    for (short i = 0; i < index ; i++) {
 
         if (carrier_buffer->next == 0) {
 
@@ -171,7 +171,7 @@ int* get_nth_element(struct ll* carrier, int index) {
 
 }
 
-void for_each(struct ll* carrier, void (*f)(void*)) {
+void for_each(struct ll* carrier, void (*f)(uintptr_t)) {
     struct ll* current = carrier;
 
     while (current != 0) {
@@ -194,9 +194,9 @@ void print_ll(struct ll* carrier) {
 
 }
 
-int get_str_ll_size(struct ll* carrier) {
+short get_str_ll_size(struct ll* carrier) {
 
-    int buffer = 0;
+    short buffer = 0;
 
     struct ll* carrier_buffer = carrier;
 
@@ -214,9 +214,9 @@ int get_str_ll_size(struct ll* carrier) {
 
 enum bool string_eq(char* x, char* y){
 
-    int length = min(str_size(x), str_size(y));
+    short length = min(str_size(x), str_size(y));
 
-    for (int i = 0; i <= length; i++) {
+    for (short i = 0; i <= length; i++) {
 
         if (x[i] != y[i]) {return  false;}
 
@@ -226,51 +226,33 @@ enum bool string_eq(char* x, char* y){
 
 }
 
-int max(int a, int b) {
+short max(short a, short b) {
 
     return (a > b) ? a : b;
     
 }
 
-int min(int a, int b) {
+short min(short a, short b) {
 
     return (a < b) ? a : b;
     
 }
 
-struct ll* as_string(char* chr) {
-    int chr_index = 0;
 
-    struct ll* linky = new_ll(sizeof(int*));
-
-    char* first_char = (char*) alloc(sizeof(char));
-    *first_char = chr[chr_index];
-    set_element_val(linky, (int*) first_char);
-
-    while (chr[chr_index] != 0x0) {
-        chr_index++;
-
-        char* next_char = (char*) alloc(sizeof(char));
-        *next_char = chr[chr_index];
-        push(linky, (int*) next_char);
-    }
-
-    return linky;
-}
 
 struct ll* split_string(char* strin, char element) {
 
     struct ll* linked_buffer = new_ll(sizeof(char*));
 
-    int size = str_size(strin) + 1;
+    short size = str_size(strin) + 1;
 
     char* sub_unit = (char*) alloc(sizeof(char) * 64);
     
-    int sub_index = 0;
+    short sub_index = 0;
 
     enum bool first_flag = true;
 
-    for (int i = 0; i < size; i++) {
+    for (short i = 0; i < size; i++) {
 
         if (strin[i] == element || sub_index >= 63 || i == (size - 1)) {
             
@@ -280,13 +262,13 @@ struct ll* split_string(char* strin, char element) {
 
             if (first_flag) {
 
-                set_element_val(linked_buffer, (int*) sub_unit);
+                set_element_val(linked_buffer, (uintptr_t) sub_unit);
 
                 first_flag = false;
 
             } else {    
                 
-                push(linked_buffer, (int*) sub_unit);
+                push(linked_buffer, (uintptr_t) sub_unit);
                 
                 
 
@@ -311,7 +293,7 @@ struct ll* split_string(char* strin, char element) {
 
 }
 
-void print_integer(int number) {
+void print_integer(short number) {
 
     char* res = (char*) alloc(20);
 
@@ -321,7 +303,7 @@ void print_integer(int number) {
 
 enum bool std_test() {
 
-    enum bool str_eq_test = string_eq("www", "www") && !(string_eq("www", "eee"));
+    enum bool str_eq_test =  string_eq("www", "www") && !(string_eq("www", "eee"));
 
     return str_eq_test;
 

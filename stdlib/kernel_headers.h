@@ -1,3 +1,6 @@
+#include <stdint.h>
+
+
 #define FILE_SYTEM_HEADER 50
 #define BLOCK_SIZE 512
 
@@ -5,46 +8,45 @@
 
 
 void print_string(char *str);
-void read(int sector_numb, int cylinder, int sector, int head, int buffer);
-void long_disk_read(int size, int disk_addr, int mem_addr);
-void write(int sector_numb, int cylinder, int sector, int head, int buffer);
-void free(int ptr);
-void disk_read(int size, int disk_addr, int mem_addr);
-int alloc(int size);
-void disk_write(int size, int disk_addr, int mem_addr);
-void set_heap_mode(int mode);
-void cpy(int* base, int* copied, int size);
-char* itoa(int value, char* result, int base);
-int str_size(char* str);
+void read(short sector_numb, short cylinder, short sector, short head, uintptr_t buffer);
+void long_disk_read(short size, short disk_addr, short mem_addr);
+void write(short sector_numb, short cylinder, short sector, short head, uintptr_t buffer);
+void free(uintptr_t ptr);
+void disk_read(short size, short disk_addr, uintptr_t mem_addr);
+uintptr_t alloc(short size);
+void disk_write(short size, short disk_addr, uintptr_t mem_addr);
+void set_heap_mode(short mode);
+void cpy(uintptr_t  base, uintptr_t  copied, short size);
+char* itoa(short value, char* result, short base);
+short str_size(char* str);
 void create_file(char* name, char* location);
 void file_system_init();
-struct ll* new_ll(int size);
-void set_element_val(struct ll* carrier, int* element);
-void push(struct ll* carrier, int* element);
-int* get_element_val(struct ll* node);
+struct ll* new_ll(short size);
+void set_element_val(struct ll* carrier, uintptr_t element);
+void push(struct ll* carrier, uintptr_t element);
+uintptr_t get_element_val(struct ll* node);
 void free_ll(struct ll* carrier);
-int* get_nth_element(struct ll* carrier, int index);
+uintptr_t get_nth_element(struct ll* carrier, short index);
 void print_ll(struct ll* carrier);
-void write_to_file(int file_loc, int* data, int size);
-int max(int a, int b);
-int min(int a, int b);
-int* read_file(int file_loc);
-struct ll* as_string(char* chr);
+void write_to_file(short file_loc, uintptr_t data, short size);
+short max(short a, short b);
+short min(short a, short b);
+uintptr_t read_file(short file_loc);
 struct ll* split_string(char* strin, char element);
 struct ll* parse_folder(char* data);
-int get_str_ll_size(struct ll* carrier);
-int get_entry(struct ll* fold, char* key);
+short get_str_ll_size(struct ll* carrier);
+short get_entry(struct ll* fold, char* key);
 enum bool string_eq(char* x, char* y);
-int atoi(const char* str);
-int write_file_header( char* file_name);
-void print_integer(int number);
+short atoi(const char* str);
+short write_file_header( char* file_name);
+void print_integer(short number);
 void test_em_all();
 void print_char(char c);
-void for_each(struct ll* carrier, void (*f)(void*));
+void for_each(struct ll* carrier, void (*f)(uintptr_t));
 void print_inline(char* a);
 void get_current_time();
-void wait_sec(int seconds);
-int get_nth_fibo(int n);
+void wait_sec(short seconds);
+short get_nth_fibo(short n);
 
 enum bool disk_test();
 enum bool alloc_test();
@@ -52,7 +54,7 @@ enum bool std_test();
 
 struct ll {
 
-    int element_size;
+    short element_size;
 
     struct ll * next;
 
@@ -70,13 +72,16 @@ enum bool {
 struct file_header {
     char name[64];
 
-    int size;
+    short size;
 
-    int head_block;
+    short head_block;
 
 
 };
 
-extern unsigned int HOUR;
-extern unsigned int MIN;
-extern unsigned int SEC;
+extern unsigned short HOUR;
+extern unsigned short MIN;
+extern unsigned short SEC;
+
+
+#define PTR(addr) ((void*)(uintptr_t)(addr))

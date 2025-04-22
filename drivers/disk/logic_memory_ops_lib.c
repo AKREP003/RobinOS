@@ -1,16 +1,16 @@
 
 #include "../../stdlib/kernel_headers.h"
 
-void read_long(int ds_buff, int si_buff);
+void read_long(short ds_buff, short si_buff);
 
 #define HEADS 255
 #define SECTORS 63
 #define SECTOR_SIZE 512
 
 
-int* shc_adressing(int disk_addr, int size) {
+short* shc_adressing(short disk_addr, short size) {
 
-    int* buffer = (int*) alloc(40);
+    short* buffer = (short*) alloc(40);
 
     buffer[0] = max(1, (disk_addr % SECTORS)); 
     buffer[1] = ((disk_addr / SECTORS) % HEADS) + 1;
@@ -20,21 +20,21 @@ int* shc_adressing(int disk_addr, int size) {
     return buffer;
 }
 
-void disk_read(int size, int disk_addr, int mem_addr) {
+void disk_read(short size, short disk_addr, uintptr_t mem_addr) {
 
-    int* buffer = shc_adressing(disk_addr, size);
+    short* buffer = shc_adressing(disk_addr, size);
 
     read(buffer[3], buffer[0], buffer[1], buffer[2], mem_addr);
 
-    free((int) buffer);
+    
     
 }
 
-void long_disk_read(int size, int disk_addr, int mem_addr) {
+void long_disk_read(short size, short disk_addr, short mem_addr) {
     // Allocate 16-byte Disk Address Packet (DAP)
     unsigned char* dap = (unsigned char*) alloc(16);
 
-    int sector_count = (size + SECTOR_SIZE - 1) / SECTOR_SIZE;
+    short sector_count = (size + SECTOR_SIZE - 1) / SECTOR_SIZE;
 
     // Fill the Disk Address Packet
     dap[0] = 0x10; // Size of DAP
@@ -61,7 +61,7 @@ void long_disk_read(int size, int disk_addr, int mem_addr) {
     dap[15] = 0x00;
 
     // Split dap pointer into segment:offset for real-mode BIOS
-    unsigned int dap_addr = (unsigned int) dap;
+    unsigned short dap_addr = (unsigned int) dap;
     unsigned short dap_segment = dap_addr >> 4;
     unsigned short dap_offset  = dap_addr & 0xF;
 
@@ -73,15 +73,15 @@ void long_disk_read(int size, int disk_addr, int mem_addr) {
 }
 
 
-void disk_write(int size, int disk_addr, int mem_addr) {
+void disk_write(short size, short disk_addr, uintptr_t mem_addr) {
 
-    int* buffer = shc_adressing(disk_addr, size);
+    short* buffer = shc_adressing(disk_addr, size);
 
     write(buffer[3], buffer[0], buffer[1], buffer[2], mem_addr);
 
-    
+    print_char('Q');
 
-    free((int) buffer);
+    
     
 }
 
@@ -89,15 +89,20 @@ enum bool disk_test() {
 
     char* test_str = "aws";
 
-    int disk_addr = 2;
+    short disk_addr = 100;
 
-    disk_write(1, disk_addr, (int) test_str);
+    print_inline("aaaa");
+    
+
+    disk_write(1, disk_addr, (uintptr_t) test_str);
+
+    
 
     char* buffer = (char*) alloc(str_size(test_str) + 1);
 
-    disk_read(1, disk_addr, (int) buffer);
+    disk_read(1, disk_addr, (uintptr_t) buffer);
 
-    enum bool test1 = string_eq(test_str, buffer);
+    enum bool test1 = string_eq(test_str, "buffer");
     return test1;
 
 }

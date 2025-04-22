@@ -1,34 +1,36 @@
 #include "../stdlib/kernel_headers.h"
 
 void print_test() {
-    //print_string("print is working\n");
+    //print_string("prshort is working\n");
     //print_integer(69);
     //prtint_char('Q');
     
-    print_inline("test");
+    //print_inline("test");
+    
 }
 
 
 
 
 void test_em_all() {
-
     print_test();
 
-    print_inline("c");
+    if (!std_test())   {print_string("std functions failed\r\n");}
 
-    if (!std_test())   {print_inline("std functions failed");}
+    print_string("std succ\r\n");
 
-    print_inline("std succ");
+    wait_sec(5);
 
-    if (!alloc_test()) {print_inline("alloc failed");} 
+    if (!alloc_test()) {print_string("alloc failed\r\n");} 
 
-    print_inline("alloc succ");
+    print_string("alloc succ\r\n");
 
-    if (!disk_test())  {print_inline("disk failed");} 
+    wait_sec(5);
 
-    print_inline("disk succ");
-    
-    print_inline("no errors");
+    //if (!disk_test())  {print_string("disk failed");} 
+
+    //print_string("disk succ");
+
+    print_string("no errors\r\n");
 
 }

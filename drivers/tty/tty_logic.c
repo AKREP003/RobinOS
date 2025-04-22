@@ -3,11 +3,11 @@
 
 void print_inline(char* a){
     
-    int size = str_size(a);
+    short size = str_size(a);
 
     char* buffer = (char*) alloc(size + 3);
 
-    cpy((int*) buffer, (int*) a, size);
+    cpy((uintptr_t) buffer, (uintptr_t) a, size);
 
     buffer[size] = '\r';
 
@@ -17,6 +17,6 @@ void print_inline(char* a){
 
     print_string(buffer);
 
-    free((int) buffer);
+    //free((int) buffer);
 
 }

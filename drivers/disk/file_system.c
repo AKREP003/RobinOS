@@ -2,19 +2,19 @@
 #include "../../stdlib/kernel_headers.h"
 
 
-int free_slot = FILE_SYTEM_HEADER; // handle gaps in le future
+short free_slot = FILE_SYTEM_HEADER; // handle gaps in le future
 
 
 
 struct disk_block {
 
-    int cursor;
+    short cursor;
 
-    int next;
+    short next;
 };
 
 
-void write_disk_block(int disk_loc) {
+void write_disk_block(short disk_loc) {
 
     struct disk_block* block = (struct disk_block*) alloc(BLOCK_SIZE);
 
@@ -22,7 +22,7 @@ void write_disk_block(int disk_loc) {
 
     block -> cursor = 0;
 
-    disk_write(1, disk_loc, (int) block);
+    disk_write(1, disk_loc, (uintptr_t) block);
 
     
 
@@ -30,22 +30,22 @@ void write_disk_block(int disk_loc) {
 
 }
 
-int write_file_header( char* file_name) {
+short write_file_header( char* file_name) {
 
 
     struct file_header* buffer = (struct file_header*) alloc(BLOCK_SIZE);
 
-    cpy((int*) buffer->name, (int*) file_name, str_size(file_name));
+    cpy((uintptr_t) buffer->name, (uintptr_t) file_name, str_size(file_name));
 
     buffer -> head_block = free_slot + 1;
 
-    int slot_buffer = free_slot;
+    short slot_buffer = free_slot;
 
-    disk_write(1, free_slot, (int) buffer);
+    disk_write(1, free_slot, (uintptr_t) buffer);
 
     struct file_header* buffer2 = (struct file_header*) alloc(BLOCK_SIZE);
 
-    disk_read(1, free_slot, (int) buffer2);
+    disk_read(1, free_slot, (uintptr_t) buffer2);
 
     print_string(buffer2 -> name);
 
@@ -65,32 +65,32 @@ int write_file_header( char* file_name) {
 
 
 
-void write_to_file(int file_loc, int* data, int size) {
+void write_to_file(short file_loc, uintptr_t data, short size) {
 
-    int original_size = size;
+    short original_size = size;
     
     struct file_header* disk_read_buffer = (struct file_header*) alloc(BLOCK_SIZE);
 
-    disk_read(sizeof(struct file_header), file_loc, (int) disk_read_buffer);
+    disk_read(sizeof(struct file_header), file_loc, (uintptr_t) disk_read_buffer);
 
     struct disk_block* block_buffer = (struct disk_block*) alloc(BLOCK_SIZE);
 
-    disk_read(1, disk_read_buffer -> head_block, (int) block_buffer);
+    disk_read(1, disk_read_buffer -> head_block, (uintptr_t) block_buffer);
 
     
-    int block_ptr = disk_read_buffer -> head_block;
+    short block_ptr = disk_read_buffer -> head_block;
 
     while (true) {
 
-        int to_be_written = min(size, BLOCK_SIZE - (block_buffer -> cursor) - sizeof(struct disk_block));
+        short to_be_written = min(size, BLOCK_SIZE - (block_buffer -> cursor) - sizeof(struct disk_block));
 
-        cpy((int*)((char*)block_buffer + block_buffer->cursor + sizeof(struct disk_block)), data, to_be_written);
+        cpy((uintptr_t)((char*)block_buffer + block_buffer->cursor + sizeof(struct disk_block)), data, to_be_written);
 
         size -= to_be_written;
         
         block_buffer -> cursor += to_be_written;
 
-        disk_write(1, block_ptr, (int) block_buffer);
+        disk_write(1, block_ptr, (uintptr_t) block_buffer);
 
         if (size <= 0) {break;}
 
@@ -102,11 +102,11 @@ void write_to_file(int file_loc, int* data, int size) {
 
             free_slot++;
 
-            disk_read(1, block_buffer -> next, (int) block_buffer);
+            disk_read(1, block_buffer -> next, (uintptr_t) block_buffer);
 
         } else {
 
-            disk_read(1, block_buffer -> next, (int) block_buffer);
+            disk_read(1, block_buffer -> next, (uintptr_t) block_buffer);
 
         }
 
@@ -116,7 +116,7 @@ void write_to_file(int file_loc, int* data, int size) {
 
     disk_read_buffer -> size += original_size;
 
-    disk_write(1, file_loc, (int) disk_read_buffer);
+    disk_write(1, file_loc, (uintptr_t) disk_read_buffer);
 
     free((int) disk_read_buffer);
 
@@ -125,15 +125,15 @@ void write_to_file(int file_loc, int* data, int size) {
 }
 
 
-int* read_file(int file_loc) {
+uintptr_t read_file(short file_loc) {
 
     struct file_header* disk_read_buffer = (struct file_header*) alloc(BLOCK_SIZE);
 
     disk_read(1, file_loc, (int) disk_read_buffer);
 
-    int size_buffer = disk_read_buffer -> size;
+    short size_buffer = disk_read_buffer -> size;
 
-    int* data_buffer = (int*) alloc(disk_read_buffer -> size);
+    uintptr_t data_buffer = (uintptr_t) alloc(disk_read_buffer -> size);
 
     struct disk_block* block_buffer = (struct disk_block*) alloc(BLOCK_SIZE);
 
@@ -141,9 +141,9 @@ int* read_file(int file_loc) {
 
     while(1) {
 
-        int block_to_read = min(BLOCK_SIZE, block_buffer -> cursor + sizeof(struct disk_block));
+        short block_to_read = min(BLOCK_SIZE, block_buffer -> cursor + sizeof(struct disk_block));
 
-        cpy(data_buffer + (disk_read_buffer -> size - size_buffer) , (int*) ((char*) block_buffer + sizeof(struct disk_block)), block_to_read - sizeof(struct disk_block));
+        cpy((uintptr_t) (data_buffer + (disk_read_buffer -> size - size_buffer)) , (uintptr_t) ((char*) block_buffer + sizeof(struct disk_block)), block_to_read - sizeof(struct disk_block));
 
         size_buffer -= block_to_read;
 

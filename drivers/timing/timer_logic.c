@@ -2,33 +2,34 @@
 #include "../../stdlib/kernel_headers.h"
 
 
-void wait_sec(int seconds) {
+void wait_sec(short seconds) {
 
     get_current_time();
 
-    int current_seconds = SEC;
+    short current_seconds = SEC;
 
-    while (1) {
+    while (true) {
 
         get_current_time();
 
-        print_char('\r');
+        print_integer(SEC - current_seconds);
 
-        if (SEC - current_seconds >= seconds) {break;}
+        
+        if ((SEC - current_seconds) > seconds) {break;}
 
     }
 
 }
 
-int get_nth_fibo(int n) {
+short get_nth_fibo(short n) {
 
-    int x1 = 1;
+    short x1 = 1;
 
-    int x2 = 1;
+    short x2 = 1;
 
-    for (int i = 3; i <= n; i++) {
+    for (short i = 3; i <= n; i++) {
 
-        int buffer = x2;
+        short buffer = x2;
 
         x2 = x1 + x2;
 

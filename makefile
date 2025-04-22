@@ -1,8 +1,8 @@
 CC=gcc
 AS=nasm
 LD=ld
-CFLAGS=-m32 -ffreestanding -nostdlib -m16 -c -fno-pic
-ASFLAGS=-f elf32
+CFLAGS= -ffreestanding -nostdlib -m16 -c -fno-pic
+ASFLAGS=-f elf
 LDFLAGS=-m elf_i386 -T linker.ld
 TARGET=os.flp
 
@@ -24,10 +24,10 @@ $(TARGET): boot/boot.bin init/kernel.bin files/files.bin
 
 
 boot/boot.bin : 
-	$(MAKE) -C boot CC=gcc AS=nasm LD=ld CFLAGS="-m32 -ffreestanding -nostdlib -m16 -c -fno-pic" ASFLAGS="-f elf32" LDFLAGS="-m elf_i386 -T linker.ld"
+	$(MAKE) -C boot 
 
 init/kernel.bin :
-	$(MAKE) -C init CC=gcc AS=nasm LD=ld CFLAGS="-m32 -ffreestanding -nostdlib -m16 -c -fno-pic" ASFLAGS="-f elf32" LDFLAGS="-m elf_i386 -T linker.ld" 
+	$(MAKE) -C init
 
 files/files.bin: 
 

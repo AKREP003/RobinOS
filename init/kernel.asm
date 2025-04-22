@@ -1,9 +1,9 @@
 [BITS 16]
 
 extern aaa
+global _start
 
-
-start:
+_start:
     
 
 	call aaa	; Call our string-printing routine
