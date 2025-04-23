@@ -40,10 +40,8 @@ short parse_file_path(char* path) {
    struct ll* folder_location = split_string(path, '>');
 
    char* base_file = (char*) read_file(base_file_location);
-   
-   print_string(base_file);
 
-   return 0;
+   return base_file_location;
 
 }
 
@@ -51,9 +49,9 @@ void create_file(char* name, char* location) {
 
    short disc_loc = write_file_header(name);
    
-   short parent_folder = parse_file_path(location);
+   //short parent_folder = parse_file_path(location);
 
-   print_integer(parent_folder);
+   
 
 }
 
@@ -62,14 +60,21 @@ void create_file(char* name, char* location) {
 void file_system_init() {
 
    short disc_loc = write_file_header("base");
-
-   //write_to_file(disc_loc, (uintptr_t) "a", (str_size("a") + 1) * sizeof(char));
-  
+   
    base_file_location = disc_loc;
 
-   //write_to_file(FILE_SYTEM_HEADER, (uintptr_t) "bbaa", 5);
+   char* str = "base";
 
-   
+   write_to_file(base_file_location, (uintptr_t) str, 5);
 
+   print_inline("file system initialised");   
    
+}
+
+enum bool file_handling_test() {
+
+   create_file("test", "test_fold");
+
+   return true;
+
 }

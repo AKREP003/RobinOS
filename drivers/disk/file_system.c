@@ -47,8 +47,6 @@ short write_file_header( char* file_name) {
 
     disk_read(1, free_slot, (uintptr_t) buffer2);
 
-    print_string(buffer2 -> name);
-
     free_slot++;
     
     write_disk_block(free_slot);
@@ -158,4 +156,31 @@ uintptr_t read_file(short file_loc) {
 
     return data_buffer;
 
+}
+
+enum bool file_system_test() {
+    
+    short loc = write_file_header("test");
+
+    char* str1 = "aws";
+
+    write_to_file(loc, (uintptr_t) str1, 4);
+    
+    char* buffer = (char*) read_file(loc);
+
+    enum bool test1 = string_eq(buffer, str1);
+
+    short loc2 = write_file_header("test2");
+
+    char* str2 = "aqs";
+
+    write_to_file(loc2, (uintptr_t) str2, 4);
+    
+    char* buffer2 = (char*) read_file(loc2);
+
+    enum bool test2 = string_eq(buffer2, str2);
+
+    enum bool test3 = !string_eq(buffer2, buffer);
+
+    return test1 && test2 && test3;
 }

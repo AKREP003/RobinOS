@@ -15,24 +15,30 @@ void print_test() {
 void test_em_all() {
     print_test();
 
-    if (!std_test())   {print_string("std functions failed\r\n");}
+    if (!std_test())   {print_string("std functions failed\r\n");return;}
 
     print_string("std succ\r\n");
 
     wait_sec(1);
 
-    if (!alloc_test()) {print_string("alloc failed\r\n");} 
+    if (!alloc_test()) {print_string("alloc failed\r\n");return;} 
 
     print_string("alloc succ\r\n");
 
     wait_sec(1);
 
-    if (!disk_test())  {print_string("disk failed");} 
+    if (!disk_test())  {print_string("disk failed");return;} 
 
     print_string("disk succ\r\n");
 
-    
+    if (!file_system_test())  {print_string("file system failed");return;} 
 
-    
+    print_string("file system succ\r\n");
+
+    file_system_init();
+
+    if (!file_handling_test())  {print_string("file handling failed");return;} 
+
+    print_string("file handling succ\r\n");
 
 }

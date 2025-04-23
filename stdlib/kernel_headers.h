@@ -48,9 +48,11 @@ void get_current_time();
 void wait_sec( short seconds);
 short get_nth_fibo(short n);
 
+enum bool file_system_test();
 enum bool disk_test();
 enum bool alloc_test();
 enum bool std_test();
+enum bool file_handling_test();
 
 struct ll {
 
