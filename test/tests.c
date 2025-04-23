@@ -19,19 +19,23 @@ void test_em_all() {
 
     print_string("std succ\r\n");
 
-    wait_sec(5);
+    wait_sec(1);
 
     if (!alloc_test()) {print_string("alloc failed\r\n");} 
 
+    uintptr_t a = alloc(5);
+    
+
+
     print_string("alloc succ\r\n");
 
-    wait_sec(5);
+    wait_sec(1);
 
     if (!disk_test())  {print_string("disk failed");} 
 
     print_string("disk succ\r\n");
 
-    wait_sec(5);
+    
 
     
 

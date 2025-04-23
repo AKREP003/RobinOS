@@ -4,33 +4,28 @@
 struct memblock {
 
     short size;
-
-    uintptr_t addr;
     
-    struct memblock *prev;
+    uintptr_t prev;
 
-    struct memblock *next;
+    uintptr_t next;
 
 };
 
 typedef struct memblock* p_memblock;
 
 
-struct memblock protected_head_allocation = {0, 30000, (p_memblock) 0, (p_memblock) 0};
 
-struct memblock unprotected_head_allocation = {0, 0x100, (p_memblock) 0, (p_memblock) 0};
-
-struct memblock* last_free = &protected_head_allocation;
+uintptr_t last_free = (uintptr_t) 30000;
 
 void set_heap_mode(short mode) {
 
     if (mode) {
 
-        last_free = &protected_head_allocation;
+        last_free = (uintptr_t) 30000;
 
     } else {
 
-        last_free = &unprotected_head_allocation;
+        last_free = (uintptr_t) 30000;
 
     }
 
@@ -39,101 +34,68 @@ void set_heap_mode(short mode) {
 
 
 short get_end(p_memblock block) {
-    return block->addr + block->size + sizeof(struct memblock);
+    
 }
 
 
 
 uintptr_t alloc(short size) {
 
-    p_memblock buffer = last_free;
+    uintptr_t buffer = last_free;
 
+    //print_string("alloc called\r\n");
 
-
-    short alloc_size = size + sizeof(struct memblock);
+    uintptr_t alloc_size = size + sizeof(struct memblock);
 
     while (1) {
         
-        if (buffer->next == 0) {
+        if (((p_memblock) buffer)->next ==  (uintptr_t) 0) {
 
-            p_memblock alloc_addr = (p_memblock) (buffer->addr - alloc_size);
+            uintptr_t alloc_addr = (uintptr_t) (buffer - alloc_size);
 
-            buffer -> next = alloc_addr;
+            ((p_memblock) buffer) -> next = alloc_addr;
             
-            alloc_addr -> size = size;
-
-            alloc_addr -> addr = (uintptr_t) alloc_addr;
+            ((p_memblock) alloc_addr) -> size = size;
             
-            alloc_addr -> prev = buffer;
+            ((p_memblock) alloc_addr) -> prev = (uintptr_t) buffer;
 
-            alloc_addr -> next = 0;
+            ((p_memblock) alloc_addr) -> next = (uintptr_t) 0;
             
-            return (uintptr_t)((char*)alloc_addr + sizeof(struct memblock));
+            
+            
+
+            return alloc_addr + sizeof(struct memblock);
 
         }
         
         if (false) { //( (buffer->addr - get_end(buffer->next)) >= alloc_size ) {
 
-            p_memblock alloc_addr = (p_memblock) (buffer->addr - alloc_size);
+           
             
-            alloc_addr -> next = buffer->next;
-
-            buffer -> next = alloc_addr;
             
-            alloc_addr -> size = size;
-
-            alloc_addr -> addr = (uintptr_t) alloc_addr;
-            
-            alloc_addr -> prev = buffer;
-
-            return (uintptr_t)((char*)alloc_addr + sizeof(struct memblock));
-
 
         }
 
         
 
-        buffer = buffer -> next;
+        buffer = ((p_memblock) buffer) -> next;
 
+        
         
     };
 
+    
     
     return 0;
 }
 
 
 void free(uintptr_t ptr) {
-    // Step back from the allocated memory to find the memblock header
-    p_memblock block = (p_memblock)(ptr - sizeof(struct memblock));
-
-    // Reconnect the previous and next blocks to bypass 'block'
-    if (block->prev != 0) {
-        block->prev->next = block->next;
-    }
-
-    if (block->next != 0) {
-        block->next->prev = block->prev;
-    }
-
-    // If the block was the last_free one, update last_free pointer
-    if (last_free == block) {
-        last_free = block->prev; // or set to head_allocation if you want a safe fallback
-    }
-
-    // Optional: zero out the block metadata (not required, but nice for debugging)
-    block->size = 0;
-    block->addr = 0;
-    block->prev = 0;
-    block->next = 0;
+    
 }
 
 void dump_allocations() {
-    p_memblock b = &protected_head_allocation;
-    while (b != 0) {
-        
-        b = b->next;
-    }
+    
 }
 
 enum bool alloc_test() {
