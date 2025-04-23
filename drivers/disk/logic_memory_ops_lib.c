@@ -116,6 +116,18 @@ enum bool disk_test() {
 
     enum bool test3 = !string_eq(buffer, buffer2);
 
-    return test1 && test2 && test3;
+    char* test_str3 = "axs";
+
+    disk_write(1, disk_addr, (uintptr_t) test_str3);
+
+    char* buffer3 = (char*) alloc(BLOCK_SIZE);
+
+    disk_read(1, disk_addr , (uintptr_t) buffer3);
+
+    enum bool test4 = !string_eq(buffer, buffer3);
+
+    enum bool test5 = string_eq(test_str3, buffer3);
+
+    return test1 && test2 && test3 && test4 && test5;
 
 }

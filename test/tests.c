@@ -23,10 +23,6 @@ void test_em_all() {
 
     if (!alloc_test()) {print_string("alloc failed\r\n");} 
 
-    uintptr_t a = alloc(5);
-    
-
-
     print_string("alloc succ\r\n");
 
     wait_sec(1);
