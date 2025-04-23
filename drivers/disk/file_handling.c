@@ -41,15 +41,17 @@ short parse_file_path(char* path) {
 
    char* base_file = (char*) read_file(base_file_location);
 
-   return base_file_location;
+   return 0;
 
 }
 
 void create_file(char* name, char* location) {
+   
+   wake_up();
 
    short disc_loc = write_file_header(name);
    
-   //short parent_folder = parse_file_path(location);
+   short parent_folder = parse_file_path(location);
 
    
 
@@ -73,7 +75,7 @@ void file_system_init() {
 
 enum bool file_handling_test() {
 
-   create_file("test", "test_fold");
+   create_file("test", "t>estFold");
 
    return true;
 

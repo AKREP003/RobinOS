@@ -20,3 +20,7 @@ void print_inline(char* a){
     //free((int) buffer);
 
 }
+
+void wake_up() {
+    print_char('\r');
+}

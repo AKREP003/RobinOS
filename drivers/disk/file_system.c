@@ -127,7 +127,11 @@ uintptr_t read_file(short file_loc) {
 
     struct file_header* disk_read_buffer = (struct file_header*) alloc(BLOCK_SIZE);
 
+    wake_up();
+
     disk_read(1, file_loc, (int) disk_read_buffer);
+
+    wake_up();
 
     short size_buffer = disk_read_buffer -> size;
 

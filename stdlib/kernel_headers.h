@@ -47,6 +47,8 @@ void print_inline(char* a);
 void get_current_time();
 void wait_sec( short seconds);
 short get_nth_fibo(short n);
+void wake_up();
+
 
 enum bool file_system_test();
 enum bool disk_test();
