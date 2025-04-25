@@ -19,7 +19,7 @@ void set_heap_mode(short mode);
 void cpy(uintptr_t  base, uintptr_t  copied, short size);
 char* itoa(short value, char* result, short base);
 short str_size(char* str);
-struct file_data* create_file(char* location);
+struct file_cache* create_file_cache(char* location);
 void file_system_init();
 struct ll* new_ll(short size);
 void set_element_val(struct ll* carrier, uintptr_t element);
@@ -48,7 +48,9 @@ void get_current_time();
 void wait_sec( short seconds);
 short get_nth_fibo(short n);
 void wake_up();
-char* allocate_str(char* str);
+uintptr_t allocate_str(char* str);
+void write_to_file(short file_loc, uintptr_t data, short size);
+struct file_header* read_file_header(short loc);
 
 
 enum bool file_system_test();
@@ -89,4 +91,5 @@ extern  short MIN;
 extern  short SEC;
 
 
-#define PTR(addr) ((void*)(uintptr_t)(addr))
+#define PTR (uintptr_t)
+#define STR (char*)

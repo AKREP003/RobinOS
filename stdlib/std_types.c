@@ -311,12 +311,12 @@ enum bool std_test() {
 
 }
 
-char* allocate_str(char* str) {
+uintptr_t allocate_str(char* str) {
 
     uintptr_t buffer = alloc(str_size(str) + 1);
-
+    
     cpy(buffer, (uintptr_t) str, str_size(str) + 1);
 
-    return (char*) buffer;
+    return PTR buffer;
 
 }

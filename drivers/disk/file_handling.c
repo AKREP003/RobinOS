@@ -3,7 +3,7 @@
 
 short base_file_location = 0;
 
-struct file_data {
+struct file_cache {
 
    char* name;
 
@@ -14,6 +14,8 @@ struct file_data {
    uintptr_t buffer;
 
    char* tree_loc;
+
+   short size;
 
    enum bool lock;
 
@@ -30,9 +32,9 @@ short get_entry(struct ll* fold, char* key) {
 
    short buffer = 0;
 
-    struct ll* carrier_buffer = fold;
+   struct ll* carrier_buffer = fold;
 
-    while ((carrier_buffer) != 0) {
+   while ((carrier_buffer) != 0) {
 
       struct ll* entry = split_string((char*) get_element_val(carrier_buffer), '=' );
 
@@ -50,13 +52,7 @@ short get_entry(struct ll* fold, char* key) {
 
 }
 
-struct file_system_location{
 
-   char* name;
-
-   short parent_loc;
-
-};
 
 short parse_file_path(char* path) {
 
@@ -74,7 +70,7 @@ short parse_file_path(char* path) {
 
 }
 
-struct file_data read_file_data(short disc_loc, char* location) {
+struct file_cache* create_file_cache_from(short disc_loc, char* location) {
 
    
 
@@ -86,13 +82,34 @@ struct file_data read_file_data(short disc_loc, char* location) {
    
    short parent_folder_loc = parse_file_path(parent_path);
 
-   struct file_data buffer = {allocate_str(name), disc_loc, parent_folder_loc, 0, allocate_str(parent_path), false};
+   struct file_header* head = read_file_header(disc_loc);
+
+   
+   struct file_cache* buffer = (struct file_cache*) alloc(sizeof(struct  file_cache));
+
+   buffer -> name = STR allocate_str(name);
+
+   buffer -> disc_loc = disc_loc;
+
+   buffer -> buffer = read_file(disc_loc);
+
+
+   buffer -> parent_loc = parent_folder_loc;
+
+   buffer -> lock = false;
+
+   buffer -> tree_loc = STR allocate_str(parent_path);
+
+   buffer -> size = head -> size;
+
+   
 
    return  buffer; 
 
+   
 }
 
-void refresh_file_data(struct file_data* dat) {
+void refresh_file_cache(struct file_cache* dat) {
 
    free(dat -> buffer);
 
@@ -100,7 +117,15 @@ void refresh_file_data(struct file_data* dat) {
 
 }
 
-struct  file_data* create_file(char* location) {
+void commit_file_cache(struct file_cache* dat) {
+
+   write_to_file(dat -> disc_loc, dat -> buffer, dat -> size);
+
+   dat -> size = read_file_header(dat -> disc_loc) -> size;
+
+}
+
+struct file_cache* create_file_cache(char* location) {
    
    
 
@@ -122,9 +147,21 @@ struct  file_data* create_file(char* location) {
 
    
 
-   struct file_data* buffer = (struct file_data*) alloc(0); //{name, disc_loc, parent_folder_loc, 0, parent_path, false}; //allocate name and parent path
-   
-   
+   struct file_cache* buffer = (struct file_cache*) alloc(sizeof(struct  file_cache));
+
+   buffer -> name = STR allocate_str(name);
+
+   buffer -> disc_loc = disc_loc;
+
+   buffer -> buffer = read_file(disc_loc);
+
+   buffer -> parent_loc = parent_folder_loc;
+
+   buffer -> lock = false;
+
+   buffer -> tree_loc = STR allocate_str(parent_path);
+
+   buffer -> size = 0;
 
    return  buffer; 
    
@@ -142,15 +179,40 @@ void file_system_init() {
 
    write_to_file_pointer(base_file_location, (uintptr_t) str, 5);
 
-   print_inline("file system initialised");   
+   
    
 }
 
 enum bool file_handling_test() {
 
-   struct file_data* test = create_file("base>test_folder:test");
+   char* str = "ads";
+
+   struct file_cache* test = create_file_cache("base>test_folder:test");
+
+   free(test -> buffer);
+   
+   test ->buffer = alloc(20);
+
+   cpy(test ->buffer, PTR str, 4);
+
+   test -> size = 4;
+
+   commit_file_cache(test);
+
+
+   char* str2 = "axs";
+
+   cpy(test ->buffer, PTR str2, 4);
+
+   refresh_file_cache(test);
+
+
+   enum bool cond = string_eq(STR test -> buffer, str);
+
+
+   free(PTR test);
 
    
-   return true;
+   return cond;
 
 }
