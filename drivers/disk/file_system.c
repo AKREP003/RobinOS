@@ -1,4 +1,6 @@
 
+// FIT IMPLEMENTATOIN //
+
 #include "../../stdlib/kernel_headers.h"
 
 
@@ -59,23 +61,36 @@ short write_file_header( char* file_name) {
 }
 
 
+struct file_header* read_file_header(short loc) {
 
-
-
-
-void write_to_file(short file_loc, uintptr_t data, short size) {
-
-    short original_size = size;
-    
     struct file_header* disk_read_buffer = (struct file_header*) alloc(BLOCK_SIZE);
 
-    disk_read(sizeof(struct file_header), file_loc, (uintptr_t) disk_read_buffer);
+    disk_read(sizeof(struct file_header), loc, (uintptr_t) disk_read_buffer);
+
+    return disk_read_buffer;
+
+}
+
+struct disk_block* read_block(short loc) {
 
     struct disk_block* block_buffer = (struct disk_block*) alloc(BLOCK_SIZE);
 
-    disk_read(1, disk_read_buffer -> head_block, (uintptr_t) block_buffer);
+    disk_read(1, loc, (uintptr_t) block_buffer);
 
+    return block_buffer;
+
+}
+
+
+
+void write_to_file_pointer(short file_loc, uintptr_t data, short size) {
+
+    short original_size = size;
     
+    struct file_header* disk_read_buffer = read_file_header(file_loc);
+
+    struct disk_block* block_buffer = read_block(disk_read_buffer -> head_block);
+
     short block_ptr = disk_read_buffer -> head_block;
 
     while (true) {
@@ -122,6 +137,57 @@ void write_to_file(short file_loc, uintptr_t data, short size) {
 
 }
 
+void write_to_file(short file_loc, uintptr_t data, short size) {
+    
+    struct file_header* disk_read_buffer = read_file_header(file_loc);
+
+    struct disk_block* block_buffer = read_block(disk_read_buffer -> head_block);
+
+    short block_ptr = disk_read_buffer -> head_block;
+
+    while (true) {
+
+        short to_be_written = min(size, BLOCK_SIZE - sizeof(struct disk_block));
+
+        cpy((uintptr_t)((char*)block_buffer + sizeof(struct disk_block)), data, to_be_written);
+
+        size -= to_be_written;
+        
+        block_buffer -> cursor = to_be_written;
+
+        disk_write(1, block_ptr, (uintptr_t) block_buffer);
+
+        if (size <= 0) {break;}
+
+        if (block_buffer -> next == 0) {
+
+            write_disk_block(free_slot);
+
+            block_buffer -> next = free_slot;
+
+            free_slot++;
+
+            disk_read(1, block_buffer -> next, (uintptr_t) block_buffer);
+
+        } else {
+
+            disk_read(1, block_buffer -> next, (uintptr_t) block_buffer);
+
+        }
+
+        block_ptr = block_buffer -> next;
+
+    }
+
+    disk_read_buffer -> size = size;
+
+    disk_write(1, file_loc, (uintptr_t) disk_read_buffer);
+
+    free((int) disk_read_buffer);
+
+    free((int) block_buffer);
+
+}
 
 uintptr_t read_file(short file_loc) {
 
@@ -168,7 +234,7 @@ enum bool file_system_test() {
 
     char* str1 = "aws";
 
-    write_to_file(loc, (uintptr_t) str1, 4);
+    write_to_file_pointer(loc, (uintptr_t) str1, 4);
     
     char* buffer = (char*) read_file(loc);
 

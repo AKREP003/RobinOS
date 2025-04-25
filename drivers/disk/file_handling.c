@@ -3,6 +3,20 @@
 
 short base_file_location = 0;
 
+struct file_data {
+
+   char* name;
+
+   short disc_loc;
+
+   uintptr_t buffer;
+
+   char* tree_loc;
+
+   enum bool lock;
+
+};
+
 struct ll* parse_folder(char* data){
 
    return split_string(data, '+');
@@ -67,7 +81,7 @@ void file_system_init() {
 
    char* str = "base";
 
-   write_to_file(base_file_location, (uintptr_t) str, 5);
+   write_to_file_pointer(base_file_location, (uintptr_t) str, 5);
 
    print_inline("file system initialised");   
    

@@ -28,7 +28,7 @@ uintptr_t get_element_val(struct ll* node);
 void free_ll(struct ll* carrier);
 uintptr_t get_nth_element(struct ll* carrier, short index);
 void print_ll(struct ll* carrier);
-void write_to_file(short file_loc, uintptr_t data, short size);
+void write_to_file_pointer(short file_loc, uintptr_t data, short size);
 short max(short a, short b);
 short min(short a, short b);
 uintptr_t read_file(short file_loc);
