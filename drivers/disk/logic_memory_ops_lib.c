@@ -30,7 +30,7 @@ void disk_read(short size, short disk_addr, uintptr_t mem_addr) {
 
     read(((short*) buffer)[3], ((short*) buffer)[0], ((short*) buffer)[1], ((short*) buffer)[2], mem_addr);
 
-    
+    free(buffer);
 
     
     
@@ -75,7 +75,7 @@ void long_disk_read(short size, short disk_addr, short mem_addr) {
     read_long(dap_segment, dap_offset);
 
     // Free the buffer
-    free((int) dap);
+    free((uintptr_t) dap);
 }
 
 
@@ -85,8 +85,7 @@ void disk_write(short size, short disk_addr, uintptr_t mem_addr) {
 
     write(((short*) buffer)[3], ((short*) buffer)[0], ((short*) buffer)[1], ((short*) buffer)[2], mem_addr);
 
-    
-    
+    free(buffer);
     
 }
 
@@ -127,6 +126,11 @@ enum bool disk_test() {
     enum bool test4 = !string_eq(buffer, buffer3);
 
     enum bool test5 = string_eq(test_str3, buffer3);
+
+    free((uintptr_t) buffer);
+    free((uintptr_t) buffer2);
+    free((uintptr_t) buffer3);
+
 
     return test1 && test2 && test3 && test4 && test5;
 

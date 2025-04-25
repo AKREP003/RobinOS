@@ -25,8 +25,6 @@ void test_em_all() {
 
     print_string("alloc succ\r\n");
 
-    wait_sec(1);
-
     if (!disk_test())  {print_string("disk failed");return;} 
 
     print_string("disk succ\r\n");

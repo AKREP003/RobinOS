@@ -19,7 +19,7 @@ void set_heap_mode(short mode);
 void cpy(uintptr_t  base, uintptr_t  copied, short size);
 char* itoa(short value, char* result, short base);
 short str_size(char* str);
-void create_file(char* name, char* location);
+struct file_data* create_file(char* location);
 void file_system_init();
 struct ll* new_ll(short size);
 void set_element_val(struct ll* carrier, uintptr_t element);
@@ -48,6 +48,7 @@ void get_current_time();
 void wait_sec( short seconds);
 short get_nth_fibo(short n);
 void wake_up();
+char* allocate_str(char* str);
 
 
 enum bool file_system_test();

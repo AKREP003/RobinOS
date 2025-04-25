@@ -26,7 +26,7 @@ void write_disk_block(short disk_loc) {
 
     disk_write(1, disk_loc, (uintptr_t) block);
 
-    
+    free((uintptr_t) block);    
 
 
 
@@ -45,15 +45,13 @@ short write_file_header( char* file_name) {
 
     disk_write(1, free_slot, (uintptr_t) buffer);
 
-    struct file_header* buffer2 = (struct file_header*) alloc(BLOCK_SIZE);
-
-    disk_read(1, free_slot, (uintptr_t) buffer2);
-
     free_slot++;
     
     write_disk_block(free_slot);
 
     free_slot++;
+
+    free((uintptr_t) buffer);
 
     
     return slot_buffer;
@@ -131,10 +129,11 @@ void write_to_file_pointer(short file_loc, uintptr_t data, short size) {
 
     disk_write(1, file_loc, (uintptr_t) disk_read_buffer);
 
-    free((int) disk_read_buffer);
+    free((uintptr_t) disk_read_buffer);
 
-    free((int) block_buffer);
+    free((uintptr_t) block_buffer);
 
+    
 }
 
 void write_to_file(short file_loc, uintptr_t data, short size) {
@@ -183,9 +182,9 @@ void write_to_file(short file_loc, uintptr_t data, short size) {
 
     disk_write(1, file_loc, (uintptr_t) disk_read_buffer);
 
-    free((int) disk_read_buffer);
+    free((uintptr_t) disk_read_buffer);
 
-    free((int) block_buffer);
+    free((uintptr_t) block_buffer);
 
 }
 
@@ -193,19 +192,21 @@ uintptr_t read_file(short file_loc) {
 
     struct file_header* disk_read_buffer = (struct file_header*) alloc(BLOCK_SIZE);
 
-    wake_up();
+    disk_read(1, file_loc, (uintptr_t) disk_read_buffer);
 
-    disk_read(1, file_loc, (int) disk_read_buffer);
-
-    wake_up();
+    
 
     short size_buffer = disk_read_buffer -> size;
 
     uintptr_t data_buffer = (uintptr_t) alloc(disk_read_buffer -> size);
 
+    
+
+    
+
     struct disk_block* block_buffer = (struct disk_block*) alloc(BLOCK_SIZE);
 
-    disk_read(1, disk_read_buffer -> head_block, (int) block_buffer);
+    disk_read(1, disk_read_buffer -> head_block, (uintptr_t) block_buffer);
 
     while(1) {
 
@@ -217,12 +218,16 @@ uintptr_t read_file(short file_loc) {
 
         if (size_buffer <= 0 || block_buffer -> next == 0) {break;}
 
-        disk_read(1, block_buffer -> next, (int) block_buffer);
+        disk_read(1, block_buffer -> next, (uintptr_t) block_buffer);
 
 
     };
 
-    free((int) block_buffer);
+    free((uintptr_t) block_buffer);
+
+    free((uintptr_t) disk_read_buffer);
+
+    
 
     return data_buffer;
 
@@ -234,9 +239,11 @@ enum bool file_system_test() {
 
     char* str1 = "aws";
 
-    write_to_file_pointer(loc, (uintptr_t) str1, 4);
-    
+    write_to_file(loc, (uintptr_t) str1, 4);
+
     char* buffer = (char*) read_file(loc);
+    
+    
 
     enum bool test1 = string_eq(buffer, str1);
 
@@ -251,6 +258,10 @@ enum bool file_system_test() {
     enum bool test2 = string_eq(buffer2, str2);
 
     enum bool test3 = !string_eq(buffer2, buffer);
+
+    free((uintptr_t) buffer);
+
+    free((uintptr_t) buffer2);
 
     return test1 && test2 && test3;
 }

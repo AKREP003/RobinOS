@@ -17,10 +17,10 @@ void print_inline(char* a){
 
     print_string(buffer);
 
-    //free((int) buffer);
+    free((uintptr_t) buffer);
 
 }
 
 void wake_up() {
-    print_char('\r');
+
 }

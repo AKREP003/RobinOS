@@ -143,7 +143,7 @@ void free_ll(struct ll* carrier) {
 
         next = carrier->next;  
 
-        free((int) carrier);         
+        free((uintptr_t) carrier);         
 
         carrier = next;        
     }
@@ -299,6 +299,8 @@ void print_integer(short number) {
 
     print_inline(itoa(number, res, 10));
 
+    free((uintptr_t) res);
+
 }
 
 enum bool std_test() {
@@ -306,5 +308,15 @@ enum bool std_test() {
     enum bool str_eq_test =  string_eq("www", "www") && !(string_eq("www", "eee"));
 
     return str_eq_test;
+
+}
+
+char* allocate_str(char* str) {
+
+    uintptr_t buffer = alloc(str_size(str) + 1);
+
+    cpy(buffer, (uintptr_t) str, str_size(str) + 1);
+
+    return (char*) buffer;
 
 }
