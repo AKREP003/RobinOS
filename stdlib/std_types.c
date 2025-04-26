@@ -83,11 +83,9 @@ short str_size(char* str) {
 }
 
 
-struct ll* new_ll(short size) {
+struct ll* new_ll() {
 
-    struct ll* buffer = (struct ll*)  alloc(sizeof(struct ll) + size);
-
-    buffer -> element_size = size; 
+    struct ll* buffer = (struct ll*)  alloc(sizeof(struct ll));
 
     buffer->next = 0;
     buffer->prev = 0;
@@ -98,7 +96,7 @@ struct ll* new_ll(short size) {
 
 void set_element_val(struct ll* carrier, uintptr_t element) {
 
-    cpy((uintptr_t)((char*)carrier + sizeof(struct ll)), element, carrier->element_size);
+    carrier -> val = element;
 
 
 }; 
@@ -111,39 +109,35 @@ void push(struct ll* carrier, uintptr_t element) {
 
     while((carrier_buffer -> next) != 0) {
         
-        carrier_buffer = carrier_buffer -> next;
+        carrier_buffer = (struct ll*) carrier_buffer -> next;
         
     }
 
-    
+    uintptr_t buffer = alloc(sizeof(struct ll));
 
-    struct ll* buffer = (struct ll*) alloc(sizeof(struct ll) + (carrier_buffer -> element_size));
+    ((struct ll*) buffer) -> prev = PTR carrier_buffer;
 
-    buffer -> element_size = carrier_buffer -> element_size;
-
-    buffer -> prev = carrier_buffer;
-
-    buffer -> next = 0;
+    ((struct ll*) buffer) -> next = PTR 0;
 
     carrier_buffer -> next = buffer;
     
-    set_element_val(buffer, element);
+    set_element_val(((struct ll*) buffer), element);
     
     
 }
 
 uintptr_t get_element_val(struct ll* node) {
-    return (uintptr_t)((char*)node + sizeof(struct ll));
+    return node -> val;
 }
 
-void free_ll(struct ll* carrier) {
-    struct ll* next;
+void free_ll(uintptr_t carrier) {
+    uintptr_t next = PTR 0;
 
     while (carrier != 0) {
 
-        next = carrier->next;  
+        next = ((struct ll*) carrier)->next;  
 
-        free((uintptr_t) carrier);         
+        free( carrier);         
 
         carrier = next;        
     }
@@ -161,7 +155,7 @@ uintptr_t get_nth_element(struct ll* carrier, short index) {
             return 0; // or some error signal
         }
 
-        carrier_buffer = carrier_buffer -> next;
+        carrier_buffer = (struct ll*) carrier_buffer -> next;
 
     }
 
@@ -176,7 +170,7 @@ void for_each(struct ll* carrier, void (*f)(uintptr_t)) {
 
     while (current != 0) {
         f(get_element_val(current));
-        current = current->next;
+        current = (struct ll*) current->next;
     }
 }
 
@@ -188,7 +182,7 @@ void print_ll(struct ll* carrier) {
 
         print_string((char*) get_element_val(carrier_buffer));
 
-        carrier_buffer = carrier_buffer -> next;
+        carrier_buffer = (struct ll*) carrier_buffer -> next;
 
     } ;
 
@@ -204,7 +198,7 @@ short get_str_ll_size(struct ll* carrier) {
 
         buffer += str_size((char*) get_element_val(carrier_buffer)) ;
 
-        carrier_buffer = carrier_buffer -> next;
+        carrier_buffer = (struct ll*) carrier_buffer -> next;
 
     } ;
 
@@ -242,11 +236,11 @@ short min(short a, short b) {
 
 struct ll* split_string(char* strin, char element) {
 
-    struct ll* linked_buffer = new_ll(sizeof(char*));
+    struct ll* linked_buffer = new_ll(sizeof(uintptr_t));
 
     short size = str_size(strin) + 1;
 
-    char* sub_unit = (char*) alloc(sizeof(char) * 64);
+    uintptr_t sub_unit = (uintptr_t) alloc(sizeof(char) * 64);
     
     short sub_index = 0;
 
@@ -258,13 +252,17 @@ struct ll* split_string(char* strin, char element) {
 
         if (strin[i] == element || sub_index >= 63 || i == (size - 1)) {
             
-            sub_unit[sub_index] = '\0'; 
+            
+
+            ( (char*) sub_unit)[sub_index] = '\0'; 
             
             
 
             if (first_flag) {
+                
+                
+                set_element_val(linked_buffer, sub_unit);
 
-                set_element_val(linked_buffer, (uintptr_t) sub_unit);
 
                 first_flag = false;
 
@@ -280,12 +278,12 @@ struct ll* split_string(char* strin, char element) {
 
             sub_index = 0;
 
-            sub_unit = (char*) alloc(sizeof(char) * 64);
+            sub_unit =  alloc(sizeof(char) * 64);
 
             continue;
         }
         
-        sub_unit[sub_index] = strin[i];
+        ( (char*) sub_unit)[sub_index] = strin[i];
 
         sub_index++;
 
@@ -309,7 +307,16 @@ enum bool std_test() {
 
     enum bool str_eq_test =  string_eq("www", "www") && !(string_eq("www", "eee"));
 
-    return str_eq_test;
+    char* str = "aaaaa:bbbbb:cccc";
+
+    
+    struct ll* split = split_string(str, ':');
+
+    enum bool split_test1 = string_eq(STR get_nth_element(split, 0), "aaaaa");
+
+    enum bool split_test2 = string_eq(STR get_nth_element(split, 1), "bbbbb");
+
+    return str_eq_test && split_test1 && split_test2;
 
 }
 

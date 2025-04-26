@@ -21,11 +21,11 @@ char* itoa(short value, char* result, short base);
 short str_size(char* str);
 struct file_cache* create_file_cache(char* location);
 void file_system_init();
-struct ll* new_ll(short size);
+struct ll* new_ll();
 void set_element_val(struct ll* carrier, uintptr_t element);
 void push(struct ll* carrier, uintptr_t element);
 uintptr_t get_element_val(struct ll* node);
-void free_ll(struct ll* carrier);
+void free_ll(uintptr_t carrier);
 uintptr_t get_nth_element(struct ll* carrier, short index);
 void print_ll(struct ll* carrier);
 void write_to_file_pointer(short file_loc, uintptr_t data, short size);
@@ -61,11 +61,11 @@ enum bool file_handling_test();
 
 struct ll {
 
-    short element_size;
+    uintptr_t val;
 
-    struct ll * next;
+    uintptr_t next;
 
-    struct ll * prev;
+    uintptr_t prev;
 
 
 

@@ -22,5 +22,5 @@ void print_inline(char* a){
 }
 
 void wake_up() {
-
+    print_char('\r');
 }

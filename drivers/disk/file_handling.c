@@ -44,7 +44,7 @@ short get_entry(struct ll* fold, char* key) {
 
       }
 
-      carrier_buffer = carrier_buffer -> next;
+      carrier_buffer = (struct ll*) carrier_buffer -> next;
 
     } ;
 
@@ -60,11 +60,13 @@ short parse_file_path(char* path) {
 
    struct ll* folder_location = split_string(path, '>');
 
-   
+   short index = 0;
 
    char* base_file = (char*) read_file(base_file_location);
 
-   
+   //short fold_loc = get_entry(parse_folder(base_file), STR get_element_val(folder_location));
+
+   print_string(path);
    
    return 0;
 
@@ -129,21 +131,24 @@ struct file_cache* create_file_cache(char* location) {
    
    
 
-   struct ll* path_data = split_string(location, ':');
+   struct ll* path_data = split_string("folder>w:test", ':');
 
-   
+   char* parent_path = (char*) get_element_val(path_data);
+
+   print_string(parent_path);
+
+   short parent_folder_loc = parse_file_path(parent_path);
 
    char* name = (char*) get_nth_element(path_data, 1);
 
-   
 
-   char* parent_path = (char*) get_nth_element(path_data, 0);
+   
 
    short disc_loc = write_file_header(name);
 
    
    
-   short parent_folder_loc = parse_file_path(parent_path);
+   
 
    
 
@@ -175,9 +180,9 @@ void file_system_init() {
    
    base_file_location = disc_loc;
 
-   char* str = "base";
+   char* str = "testfolder=70";
 
-   write_to_file_pointer(base_file_location, (uintptr_t) str, 5);
+   write_to_file(base_file_location, (uintptr_t) str, str_size(str) + 1);
 
    
    
@@ -187,7 +192,7 @@ enum bool file_handling_test() {
 
    char* str = "ads";
 
-   struct file_cache* test = create_file_cache("base>test_folder:test");
+   struct file_cache* test = create_file_cache("testfolder>w:test");
 
    free(test -> buffer);
    

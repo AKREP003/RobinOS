@@ -63,7 +63,7 @@ uintptr_t alloc(short size) {
         short next_end = ((uintptr_t) ((p_memblock) buffer)->next) + (((p_memblock) ((p_memblock) buffer) -> next) -> size);
 
         
-        if ( (buffer - next_end ) >= alloc_size && buffer != 30000) {
+        if (false){ //( (buffer - next_end ) >= alloc_size && buffer != 30000) {
             
 
 
