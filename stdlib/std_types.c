@@ -254,6 +254,8 @@ struct ll* split_string(char* strin, char element) {
 
     for (short i = 0; i < size; i++) {
 
+        
+
         if (strin[i] == element || sub_index >= 63 || i == (size - 1)) {
             
             sub_unit[sub_index] = '\0'; 
