@@ -235,8 +235,8 @@ short min(short a, short b) {
 
 
 struct ll* split_string(char* strin, char element) {
-
-    struct ll* linked_buffer = new_ll(sizeof(uintptr_t));
+    
+    struct ll* linked_buffer = new_ll();
 
     short size = str_size(strin) + 1;
 
@@ -255,7 +255,6 @@ struct ll* split_string(char* strin, char element) {
             
 
             ( (char*) sub_unit)[sub_index] = '\0'; 
-            
             
 
             if (first_flag) {
@@ -284,6 +283,8 @@ struct ll* split_string(char* strin, char element) {
         }
         
         ( (char*) sub_unit)[sub_index] = strin[i];
+
+        
 
         sub_index++;
 

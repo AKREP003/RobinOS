@@ -45,7 +45,7 @@ uintptr_t alloc(short size) {
         
         if (((p_memblock) buffer)->next ==  (uintptr_t) 0) {
 
-            uintptr_t alloc_addr = (uintptr_t) (buffer - alloc_size);
+            uintptr_t alloc_addr = (uintptr_t) (buffer - alloc_size - 5);
 
             ((p_memblock) buffer) -> next = alloc_addr;
             
