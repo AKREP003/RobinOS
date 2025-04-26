@@ -223,6 +223,8 @@ uintptr_t read_file(short file_loc) {
 
     };
 
+    
+
     free((uintptr_t) block_buffer);
 
     free((uintptr_t) disk_read_buffer);

@@ -37,8 +37,12 @@ void test_em_all() {
 
     print_inline("file system initialised");   
 
+    wait_sec(1);
+
     if (!file_handling_test())  {print_string("file handling failed");return;} 
 
     print_string("file handling succ\r\n");
+
+    wait_sec(10);
 
 }

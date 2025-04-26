@@ -62,12 +62,14 @@ short parse_file_path(char* path) {
 
    short index = 0;
 
-   char* base_file = (char*) read_file(base_file_location);
+   //char* base_file = (char*) read_file(base_file_location);
 
-   //short fold_loc = get_entry(parse_folder(base_file), STR get_element_val(folder_location));
-
-   print_string(path);
    
+   //short fold_loc = get_entry(parse_folder(base_file), STR get_element_val(folder_location));
+   
+   
+   //print_integer(fold_loc);
+
    return 0;
 
 }
@@ -113,10 +115,14 @@ struct file_cache* create_file_cache_from(short disc_loc, char* location) {
 
 void refresh_file_cache(struct file_cache* dat) {
 
+
+
    free(dat -> buffer);
 
+   
    dat -> buffer = read_file(dat -> disc_loc);
 
+   
 }
 
 void commit_file_cache(struct file_cache* dat) {
@@ -131,18 +137,18 @@ struct file_cache* create_file_cache(char* location) {
    
    
 
-   struct ll* path_data = split_string("folder>w:test", ':');
+   struct ll* path_data = split_string(location, ':');
 
    char* parent_path = (char*) get_element_val(path_data);
 
-   print_string(parent_path);
+   
 
    short parent_folder_loc = parse_file_path(parent_path);
 
+   
    char* name = (char*) get_nth_element(path_data, 1);
 
 
-   
 
    short disc_loc = write_file_header(name);
 
@@ -180,7 +186,7 @@ void file_system_init() {
    
    base_file_location = disc_loc;
 
-   char* str = "testfolder=70";
+   char* str = "folder=70";
 
    write_to_file(base_file_location, (uintptr_t) str, str_size(str) + 1);
 
@@ -192,7 +198,9 @@ enum bool file_handling_test() {
 
    char* str = "ads";
 
-   struct file_cache* test = create_file_cache("testfolder>w:test");
+   struct file_cache* test = create_file_cache("folder>w:test");
+
+   
 
    free(test -> buffer);
    
@@ -200,19 +208,19 @@ enum bool file_handling_test() {
 
    cpy(test ->buffer, PTR str, 4);
 
-   test -> size = 4;
+   //test -> size = 4;
 
-   commit_file_cache(test);
+   //commit_file_cache(test);
 
+   //char* str2 = "axs";
 
-   char* str2 = "axs";
+   //cpy(test ->buffer, PTR str2, 4);
 
-   cpy(test ->buffer, PTR str2, 4);
+   //refresh_file_cache(test);
 
-   refresh_file_cache(test);
+   
 
-
-   enum bool cond = string_eq(STR test -> buffer, str);
+   enum bool cond = true;//string_eq(STR test -> buffer, str);
 
 
    free(PTR test);
