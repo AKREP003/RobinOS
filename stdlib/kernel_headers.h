@@ -93,3 +93,4 @@ extern  short SEC;
 
 #define PTR (uintptr_t)
 #define STR (char*)
+#define LL (struct ll*)

@@ -64,16 +64,31 @@ short parse_file_path(char* path) {
 
    short index = 0;
 
-   char* base_file = (char*) read_file(base_file_location);
+   short parental_loc = base_file_location;
 
-   uintptr_t a = get_nth_element(parse_folder(base_file), 0);
-   
-   short fold_loc = get_entry(parse_folder(base_file), STR get_element_val(folder_location));
-   
-   
-   print_integer(fold_loc);
+   while (true) {
 
-   return 0;
+      char* base_file = STR read_file(parental_loc);
+
+      struct ll* parsed = parse_folder(base_file);
+
+      short fold_loc = get_entry(parsed, STR get_element_val(folder_location));
+
+      if (folder_location -> next == 0) {
+
+         return fold_loc;
+
+      }
+
+      free(PTR base_file);
+
+      free_ll(PTR parsed);
+
+      parental_loc = fold_loc;
+
+      folder_location = LL folder_location -> next;
+
+   }
 
 }
 
@@ -158,7 +173,7 @@ void add_folder_entry(short fold_loc, short file_loc, char* name) {
    cpy(PTR (entry_buffer + str_size(name) + 2), PTR file_loc_str, str_size(file_loc_str));
 
    entry_buffer[str_size(name) + str_size(file_loc_str) + 2] = (char) 0;
-   
+
    uintptr_t new_buffer = alloc(size + str_size(entry_buffer) + 1);
 
    cpy(new_buffer, PTR contents, size);
@@ -242,8 +257,6 @@ enum bool file_handling_test() {
 
    struct file_cache* test = create_file_cache(":god");
 
-   
-
    free(test -> buffer);
    
    test ->buffer = alloc(20);
@@ -258,18 +271,20 @@ enum bool file_handling_test() {
 
    cpy(test ->buffer, PTR str2, 4);
 
-   refresh_file_cache(test);
-
-   
+   refresh_file_cache(test);  
 
    enum bool cond = string_eq(STR test -> buffer, str);
 
 
+   struct file_cache* test2 = create_file_cache("god:son");
+
+   print_inline(STR read_file( test2 ->parent_loc ));
+
    free(PTR test);
 
-   print_inline(STR read_file(base_file_location));
+   free(PTR test2);
 
-   
+
    return cond;
 
 }
