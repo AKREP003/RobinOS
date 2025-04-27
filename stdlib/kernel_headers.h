@@ -34,7 +34,7 @@ short min(short a, short b);
 uintptr_t read_file(short file_loc);
 struct ll* split_string(char* strin, char element);
 struct ll* parse_folder(char* data);
-short get_str_ll_size(struct ll* carrier);
+short get_ll_size(struct ll* carrier);
 short get_entry(struct ll* fold, char* key);
 enum bool string_eq(char* x, char* y);
 short atoi(const char* str);
@@ -56,6 +56,7 @@ void refresh_file_cache(struct file_cache* dat);
 void write_to_cache(char* text, struct file_cache* cache);
 void start_video_mode();
 void read_key();
+void wait_tick( short ticks);
 
 enum bool file_system_test();
 enum bool disk_test();
@@ -112,6 +113,9 @@ struct file_cache {
 extern  short HOUR;
 extern  short MIN;
 extern  short SEC;
+extern  short TICKS_HIGH;
+extern  short TICKS_LOW;
+
 
 extern  char KEY_READ;
 

@@ -188,7 +188,7 @@ void print_ll(struct ll* carrier) {
 
 }
 
-short get_str_ll_size(struct ll* carrier) {
+short get_ll_size(struct ll* carrier) {
 
     short buffer = 0;
 
@@ -196,7 +196,7 @@ short get_str_ll_size(struct ll* carrier) {
 
     while ((carrier_buffer) != 0) {
 
-        buffer += str_size((char*) get_element_val(carrier_buffer)) ;
+        buffer += 1;
 
         carrier_buffer = (struct ll*) carrier_buffer -> next;
 

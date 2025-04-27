@@ -20,6 +20,24 @@ void wait_sec( short seconds) {
 
 }
 
+void wait_tick( short ticks) {
+
+    get_current_time();
+
+    short current_ticks = TICKS_LOW;
+
+    while (1) {
+
+        get_current_time();
+
+        print_char('\r');
+
+        if ((TICKS_LOW - current_ticks) >= ticks) {break;}
+
+    }
+
+}
+
 short get_nth_fibo(short n) {
 
     short x1 = 1;
