@@ -51,6 +51,9 @@ void wake_up();
 uintptr_t allocate_str(char* str);
 void write_to_file(short file_loc, uintptr_t data, short size);
 struct file_header* read_file_header(short loc);
+void commit_file_cache(struct file_cache* dat);
+void refresh_file_cache(struct file_cache* dat);
+void write_to_cache(char* text, struct file_cache* cache);
 
 
 enum bool file_system_test();
@@ -85,6 +88,25 @@ struct file_header {
 
 
 };
+
+struct file_cache {
+
+    char* name;
+ 
+    short disc_loc;
+ 
+    short parent_loc;
+ 
+    uintptr_t buffer;
+ 
+    char* tree_loc;
+ 
+    short size;
+ 
+    enum bool lock;
+ 
+ };
+ 
 
 extern  short HOUR;
 extern  short MIN;

@@ -3,23 +3,6 @@
 
 short base_file_location = 0;
 
-struct file_cache {
-
-   char* name;
-
-   short disc_loc;
-
-   short parent_loc;
-
-   uintptr_t buffer;
-
-   char* tree_loc;
-
-   short size;
-
-   enum bool lock;
-
-};
 
 
 struct ll* parse_folder(char* data){
@@ -200,14 +183,9 @@ struct file_cache* create_file_cache(char* location) {
 
    char* parent_path = (char*) get_element_val(path_data);
 
-   
-
    short parent_folder_loc = parse_file_path(parent_path);
 
-   
    char* name = (char*) get_nth_element(path_data, 1);
-
-
 
    short disc_loc = write_file_header(name);
 
@@ -249,7 +227,23 @@ void file_system_init() {
    
 }
 
+void write_to_cache(char* text, struct file_cache* cache) {
 
+   short size = str_size(text) + 1;
+
+    uintptr_t secret_buffer = alloc(size);
+
+    cpy(secret_buffer, PTR text, size);
+    
+    cache -> buffer = secret_buffer;
+
+    cache -> size = size;
+
+    commit_file_cache(cache);
+
+    free(secret_buffer);
+
+}
 
 enum bool file_handling_test() {
 
@@ -275,15 +269,7 @@ enum bool file_handling_test() {
 
    enum bool cond = string_eq(STR test -> buffer, str);
 
-
-   struct file_cache* test2 = create_file_cache("god:son");
-
-   print_inline(STR read_file( test2 ->parent_loc ));
-
    free(PTR test);
-
-   free(PTR test2);
-
 
    return cond;
 
