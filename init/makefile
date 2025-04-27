@@ -2,6 +2,7 @@
 drivers = ../drivers/tty/tty_driver.o ../drivers/tty/tty_logic.o ../drivers/disk/bios_memory_ops.o ../drivers/disk/disk.o ../drivers/disk/file_system.o ../drivers/disk/file_handling.o ../drivers/memory/mem_manage.o ../drivers/timing/timer.o ../drivers/timing/timer_logic.o 
 stdlib = ../stdlib/std_types.o
 test = ../test/test.o
+vda = ../drivers/VDA_text/vda_text_ops.o
 
 CC=gcc
 AS=nasm
@@ -11,9 +12,9 @@ ASFLAGS=-f elf
 LDFLAGS=-m elf_i386 -T linker.ld
 TARGET=os.flp
 
-kernel.bin: kernel.o $(stdlib) $(drivers) $(test) main.o
+kernel.bin: kernel.o $(stdlib) $(drivers) $(vda) $(test) main.o
 	
-	$(LD) $(LDFLAGS) -e _start kernel.o $(stdlib) $(drivers) $(test) main.o -o kernel.bin
+	$(LD) $(LDFLAGS) -e _start kernel.o $(stdlib) $(drivers) $(vda) $(test) main.o -o kernel.bin
 
 main.o: main.c
 	$(CC) $(CFLAGS) -fno-stack-protector main.c -o main.o
@@ -25,7 +26,7 @@ kernel.o: kernel.asm
 $(stdlib) :
 	$(MAKE) -C ../stdlib
 
-$(drivers) :
+$(drivers) $(vda):
 	$(MAKE) -C ../drivers mk_drivers
 
 $(test) :

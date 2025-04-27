@@ -54,6 +54,7 @@ struct file_header* read_file_header(short loc);
 void commit_file_cache(struct file_cache* dat);
 void refresh_file_cache(struct file_cache* dat);
 void write_to_cache(char* text, struct file_cache* cache);
+void start_video_mode();
 
 
 enum bool file_system_test();

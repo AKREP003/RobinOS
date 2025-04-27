@@ -8,6 +8,8 @@ mk_drivers:
 
 	$(MAKE) -C timing
 
+	$(MAKE) -C VDA_text
+
 clean:
 	rm -f *.o *.bin $(TARGET)
 
@@ -15,3 +17,4 @@ clean:
 	$(MAKE) -C disk clean
 	$(MAKE) -C memory clean
 	$(MAKE) -C timing clean
+	$(MAKE) -C VDA_text clean
