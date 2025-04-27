@@ -21,26 +21,9 @@ void aaa() {
 
     test_em_all();
     
+    print_inline("");
     
-    while (true)
-    {
-        short x = get_nth_fibo(4000);
-
-        read_key();
-        
-        
-
-        if (KEY_READ == 0) {
-            continue;
-        }
-
-        
-
-        print_char(KEY_READ);
-        
-        x = get_nth_fibo(4000);
-
-    }
+    console_init();
     
 
 }

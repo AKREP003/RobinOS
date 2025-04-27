@@ -57,6 +57,8 @@ void write_to_cache(char* text, struct file_cache* cache);
 void start_video_mode();
 void read_key();
 void wait_tick( short ticks);
+void console_init();
+
 
 enum bool file_system_test();
 enum bool disk_test();
