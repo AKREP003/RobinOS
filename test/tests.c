@@ -5,7 +5,7 @@ void print_test() {
     //print_integer(69);
     //prtint_char('Q');
     
-    //print_inline("test");
+    print_inline("Tests initiate:");
     
 }
 

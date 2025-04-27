@@ -55,7 +55,7 @@ void commit_file_cache(struct file_cache* dat);
 void refresh_file_cache(struct file_cache* dat);
 void write_to_cache(char* text, struct file_cache* cache);
 void start_video_mode();
-
+void read_key();
 
 enum bool file_system_test();
 enum bool disk_test();
@@ -113,6 +113,7 @@ extern  short HOUR;
 extern  short MIN;
 extern  short SEC;
 
+extern  char KEY_READ;
 
 #define PTR (uintptr_t)
 #define STR (char*)

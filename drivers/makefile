@@ -10,6 +10,8 @@ mk_drivers:
 
 	$(MAKE) -C VDA_text
 
+	$(MAKE) -C keyboard
+
 clean:
 	rm -f *.o *.bin $(TARGET)
 
@@ -18,3 +20,4 @@ clean:
 	$(MAKE) -C memory clean
 	$(MAKE) -C timing clean
 	$(MAKE) -C VDA_text clean
+	$(MAKE) -C keyboard clean

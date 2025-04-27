@@ -3,6 +3,7 @@ drivers = ../drivers/tty/tty_driver.o ../drivers/tty/tty_logic.o ../drivers/disk
 stdlib = ../stdlib/std_types.o
 test = ../test/test.o
 vda = ../drivers/VDA_text/vda_text_ops.o
+keyboard = ../drivers/keyboard/keyboard_ops.o
 
 CC=gcc
 AS=nasm
@@ -12,9 +13,9 @@ ASFLAGS=-f elf
 LDFLAGS=-m elf_i386 -T linker.ld
 TARGET=os.flp
 
-kernel.bin: kernel.o $(stdlib) $(drivers) $(vda) $(test) main.o
+kernel.bin: kernel.o $(stdlib) $(drivers) $(vda) $(keyboard) $(test) main.o
 	
-	$(LD) $(LDFLAGS) -e _start kernel.o $(stdlib) $(drivers) $(vda) $(test) main.o -o kernel.bin
+	$(LD) $(LDFLAGS) -e _start kernel.o $(stdlib) $(drivers) $(vda) $(keyboard) $(test) main.o -o kernel.bin
 
 main.o: main.c
 	$(CC) $(CFLAGS) -fno-stack-protector main.c -o main.o
@@ -26,7 +27,7 @@ kernel.o: kernel.asm
 $(stdlib) :
 	$(MAKE) -C ../stdlib
 
-$(drivers) $(vda):
+$(drivers) $(vda) $(keyboard):
 	$(MAKE) -C ../drivers mk_drivers
 
 $(test) :
