@@ -181,11 +181,29 @@ struct file_cache* create_file_cache(char* location) {
 
    struct ll* path_data = split_string(location, ':');
 
-   char* parent_path = (char*) get_element_val(path_data);
+   char* parent_path;
 
-   short parent_folder_loc = parse_file_path(parent_path);
+   short parent_folder_loc;
 
-   char* name = (char*) get_nth_element(path_data, 1);
+   char* name;
+
+   if (get_ll_size(path_data) > 1) {
+
+      parent_path = (char*) get_element_val(path_data);
+
+      parent_folder_loc = parse_file_path(parent_path);
+
+      name = (char*) get_nth_element(path_data, 1);
+
+   } else {
+
+      parent_path = "";
+
+      parent_folder_loc = parse_file_path(parent_path);
+
+      name = (char*) get_nth_element(path_data, 0);
+
+   }
 
    short disc_loc = write_file_header(name);
 

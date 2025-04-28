@@ -255,24 +255,26 @@ struct ll* split_string(char* strin, char element) {
             
 
             ( (char*) sub_unit)[sub_index] = '\0'; 
-            
 
-            if (first_flag) {
-                
-                
-                set_element_val(linked_buffer, sub_unit);
+            if (str_size( STR sub_unit) > 0) {
 
-
-                first_flag = false;
-
-            } else {    
-                
-                push(linked_buffer, (uintptr_t) sub_unit);
+                if (first_flag) {
                 
                 
+                    set_element_val(linked_buffer, sub_unit);
+    
+    
+                    first_flag = false;
+    
+                } else {    
+                    
+                    push(linked_buffer, (uintptr_t) sub_unit);
+                    
+                    
+    
+                }
 
             }
-
                  
 
             sub_index = 0;
