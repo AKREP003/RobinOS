@@ -285,6 +285,8 @@ enum bool file_handling_test() {
 
    refresh_file_cache(test);  
 
+   print_string(STR test -> buffer);
+
    enum bool cond = string_eq(STR test -> buffer, str);
 
    free(PTR test);

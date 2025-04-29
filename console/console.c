@@ -16,6 +16,7 @@ struct ll* split_args(char* promopt) {
 }
 
 void print_pointer(uintptr_t ptr) {print_string(STR ptr); print_string(" ");}
+void print_pointer_ln(uintptr_t ptr) {print_inline(STR ptr); print_inline("");}
 
 void digest_console_prompt(struct ll* prompt) {
 
@@ -31,6 +32,45 @@ void digest_console_prompt(struct ll* prompt) {
 
     }
 
+    if (string_eq(primer, "lf")) {
+        
+        print_inline("");
+
+        char* r = STR read_file(parse_file_path(""));
+
+        print_integer(str_size(r));
+
+        struct ll* base = parse_folder(r);
+
+        for_each(base, print_pointer_ln);
+
+        free(PTR base);
+
+        print_inline("");
+
+    }
+
+    if (string_eq(primer, "rd")) {
+        
+        print_inline("");
+
+        short r = parse_file_path(STR get_nth_element(prompt, 1));
+
+        
+        if (r != 0) {
+
+            print_inline(STR read_file(r));
+
+        }
+
+        
+
+        print_inline("");
+
+    }
+
+    free(PTR prompt);
+
 }
 
 void console_init() {
@@ -40,6 +80,8 @@ void console_init() {
     print_inline("Console init:");
 
     print_inline("");
+
+    print_string("-> ");
 
     while (true)
     {
@@ -60,6 +102,8 @@ void console_init() {
             print_inline("");
 
             digest_console_prompt(split_args(entry_buffer));
+
+            print_string("-> ");
 
             index = 0;
 

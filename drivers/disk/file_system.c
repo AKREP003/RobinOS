@@ -198,9 +198,7 @@ uintptr_t read_file(short file_loc) {
 
     short size_buffer = disk_read_buffer -> size;
 
-    uintptr_t data_buffer = (uintptr_t) alloc(disk_read_buffer -> size);
-
-    
+    uintptr_t data_buffer = (uintptr_t) alloc(disk_read_buffer -> size + 5);
 
     
 
@@ -223,7 +221,9 @@ uintptr_t read_file(short file_loc) {
 
     };
 
-    
+
+
+    (STR disk_read_buffer)[disk_read_buffer -> size] = (char) 0;
 
     free((uintptr_t) block_buffer);
 

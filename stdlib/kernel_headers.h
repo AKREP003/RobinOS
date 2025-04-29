@@ -58,6 +58,8 @@ void start_video_mode();
 void read_key();
 void wait_tick( short ticks);
 void console_init();
+short parse_file_path(char* path);
+struct ll* parse_folder(char* data);
 
 
 enum bool file_system_test();
