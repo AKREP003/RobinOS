@@ -9,8 +9,6 @@ struct ll* split_args(char* promopt) {
 
     struct ll* buffer_ll = split_string(promopt, ' ');
 
-
-
     return buffer_ll;
 
 }
@@ -36,15 +34,9 @@ void digest_console_prompt(struct ll* prompt) {
         
         print_inline("");
 
-        char* r = STR read_file(parse_file_path(""));
+        
 
-        print_integer(str_size(r));
-
-        struct ll* base = parse_folder(r);
-
-        for_each(base, print_pointer_ln);
-
-        free(PTR base);
+        
 
         print_inline("");
 
@@ -69,7 +61,7 @@ void digest_console_prompt(struct ll* prompt) {
 
     }
 
-    free(PTR prompt);
+    
 
 }
 
@@ -79,7 +71,7 @@ void console_init() {
 
     print_inline("Console init:");
 
-    print_inline("");
+    print_string("\r\n");
 
     print_string("-> ");
 
@@ -89,7 +81,7 @@ void console_init() {
 
         read_key();
         
-        print_string("");
+        
 
         if (KEY_READ == 0 || KEY_READ > 127) {
             continue;
@@ -97,11 +89,15 @@ void console_init() {
 
         if (KEY_READ == 13 || index >= 62) {
 
-            
+            print_string("\r\n");
 
-            print_inline("");
+            struct ll* split = split_string(entry_buffer, ' ');
 
-            digest_console_prompt(split_args(entry_buffer));
+            print_integer(PTR split);
+
+            //digest_console_prompt(split);
+
+            free_ll(PTR split);
 
             print_string("-> ");
 

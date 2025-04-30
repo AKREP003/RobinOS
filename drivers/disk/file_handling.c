@@ -29,6 +29,10 @@ short get_entry(struct ll* fold, char* key) {
 
       carrier_buffer = (struct ll*) carrier_buffer -> next;
 
+      free_ll(PTR entry);
+
+
+
     } ;
 
    return 0;
@@ -44,6 +48,8 @@ short parse_file_path(char* path) {
    
 
    struct ll* folder_location = split_string(path, '>');
+
+   uintptr_t folder_copy = PTR folder_location;
 
    short index = 0;
 
@@ -73,24 +79,66 @@ short parse_file_path(char* path) {
 
    }
 
+   free_ll(PTR folder_copy);
+
 }
 
-struct file_cache* create_file_cache_from(short disc_loc, char* location) {
+short get_folder_entry(short fold_loc, char* name) {
+
+   char* contents = STR read_file(fold_loc);
+
+   struct ll* entries = parse_folder(contents);
+
+   short entry = get_entry(entries, name);
+
+   free(PTR contents);
+
+   free_ll(PTR entries);
+
+   return entry;
+
+}
+
+struct file_cache* create_file_cache_from(char* location) {
 
    
 
    struct ll* path_data = split_string(location, ':');
 
-   char* name = (char*) get_nth_element(path_data, 1);
+   char* parent_path;
 
-   char* parent_path = (char*) get_nth_element(path_data, 0);
+   short parent_folder_loc;
+
+   char* name;
+
+   if (get_ll_size(path_data) > 1) {
+
+      parent_path = (char*) get_element_val(path_data);
+
+      name = (char*) get_nth_element(path_data, 1);
+
+   } else {
+
+      parent_path = "";
+
+      name = (char*) get_nth_element(path_data, 0);
+
+   }
+
+   parent_folder_loc = parse_file_path(parent_path);
+
    
-   short parent_folder_loc = parse_file_path(parent_path);
+   short disc_loc = get_folder_entry(parent_folder_loc, name);
+
+   
+
+   struct file_cache* buffer = (struct file_cache*) alloc(sizeof(struct  file_cache));
 
    struct file_header* head = read_file_header(disc_loc);
 
-   
-   struct file_cache* buffer = (struct file_cache*) alloc(sizeof(struct  file_cache));
+   buffer -> size = head ->size;
+
+   free(PTR head);
 
    buffer -> name = STR allocate_str(name);
 
@@ -98,16 +146,18 @@ struct file_cache* create_file_cache_from(short disc_loc, char* location) {
 
    buffer -> buffer = read_file(disc_loc);
 
-
+   
    buffer -> parent_loc = parent_folder_loc;
 
    buffer -> lock = false;
 
    buffer -> tree_loc = STR allocate_str(parent_path);
 
-   buffer -> size = head -> size;
-
    
+
+   free_ll(PTR path_data);
+
+   free(PTR buffer);
 
    return  buffer; 
 
@@ -175,6 +225,8 @@ void add_folder_entry(short fold_loc, short file_loc, char* name) {
 
 }
 
+
+
 struct file_cache* create_file_cache(char* location) {
    
    
@@ -225,6 +277,10 @@ struct file_cache* create_file_cache(char* location) {
 
    buffer -> size = 0;
 
+   free_ll(PTR path_data);
+
+   free(PTR buffer);
+
    return  buffer; 
    
 }
@@ -263,6 +319,18 @@ void write_to_cache(char* text, struct file_cache* cache) {
 
 }
 
+void free_cache(struct file_cache* p) {
+
+   free(p -> buffer);
+
+   free(PTR p ->name);
+
+   free(PTR p->tree_loc);
+
+   free(PTR p);
+
+}
+
 enum bool file_handling_test() {
 
    char* str = "ads";
@@ -285,12 +353,20 @@ enum bool file_handling_test() {
 
    refresh_file_cache(test);  
 
-   print_string(STR test -> buffer);
-
    enum bool cond = string_eq(STR test -> buffer, str);
 
-   free(PTR test);
+   print_string("aaaaaa");
 
-   return cond;
+   struct file_cache* create_from = create_file_cache_from(":god");
+
+   print_string("bbbbbbb");
+
+   enum bool cond2 = (create_from -> disc_loc) == (test -> disc_loc);
+
+   free_cache(test);
+
+   free(PTR create_from);
+
+   return cond && cond2;
 
 }

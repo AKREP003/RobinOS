@@ -1,6 +1,7 @@
 #include "../../stdlib/kernel_headers.h"
 
 
+
 void print_inline(char* a){
     
     short size = str_size(a);

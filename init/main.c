@@ -19,7 +19,10 @@ void aaa() {
     print_inline("|__/  |__/ \\______/ |_______/ |__/|__/  |__/ \\______/  \\______/ ");
     print_inline("");
 
+    
     test_em_all();
+
+    dump_allocations();
     
     print_inline("");
     

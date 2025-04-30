@@ -60,7 +60,7 @@ void wait_tick( short ticks);
 void console_init();
 short parse_file_path(char* path);
 struct ll* parse_folder(char* data);
-
+void dump_allocations();
 
 enum bool file_system_test();
 enum bool disk_test();

@@ -137,10 +137,14 @@ void free_ll(uintptr_t carrier) {
 
         next = ((struct ll*) carrier)->next;  
 
-        free( carrier);         
+        free((LL carrier) ->val);
+
+        free( carrier);
 
         carrier = next;        
     }
+
+
 }
 
 uintptr_t get_nth_element(struct ll* carrier, short index) {

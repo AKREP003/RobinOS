@@ -37,8 +37,6 @@ uintptr_t alloc(short size) {
 
     uintptr_t buffer = (uintptr_t) 30000;
 
-    //print_string("alloc called\r\n");
-
     uintptr_t alloc_size = size + sizeof(struct memblock);
 
     while (1) {
@@ -55,6 +53,11 @@ uintptr_t alloc(short size) {
 
             ((p_memblock) alloc_addr) -> next = (uintptr_t) 0;
 
+            //char* res = "                   ";
+
+            //print_string(itoa(alloc_addr + sizeof(struct memblock), res, 10));
+
+            //print_string("\r\n");
 
             return alloc_addr + sizeof(struct memblock);
 
@@ -118,6 +121,10 @@ void free(uintptr_t ptr) {
 
 void dump_allocations() {
     
+    p_memblock buffer = (p_memblock) last_free;
+
+    buffer -> next = PTR 0;
+
 }
 
 enum bool alloc_test() {
@@ -155,5 +162,29 @@ enum bool alloc_test() {
 
     free(buffer2);
 
-    return test1 && test2 && test3 && test4;
+    struct ll* ll1 = new_ll();
+
+    struct ll* ll_ptr_buffer =  ll1;
+
+    uintptr_t a = alloc(20);
+
+    push(ll1, a);
+
+    a = alloc(20);
+
+    push(ll1, a);
+
+    a = alloc(20);
+
+    push(ll1, a);
+
+    free_ll(PTR ll1);
+
+    struct ll* ll2 = new_ll();
+
+    enum bool test5 =  ll_ptr_buffer == ll2;
+
+    free_ll(PTR ll2);
+
+    return test1 && test2 && test3 && test4 && test5;
 }

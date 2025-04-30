@@ -194,8 +194,6 @@ uintptr_t read_file(short file_loc) {
 
     disk_read(1, file_loc, (uintptr_t) disk_read_buffer);
 
-    
-
     short size_buffer = disk_read_buffer -> size;
 
     uintptr_t data_buffer = (uintptr_t) alloc(disk_read_buffer -> size + 5);

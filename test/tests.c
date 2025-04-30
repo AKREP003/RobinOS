@@ -23,17 +23,25 @@ void test_em_all() {
 
     print_string("alloc succ\r\n");
 
+    //wait_sec(5);
+
     if (!disk_test())  {print_string("disk failed");return;} 
 
     print_string("disk succ\r\n");
+
+    //wait_sec(5);
 
     if (!file_system_test())  {print_string("file system failed");return;} 
 
     print_string("file system succ\r\n");
 
+    //wait_sec(5);
+
     file_system_init();
 
     print_inline("file system initialised");   
+
+    //wait_sec(5);
 
     if (!file_handling_test())  {print_string("file handling failed");return;} 
 
