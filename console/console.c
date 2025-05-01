@@ -30,11 +30,11 @@ void digest_console_prompt(struct ll* prompt) {
 
     }
 
-    if (string_eq(primer, "lf")) {
+    if (string_eq(primer, "rd")) {
         
         print_inline("");
 
-        struct file_cache* f = create_file_cache_from("god"); 
+        struct file_cache* f = create_file_cache_from(STR get_nth_element(prompt, 1)); 
 
         print_inline(STR (f -> buffer));
 
@@ -42,20 +42,13 @@ void digest_console_prompt(struct ll* prompt) {
 
     }
 
-    if (string_eq(primer, "rd")) {
+    if (string_eq(primer, "find")) {
         
         print_inline("");
 
         short r = parse_file_path(STR get_nth_element(prompt, 1));
 
-        
-        if (r != 0) {
-
-            print_inline(STR read_file(r));
-
-        }
-
-        
+        print_integer(r);
 
         print_inline("");
 
