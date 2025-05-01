@@ -104,8 +104,9 @@ struct file_cache* create_file_cache_from(char* location) {
    
 
    struct ll* path_data = split_string(location, ':');
-
    char* parent_path;
+
+   
 
    short parent_folder_loc;
 
@@ -125,12 +126,12 @@ struct file_cache* create_file_cache_from(char* location) {
 
    }
 
+   print_inline(parent_path);
+
    parent_folder_loc = parse_file_path(parent_path);
 
    
    short disc_loc = get_folder_entry(parent_folder_loc, name);
-
-   
 
    struct file_cache* buffer = (struct file_cache*) alloc(sizeof(struct  file_cache));
 
@@ -355,11 +356,7 @@ enum bool file_handling_test() {
 
    enum bool cond = string_eq(STR test -> buffer, str);
 
-   print_string("aaaaaa");
-
    struct file_cache* create_from = create_file_cache_from(":god");
-
-   print_string("bbbbbbb");
 
    enum bool cond2 = (create_from -> disc_loc) == (test -> disc_loc);
 

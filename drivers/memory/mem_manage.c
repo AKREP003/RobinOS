@@ -53,12 +53,7 @@ uintptr_t alloc(short size) {
 
             ((p_memblock) alloc_addr) -> next = (uintptr_t) 0;
 
-            //char* res = "                   ";
-
-            //print_string(itoa(alloc_addr + sizeof(struct memblock), res, 10));
-
-            //print_string("\r\n");
-
+            
             return alloc_addr + sizeof(struct memblock);
 
         }
@@ -103,7 +98,7 @@ uintptr_t alloc(short size) {
 
 void free(uintptr_t ptr) {
     
-    if (ptr == 30000) {return;}
+    if (ptr == 30000 || ptr <= 0) {return;}
 
     
 

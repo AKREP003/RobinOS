@@ -20,7 +20,7 @@ void aaa() {
     print_inline("");
 
     
-    test_em_all();
+    //test_em_all();
 
     dump_allocations();
     

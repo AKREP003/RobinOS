@@ -34,9 +34,9 @@ void digest_console_prompt(struct ll* prompt) {
         
         print_inline("");
 
-        
+        struct file_cache* f = create_file_cache_from("god"); 
 
-        
+        print_inline(STR (f -> buffer));
 
         print_inline("");
 
@@ -93,11 +93,7 @@ void console_init() {
 
             struct ll* split = split_string(entry_buffer, ' ');
 
-            print_integer(PTR split);
-
-            //digest_console_prompt(split);
-
-            free_ll(PTR split);
+            digest_console_prompt(split);
 
             print_string("-> ");
 
@@ -108,6 +104,7 @@ void console_init() {
             continue;
 
         }
+
         
         print_char(KEY_READ);
 
