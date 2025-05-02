@@ -3,7 +3,32 @@
 
 short base_file_location = 0;
 
+struct ll* cache_array = LL 0;
 
+struct file_cache* get_cache(short loc) {
+
+   struct ll* buffer = (struct ll*) (cache_array);
+
+   
+
+   while (buffer != 0) {
+
+      struct file_cache* cache_buffer = (struct file_cache*) buffer -> val;
+
+      
+      if (cache_buffer != 0 && (cache_buffer -> disc_loc) == loc ) {
+         
+         return cache_buffer;
+
+      }
+
+      buffer = LL buffer -> next;
+
+   }
+
+   return (struct file_cache*) 0;
+
+}
 
 struct ll* parse_folder(char* data){
 
@@ -38,8 +63,6 @@ short get_entry(struct ll* fold, char* key) {
    return 0;
 
 }
-
-
 
 short parse_file_path(char* path) {
 
@@ -126,12 +149,25 @@ struct file_cache* create_file_cache_from(char* location) {
 
    }
 
-   print_inline(parent_path);
+   
 
    parent_folder_loc = parse_file_path(parent_path);
 
    
    short disc_loc = get_folder_entry(parent_folder_loc, name);
+
+   if (disc_loc == 0) {
+
+      print_inline("file not found");
+
+      return 0;
+
+   }
+
+   struct file_cache* get = get_cache(disc_loc);
+
+   
+   if (get != 0) {return get;}
 
    struct file_cache* buffer = (struct file_cache*) alloc(sizeof(struct  file_cache));
 
@@ -165,7 +201,7 @@ struct file_cache* create_file_cache_from(char* location) {
    
 }
 
-void refresh_file_cache(struct file_cache* dat) {
+void refresh_file_cache_disk(struct file_cache* dat) {
 
 
 
@@ -176,6 +212,8 @@ void refresh_file_cache(struct file_cache* dat) {
 
    
 }
+
+
 
 void commit_file_cache(struct file_cache* dat) {
 
@@ -280,8 +318,9 @@ struct file_cache* create_file_cache(char* location) {
 
    free_ll(PTR path_data);
 
-   free(PTR buffer);
+   push(cache_array, PTR buffer);
 
+  
    return  buffer; 
    
 }
@@ -290,29 +329,25 @@ struct file_cache* create_file_cache(char* location) {
 
 void file_system_init() {
 
+   cache_array = new_ll();
+
    short disc_loc = write_file_header("base");
    
    base_file_location = disc_loc;
-
-   char* str = "a=70";
-
-   write_to_file(base_file_location, (uintptr_t) str, str_size(str) + 1);
 
    
    
 }
 
-void write_to_cache(char* text, struct file_cache* cache) {
+void write_to_cache_disk(char* text, struct file_cache* cache) {
 
-   short size = str_size(text) + 1;
+   
 
-    uintptr_t secret_buffer = alloc(size);
-
-    cpy(secret_buffer, PTR text, size);
+    uintptr_t secret_buffer = PTR allocate_str(text);
     
     cache -> buffer = secret_buffer;
 
-    cache -> size = size;
+    cache -> size = sizeof(text);
 
     commit_file_cache(cache);
 
@@ -352,7 +387,7 @@ enum bool file_handling_test() {
 
    cpy(test ->buffer, PTR str2, 4);
 
-   refresh_file_cache(test);  
+   refresh_file_cache_disk(test);  
 
    enum bool cond = string_eq(STR test -> buffer, str);
 

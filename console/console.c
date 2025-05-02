@@ -40,6 +40,8 @@ void digest_console_prompt(struct ll* prompt) {
 
         print_inline("");
 
+        free(PTR f);
+
     }
 
     if (string_eq(primer, "find")) {
