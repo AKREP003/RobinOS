@@ -88,7 +88,11 @@ void console_init() {
 
             struct ll* split = split_string(entry_buffer, ' ');
 
+            
+            
             digest_console_prompt(split);
+
+            free_ll(PTR split);
 
             print_string("-> ");
 

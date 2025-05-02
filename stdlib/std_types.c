@@ -254,48 +254,39 @@ struct ll* split_string(char* strin, char element) {
 
         if (strin[i] == element || sub_index >= 63 || i == (size - 1)) {
             
-            
+            ((char*) sub_unit)[sub_index] = '\0'; 
 
-            ( (char*) sub_unit)[sub_index] = '\0'; 
-
-            if (str_size( STR sub_unit) > 0) {
+            if (str_size((char*) sub_unit) > 0) {
 
                 if (first_flag) {
-                
-                
                     set_element_val(linked_buffer, sub_unit);
-    
-    
                     first_flag = false;
-    
                 } else {    
-                    
                     push(linked_buffer, (uintptr_t) sub_unit);
-                    
-                    
-    
                 }
 
+            } else {
+                // Free the unused sub_unit if it is empty
+                free(sub_unit);
             }
-                 
 
             sub_index = 0;
 
-            sub_unit =  alloc(sizeof(char) * 64);
+            sub_unit = (uintptr_t) alloc(sizeof(char) * 64);
 
             continue;
         }
         
-        ( (char*) sub_unit)[sub_index] = strin[i];
-
-        
-
+        ((char*) sub_unit)[sub_index] = strin[i];
         sub_index++;
+    }
 
-    }  
+    // Free the last allocated sub_unit if it was not pushed
+    if (sub_index == 0 || str_size((char*) sub_unit) == 0) {
+        free(sub_unit);
+    }
 
     return linked_buffer;
-
 }
 
 void print_integer(short number) {
