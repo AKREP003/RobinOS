@@ -62,6 +62,7 @@ short parse_file_path(char* path);
 struct ll* parse_folder(char* data);
 void dump_allocations();
 struct file_cache* create_file_cache_from(char* location);
+void free_cache(struct file_cache* p);
 
 enum bool file_system_test();
 enum bool disk_test();

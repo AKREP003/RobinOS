@@ -153,8 +153,11 @@ struct file_cache* create_file_cache_from(char* location) {
 
    parent_folder_loc = parse_file_path(parent_path);
 
-   
+   get_current_time();
+
    short disc_loc = get_folder_entry(parent_folder_loc, name);
+
+   
 
    if (disc_loc == 0) {
 
@@ -164,10 +167,13 @@ struct file_cache* create_file_cache_from(char* location) {
 
    }
 
+   
+
    struct file_cache* get = get_cache(disc_loc);
 
    
-   if (get != 0) {return get;}
+
+   if (get != 0) {free_ll(PTR path_data);return get;}
 
    struct file_cache* buffer = (struct file_cache*) alloc(sizeof(struct  file_cache));
 
@@ -190,11 +196,9 @@ struct file_cache* create_file_cache_from(char* location) {
 
    buffer -> tree_loc = STR allocate_str(parent_path);
 
-   
-
    free_ll(PTR path_data);
 
-   free(PTR buffer);
+   push(cache_array, PTR buffer);
 
    return  buffer; 
 
@@ -219,7 +223,11 @@ void commit_file_cache(struct file_cache* dat) {
 
    write_to_file(dat -> disc_loc, dat -> buffer, dat -> size);
 
-   dat -> size = read_file_header(dat -> disc_loc) -> size;
+   struct file_header* head = read_file_header(dat -> disc_loc);
+
+   dat -> size = head -> size;
+
+   free(PTR head);
 
 }
 
@@ -395,9 +403,6 @@ enum bool file_handling_test() {
 
    enum bool cond2 = (create_from -> disc_loc) == (test -> disc_loc);
 
-   free_cache(test);
-
-   free(PTR create_from);
 
    return cond && cond2;
 

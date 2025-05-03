@@ -20,13 +20,12 @@ void aaa() {
     print_inline("");
 
     
-    //test_em_all();
+    test_em_all();
 
-    file_system_init();
-
+    
     char* str = "mein secret";
 
-    struct file_cache* test = create_file_cache(":god");
+    struct file_cache* test = create_file_cache(":gott");
 
     
 
@@ -35,6 +34,8 @@ void aaa() {
     
 
     print_inline("");
+
+    wait_sec(2);
     
     console_init();
     

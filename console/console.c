@@ -36,11 +36,23 @@ void digest_console_prompt(struct ll* prompt) {
 
         struct file_cache* f = create_file_cache_from(STR get_nth_element(prompt, 1)); 
 
+        print_integer(PTR f);
+
         print_inline(STR (f -> buffer));
 
         print_inline("");
 
-        free(PTR f);
+    }
+
+    if (string_eq(primer, "wr")) {
+        
+        print_inline("");
+
+        struct file_cache* f = create_file_cache_from(STR get_nth_element(prompt, 1)); 
+
+        write_to_cache_disk(STR get_nth_element(prompt, 2), f);
+
+        print_inline("");
 
     }
 
@@ -74,6 +86,8 @@ void console_init() {
     {
         short x = get_nth_fibo(4000);
 
+        get_current_time();
+
         read_key();
         
         
@@ -88,8 +102,6 @@ void console_init() {
 
             struct ll* split = split_string(entry_buffer, ' ');
 
-            
-            
             digest_console_prompt(split);
 
             free_ll(PTR split);

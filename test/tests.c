@@ -39,7 +39,7 @@ void test_em_all() {
 
     file_system_init();
 
-    print_inline("file system initialised");   
+    print_inline("file system initialised"); 
 
     if (!file_handling_test())  {print_string("file handling failed");return;} 
 
