@@ -26,8 +26,6 @@ void disk_read(short size, short disk_addr, uintptr_t mem_addr) {
 
     uintptr_t buffer = shc_adressing(disk_addr, size);
 
-    
-
     read(((short*) buffer)[3], ((short*) buffer)[0], ((short*) buffer)[1], ((short*) buffer)[2], mem_addr);
 
     free(buffer);

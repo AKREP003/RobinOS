@@ -233,6 +233,40 @@ uintptr_t read_file(short file_loc) {
 
 }
 
+void discover_files() {
+
+    for (int loc = 45; loc < 100; loc ++) {
+
+        print_integer(loc);
+
+        wait_sec(1);
+
+        char* disk_read_buffer = STR alloc(BLOCK_SIZE);
+
+        disk_read(1, loc, (uintptr_t) disk_read_buffer);
+
+        for (int index = 0; index < BLOCK_SIZE; index++) {
+
+            if (disk_read_buffer[index] != 0)
+            {
+             
+                print_inline("bbbbbbbb");
+
+             //print_integer(disk_read_buffer[index]);
+                
+            }
+             
+
+        }
+
+        free(PTR disk_read_buffer);
+
+    }
+
+    wait_sec(5);
+
+}
+
 enum bool file_system_test() {
     
     short loc = write_file_header("test");
@@ -262,6 +296,8 @@ enum bool file_system_test() {
     free((uintptr_t) buffer);
 
     free((uintptr_t) buffer2);
+
+    
 
     return test1 && test2 && test3;
 }
