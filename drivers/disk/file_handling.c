@@ -217,8 +217,6 @@ void refresh_file_cache_disk(struct file_cache* dat) {
    
 }
 
-
-
 void commit_file_cache(struct file_cache* dat) {
 
    write_to_file(dat -> disc_loc, dat -> buffer, dat -> size);
@@ -230,7 +228,6 @@ void commit_file_cache(struct file_cache* dat) {
    free(PTR head);
 
 }
-
 
 void add_folder_entry(short fold_loc, short file_loc, char* name) {
 
@@ -271,8 +268,6 @@ void add_folder_entry(short fold_loc, short file_loc, char* name) {
    free(PTR new_buffer);
 
 }
-
-
 
 struct file_cache* create_file_cache(char* location) {
    
@@ -333,9 +328,44 @@ struct file_cache* create_file_cache(char* location) {
    
 }
 
+short find_base() {
 
+   for (short loc = FILE_SYTEM_HEADER; loc < FILE_SYTEM_HEADER + 10; loc++) {
+
+      struct file_header* head = read_file_header(loc);
+
+
+      if (string_eq(head -> name, "base")) {
+
+         free_slot = free_slot + 2;
+
+         return loc;
+
+      }
+
+      free(PTR head);
+
+   }
+
+   return 0;
+
+}
 
 void file_system_init() {
+
+
+   short b = find_base();
+
+   
+   if (b != 0) {
+
+      print_inline("Welcome back!");
+
+      base_file_location = b;
+
+      return;
+
+   }
 
    cache_array = new_ll();
 

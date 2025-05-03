@@ -125,6 +125,8 @@ extern  short TICKS_LOW;
 
 extern  char KEY_READ;
 
+extern  short free_slot;
+
 #define PTR (uintptr_t)
 #define STR (char*)
 #define LL (struct ll*)
