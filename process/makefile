@@ -5,8 +5,11 @@ CFLAGS=-ffreestanding -nostdlib -m16 -c -fno-pic
 ASFLAGS=-f elf
 LDFLAGS=-m elf_i386 -T linker.ld
 
-mode_ops.o : mode_ops.asm
-	$(AS) $(ASFLAGS) mode_ops.asm -o mode_ops.o 
+process.o : process.c
+	
+	$(CC) $(CFLAGS) -fno-stack-protector process.c -o process.o
+
+
 
 clean:
 	rm -f *.o *.bin $(TARGET)

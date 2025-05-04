@@ -89,6 +89,7 @@ struct ll* new_ll() {
 
     buffer->next = 0;
     buffer->prev = 0;
+    buffer->val  = 0;
 
     return buffer;
 
@@ -124,6 +125,22 @@ void push(struct ll* carrier, uintptr_t element) {
     set_element_val(((struct ll*) buffer), element);
     
     
+}
+
+void push_dyn(struct ll* carrier, uintptr_t element) {
+
+
+
+    if (carrier -> val == 0) {
+
+        set_element_val(carrier, element);
+
+    } else {
+
+        push(carrier, element);
+
+    }
+
 }
 
 uintptr_t get_element_val(struct ll* node) {

@@ -45,4 +45,8 @@ void test_em_all() {
 
     print_string("file handling succ\r\n");
 
+    if (!proc_test())  {print_string("proc failed");return;} 
+
+    print_string("proc succ\r\n");
+
 }    
