@@ -18,7 +18,7 @@ struct mov_val {
 
     char* key1;
 
-    char* key1;
+    char* key2;
 
 };
 
@@ -73,11 +73,28 @@ void eval_prnt(struct ll* data, struct print_val* prnt) {
 
 }
 
-void eval_mov(struct ll* data, struct print_val* prnt) {
+void eval_mov(struct ll* data, struct mov_val* mov) {
 
-    char* val = STR get_val(data, prnt -> key);
+    char* val = STR get_val(data, mov -> key1);
 
+    if (val == 0) {return;}
 
+    struct ll* buffer = data;
+
+    while (buffer != 0)
+    {
+        
+        if (string_eq(((struct key_value*) (buffer -> val)) -> key, mov -> key2)) {
+ 
+            ((struct key_value*) (buffer -> val)) -> val = val;
+
+        }
+
+        buffer = LL buffer -> next;
+
+    }
+    
+    
 
 }
 
