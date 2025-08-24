@@ -2,7 +2,7 @@
 global read
 global write
 global read_long
-
+global read_kernel
 
 read:
     push ebp
@@ -15,6 +15,27 @@ read:
     mov dh, [ebp + 20]  ; Head 
     mov dl, 0        ; Floppy Drive 0 (A:)
     mov bx, [ebp + 24]  ; Buffer address in memory
+
+    int 0x13            ; BIOS Disk Read
+    jc disk_error       ; Jump to error if Carry Flag is set
+
+    mov esp, ebp 
+    pop ebp          ; Restore stack frame
+    retn 20             ; Clean up (5 parameters × 4 bytes)
+
+
+
+read_kernel:
+    push ebp
+    mov ebp, esp
+
+    mov ah, 0x02        ; BIOS function 0x02 - Read sectors
+    mov al, 15   ; Number of sectors to read
+    mov ch, 0  ; track
+    mov cl, 2  ; Sector 
+    mov dh, 1  ; Head 
+    mov dl, 0        ; Floppy Drive 0 (A:)
+    mov bx, [ebp + 8]  ; Buffer address in memory
 
     int 0x13            ; BIOS Disk Read
     jc disk_error       ; Jump to error if Carry Flag is set

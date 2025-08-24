@@ -9,6 +9,7 @@
 
 void print_string(char *str);
 void read(short sector_numb, short cylinder, short sector, short head, uintptr_t buffer);
+void read_kernel(uintptr_t buffer);
 void long_disk_read(short size, short disk_addr, short mem_addr);
 void write(short sector_numb, short cylinder, short sector, short head, uintptr_t buffer);
 void free(uintptr_t ptr);

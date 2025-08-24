@@ -23,21 +23,12 @@ void aaa() {
     test_em_all();
 
     
-    char* str = "mein secret";
-
-    struct file_cache* test = create_file_cache(":gott");
-
+    wait_sec(2);
     
-
-    write_to_cache_disk(str, test);
-
-    
-
-    print_inline("");
 
     wait_sec(2);
     
-    console_init();
+    //console_init();
     
 
 }
