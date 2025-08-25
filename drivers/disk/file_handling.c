@@ -374,7 +374,6 @@ void file_system_init() {
    base_file_location = disc_loc;
 
    
-   
 }
 
 void write_to_cache_disk(char* text, struct file_cache* cache) {

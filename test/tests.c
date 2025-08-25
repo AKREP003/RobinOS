@@ -33,7 +33,7 @@ void test_em_all() {
 
     if (!file_system_test())  {print_string("file system failed");return;} 
 
-    discover_files();
+    //discover_files();
 
     print_string("file system succ\r\n");
 
@@ -41,15 +41,15 @@ void test_em_all() {
 
     print_integer(DISK_HEADER);
 
-    //wait_sec(5);
+    wait_sec(1);
 
-    //file_system_init();
+    file_system_init();
 
-    //print_inline("file system initialised"); 
+    print_inline("file system initialised"); 
 
-    //if (!file_handling_test())  {print_string("file handling failed");return;} 
+    if (!file_handling_test())  {print_string("file handling failed");return;} 
 
-    //print_string("file handling succ\r\n");
+    print_string("file handling succ\r\n");
 
     //if (!proc_test())  {print_string("proc failed");return;} 
 

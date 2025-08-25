@@ -204,6 +204,7 @@ uintptr_t read_file(short file_loc) {
 
     disk_read(1, disk_read_buffer -> head_block, (uintptr_t) block_buffer);
 
+
     while(1) {
 
         short block_to_read = min(BLOCK_SIZE, block_buffer -> cursor + sizeof(struct disk_block));
