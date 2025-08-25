@@ -66,7 +66,7 @@ struct file_cache* create_file_cache_from(char* location);
 void free_cache(struct file_cache* p);
 enum bool proc_test();
 void push_dyn(struct ll* carrier, uintptr_t element);
-
+void discover_files();
 
 enum bool file_system_test();
 enum bool disk_test();

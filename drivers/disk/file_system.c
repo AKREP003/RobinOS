@@ -291,7 +291,7 @@ enum bool file_system_test() {
 
     free((uintptr_t) buffer2);
 
-    discover_files();
+    
 
     return test1 && test2 && test3;
 }
