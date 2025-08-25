@@ -74,6 +74,8 @@ enum bool alloc_test();
 enum bool std_test();
 enum bool file_handling_test();
 
+
+
 struct ll {
 
     uintptr_t val;
@@ -126,6 +128,7 @@ extern  short SEC;
 extern  short TICKS_HIGH;
 extern  short TICKS_LOW;
 
+extern short DISK_HEADER;
 
 extern  char KEY_READ;
 

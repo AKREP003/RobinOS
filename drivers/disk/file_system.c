@@ -6,7 +6,7 @@
 
 short free_slot = FILE_SYTEM_HEADER; // handle gaps in le future
 
-
+short DISK_HEADER = 0;
 
 struct disk_block {
 
@@ -244,9 +244,10 @@ void discover_files() {
 
         if (disk_read_buffer[i] == 'q' && disk_read_buffer[i + 1] == 'q' && disk_read_buffer[i + 2] == 'q') {
 
-            print_integer(i);
+            
 
-            print_char(disk_read_buffer[i + 4] );
+            DISK_HEADER = (short)i + 3;
+            
             
 
             break;
@@ -255,7 +256,6 @@ void discover_files() {
 
     }
 
-    print_inline("a");
 
     free((uintptr_t) disk_read_buffer);
 
