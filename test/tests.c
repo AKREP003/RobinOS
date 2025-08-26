@@ -33,7 +33,7 @@ void test_em_all() {
 
     if (!file_system_test())  {print_string("file system failed");return;} 
 
-    //discover_files();
+    discover_files();
 
     print_string("file system succ\r\n");
 

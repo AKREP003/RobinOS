@@ -2,7 +2,7 @@ files.bin :
 	
 	touch files.bin
 
-	echo qqq > files.bin
+	echo QQQQ > files.bin
 
 	cat ggg.bin >> files.bin
 

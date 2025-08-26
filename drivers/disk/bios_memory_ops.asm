@@ -30,7 +30,7 @@ read_kernel:
     mov ebp, esp
 
     mov ah, 0x02        ; BIOS function 0x02 - Read sectors
-    mov al, 15   ; Number of sectors to read
+    mov al, 5   ; Number of sectors to read
     mov ch, 0  ; track
     mov cl, 2  ; Sector 
     mov dh, 1  ; Head 
