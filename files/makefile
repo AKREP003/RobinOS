@@ -4,7 +4,7 @@ files.bin :
 
 	echo QQQQ > files.bin
 
-	cat ggg.bin >> files.bin
+	./compile_files.sh
 
 clean :
 	
