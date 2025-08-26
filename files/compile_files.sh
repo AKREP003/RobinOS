@@ -44,4 +44,16 @@ if [ ! -z "$file_info" ]; then
 fi
 
 # Create or overwrite the output file with the generated string
-echo "$file_info" >> "$output_file"
+echo -n "$file_info|" >> "$output_file"
+
+for item in "$dir_path"/*; do
+  # Check if the item is a regular file
+  if [ -f "$item" ]; then
+    # Get the file name from the full path
+    file_name=$(basename "$item")
+
+    cat "$item" >> "$output_file"
+
+  fi
+done
+
