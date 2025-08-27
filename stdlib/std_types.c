@@ -342,3 +342,20 @@ uintptr_t allocate_str(char* str) {
     return PTR buffer;
 
 }
+
+char* get_slice(char* str, short start, short end) {
+
+    if (start < 0 || end > str_size(str) || start >= end) {
+        return 0; // Invalid indices
+    }
+
+    short slice_size = end - start;
+    char* slice = (char*) alloc(slice_size + 1); // +1 for null terminator
+
+    for (short i = 0; i < slice_size; i++) {
+        slice[i] = str[start + i];
+    }
+    slice[slice_size] = '\0'; // Null-terminate the new string
+
+    return slice;
+}

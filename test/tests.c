@@ -33,13 +33,7 @@ void test_em_all() {
 
     if (!file_system_test())  {print_string("file system failed");return;} 
 
-    discover_files();
-
     print_string("file system succ\r\n");
-
-    print_string("kernel size: ");
-
-    print_integer(DISK_HEADER);
 
     wait_sec(1);
 
@@ -50,6 +44,12 @@ void test_em_all() {
     if (!file_handling_test())  {print_string("file handling failed");return;} 
 
     print_string("file handling succ\r\n");
+
+    //discover_files();
+
+    //print_string("kernel size: ");
+
+    //print_integer(DISK_HEADER);
 
     //if (!proc_test())  {print_string("proc failed");return;} 
 

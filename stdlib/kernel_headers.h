@@ -67,6 +67,7 @@ void free_cache(struct file_cache* p);
 enum bool proc_test();
 void push_dyn(struct ll* carrier, uintptr_t element);
 void discover_files();
+char* get_slice(char* str, short start, short end);
 
 enum bool file_system_test();
 enum bool disk_test();
@@ -133,6 +134,8 @@ extern short DISK_HEADER;
 extern  char KEY_READ;
 
 extern  short free_slot;
+
+extern short base_file_location;
 
 #define PTR (uintptr_t)
 #define STR (char*)
