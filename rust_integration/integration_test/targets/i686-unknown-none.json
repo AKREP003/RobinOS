@@ -1,0 +1,12 @@
+{
+    "llvm-target": "i686-unknown-none",
+    "target-endian": "little",
+    "target-pointer-width": "32",
+    "data-layout": "e-m:e-p:32:32-i32:32-f32:32:32-a:0:32-n32-S32",
+    "arch": "x86",
+    "os": "none",
+    "vendor": "unknown",
+    "linker-flavor": "gcc",
+    "disable-redzone": true,
+    "panic-strategy": "abort"
+}

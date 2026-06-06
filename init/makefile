@@ -6,6 +6,7 @@ vda = ../drivers/VDA_text/vda_text_ops.o
 keyboard = ../drivers/keyboard/keyboard_ops.o
 console = ../console/console.o
 proc = ../process/process.o
+rust_integration = ../rust_integration/integration_test.o
 
 CC=gcc
 AS=nasm
@@ -32,6 +33,10 @@ $(stdlib) :
 $(drivers) $(vda) $(keyboard):
 	$(MAKE) -C ../drivers mk_drivers
 
+$(rust_integration) : 
+
+	#$(MAKE) -C ../rust_integration
+
 $(console) :
 
 	$(MAKE) -C ../console
@@ -45,6 +50,7 @@ $(proc) :
 	$(MAKE) -C ../process
 
 
+
 clean:
 	rm -f *.o *.bin $(TARGET)
 	
@@ -56,4 +62,4 @@ clean:
 
 	$(MAKE) -C ../process clean
 
-	
+	$(MAKE) -C ../rust_integration clean

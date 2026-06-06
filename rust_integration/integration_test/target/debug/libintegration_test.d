@@ -1,0 +1,1 @@
+/mnt/c/Users/aliek/Desktop/projeler/c/simpleOS/rust_integration/integration_test/target/debug/libintegration_test.a: /mnt/c/Users/aliek/Desktop/projeler/c/simpleOS/rust_integration/integration_test/src/lib.rs

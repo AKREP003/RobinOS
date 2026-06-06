@@ -28,7 +28,7 @@ void aaa() {
 
     wait_sec(2);
     
-    //console_init();
+    console_init();
     
 
 }
