@@ -26,7 +26,7 @@ $(TARGET): boot/boot.bin init/kernel.bin files/files.bin
 boot/boot.bin : 
 	$(MAKE) -C boot 
 
-init/kernel.bin :
+init/kernel.bin:
 	$(MAKE) -C init
 
 files/files.bin: 

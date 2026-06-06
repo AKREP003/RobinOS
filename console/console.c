@@ -17,8 +17,12 @@ void print_pointer(uintptr_t ptr) {print_string(STR ptr); print_string(" ");}
 void print_pointer_ln(uintptr_t ptr) {print_inline(STR ptr); print_inline("");}
 
 void digest_console_prompt(struct ll* prompt) {
+    
+    print_integer(PTR prompt);
 
     char* primer = STR get_nth_element(prompt, 0);
+
+    print_integer(PTR prompt);
 
     if (string_eq(primer, "echo")) {
         
@@ -96,11 +100,15 @@ void console_init() {
             continue;
         }
 
-        if (KEY_READ == 13 || index >= 62) {
+        if (KEY_READ == 13 || index >= 30) {
 
             print_string("\r\n");
 
             struct ll* split = split_string(entry_buffer, ' ');
+            
+            short y = get_nth_fibo(3999);
+
+            print_integer(PTR split);
 
             digest_console_prompt(split);
 
@@ -112,6 +120,8 @@ void console_init() {
 
             entry_buffer[0] = (char) 0x0;
             
+
+
             continue;
 
         }
@@ -143,7 +153,7 @@ void console_init() {
 
         index++;
         
-        x = get_nth_fibo(4000);
+        short z = get_nth_fibo(4001);
 
     }
 
