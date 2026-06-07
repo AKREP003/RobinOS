@@ -9,7 +9,7 @@ TARGET=os.flp
 
 console.o : console.c
 
-	$(CC) $(CFLAGS) -fno-stack-protector console.c -o console.o
+	$(CC) $(CFLAGS)  console.c -o console.o
 
 
 clean:

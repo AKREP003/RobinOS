@@ -23,7 +23,7 @@ kernel.bin: kernel.o $(stdlib) $(drivers) $(proc) $(vda) $(keyboard) $(console) 
 	$(LD) -m elf_i386 -T lnefi.ld -o kernel.elf kernel.o $(stdlib) $(drivers) $(proc) $(vda) $(keyboard) $(console) $(test) main.o
 
 main.o: main.c
-	$(CC) $(CFLAGS) -fno-stack-protector main.c -o main.o
+	$(CC) $(CFLAGS)   main.c -o main.o
 
 kernel.o: kernel.asm
 	$(AS) $(ASFLAGS) kernel.asm -o kernel.o

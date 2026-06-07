@@ -93,10 +93,8 @@ void console_init() {
         get_current_time();
 
         read_key();
-        
-        
 
-        if (KEY_READ == 0 || KEY_READ > 127) {
+        if (KEY_READ == 0) {
             continue;
         }
 

@@ -4,8 +4,7 @@
 
 void aaa() {
     
-    //test_em_all();
-
+    
     start_video_mode();
 
     print_inline("");
@@ -23,14 +22,12 @@ void aaa() {
     test_em_all();
 
     
-    wait_sec(2);
-    
-
-    wait_sec(2);
-    
     console_init();
     
-
+    while (1) {
+        short x = x % 100;
+        x++;
+    } 
 }
 
 
