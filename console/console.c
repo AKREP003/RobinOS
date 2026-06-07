@@ -18,11 +18,7 @@ void print_pointer_ln(uintptr_t ptr) {print_inline(STR ptr); print_inline("");}
 
 void digest_console_prompt(struct ll* prompt) {
     
-    print_integer(PTR prompt);
-
     char* primer = STR get_nth_element(prompt, 0);
-
-    print_integer(PTR prompt);
 
     if (string_eq(primer, "echo")) {
         
@@ -39,8 +35,6 @@ void digest_console_prompt(struct ll* prompt) {
         print_inline("");
 
         struct file_cache* f = create_file_cache_from(STR get_nth_element(prompt, 1)); 
-
-        print_integer(PTR f);
 
         print_inline(STR (f -> buffer));
 
@@ -65,8 +59,6 @@ void digest_console_prompt(struct ll* prompt) {
         print_inline("");
 
         short r = parse_file_path(STR get_nth_element(prompt, 1));
-
-        print_integer(r);
 
         print_inline("");
 
@@ -105,8 +97,6 @@ void console_init() {
             struct ll* split = split_string(entry_buffer, ' ');
             
             short y = get_nth_fibo(3999);
-
-            print_integer(PTR split);
 
             digest_console_prompt(split);
 

@@ -406,7 +406,7 @@ void free_cache(struct file_cache* p) {
 
 enum bool file_handling_test() {
 
-   char* str = "ads";
+   char* str = "good";
 
    struct file_cache* test = create_file_cache(":god");
 
@@ -416,7 +416,7 @@ enum bool file_handling_test() {
 
    cpy(test ->buffer, PTR str, 4);
 
-   test -> size = 4;
+   test -> size = str_size(str);
 
    commit_file_cache(test);
 

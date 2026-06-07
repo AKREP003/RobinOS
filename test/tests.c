@@ -35,7 +35,7 @@ void test_em_all() {
 
     print_string("file system succ\r\n");
 
-    wait_sec(1);
+    
 
     file_system_init();
 
