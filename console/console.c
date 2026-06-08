@@ -38,8 +38,6 @@ void digest_console_prompt(struct ll* prompt) {
 
         print_inline(STR (f -> buffer));
 
-        print_integer(PTR f);
-
         free_cache(f);
 
         print_inline("");
