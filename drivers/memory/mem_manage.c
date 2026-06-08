@@ -100,9 +100,9 @@ void free(uintptr_t ptr) {
     
     if (ptr == 30000 || ptr <= 0) {return;}
 
-    
-
     p_memblock to_be_freed =  (p_memblock) (ptr - sizeof(struct memblock));
+
+    int chunk_size = sizeof(struct memblock) + (to_be_freed -> size);
 
     p_memblock next = (p_memblock) to_be_freed -> next;
 
@@ -111,6 +111,13 @@ void free(uintptr_t ptr) {
     if (next != 0) {next -> prev = (uintptr_t) prev;}
 
     if (prev != 0) {prev -> next = (uintptr_t) next;}
+
+    for (int i = 0; i < chunk_size; i++) {
+
+        *((char*) to_be_freed + i) = 0;
+
+    }
+
 
 }
 

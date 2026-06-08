@@ -15,23 +15,23 @@ void print_test() {
 void test_em_all() {
     print_test();
 
-    if (!std_test())   {print_string("std functions failed\r\n");return;}
+    if (!std_test())   {print_inline("std functions failed\r\n");return;}
 
     print_string("std succ\r\n");
 
-    if (!alloc_test()) {print_string("alloc failed\r\n");return;} 
+    if (!alloc_test()) {print_inline("alloc failed\r\n");return;} 
 
     print_string("alloc succ\r\n");
 
     //wait_sec(5);
 
-    if (!disk_test())  {print_string("disk failed");return;} 
+    if (!disk_test())  {print_inline("disk failed");return;} 
 
     print_string("disk succ\r\n");
 
     //wait_sec(5);
 
-    if (!file_system_test())  {print_string("file system failed");return;} 
+    if (!file_system_test())  {print_inline("file system failed");return;} 
 
     print_string("file system succ\r\n");
 
@@ -41,7 +41,7 @@ void test_em_all() {
 
     print_inline("file system initialised"); 
 
-    if (!file_handling_test())  {print_string("file handling failed");return;} 
+    if (!file_handling_test())  {print_inline("file handling failed");return;} 
 
     print_string("file handling succ\r\n");
 

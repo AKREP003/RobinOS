@@ -17,6 +17,8 @@ struct file_cache* get_cache(short loc) {
 
       
       if (cache_buffer != 0 && (cache_buffer -> disc_loc) == loc ) {
+
+         print_integer(loc);
          
          return cache_buffer;
 
@@ -398,8 +400,6 @@ void free_cache(struct file_cache* p) {
 
    free(PTR p ->name);
 
-   free(PTR p->tree_loc);
-
    free(PTR p);
 
 }
@@ -432,7 +432,22 @@ enum bool file_handling_test() {
 
    enum bool cond2 = (create_from -> disc_loc) == (test -> disc_loc);
 
+   struct file_cache* test1 = create_file_cache(":god");
 
-   return cond && cond2;
+   uintptr_t ptr1 = PTR test1;
+
+   free_cache(test1);
+
+   test1 = create_file_cache(":god");
+
+   enum bool cond3 = PTR test1 == ptr1;
+
+   free_cache(test);
+
+   free_cache(create_from);
+
+   free_cache(test1);
+
+   return cond && cond2 && cond3;
 
 }

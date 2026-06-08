@@ -275,12 +275,7 @@ struct ll* split_string(char* strin, char element) {
 
             if (str_size((char*) sub_unit) > 0) {
 
-                if (first_flag) {
-                    set_element_val(linked_buffer, sub_unit);
-                    first_flag = false;
-                } else {    
-                    push(linked_buffer, (uintptr_t) sub_unit);
-                }
+                push_dyn(linked_buffer, sub_unit);
 
             } else {
                 // Free the unused sub_unit if it is empty
@@ -288,20 +283,28 @@ struct ll* split_string(char* strin, char element) {
             }
 
             sub_index = 0;
+            
+            print_inline(STR sub_unit);
 
             sub_unit = (uintptr_t) alloc(sizeof(char) * 64);
 
+            print_inline("mmm");
+
             continue;
+        } else {
+
+            ((char*) sub_unit)[sub_index] = strin[i];
+            sub_index++;
+
         }
         
-        ((char*) sub_unit)[sub_index] = strin[i];
-        sub_index++;
+        
     }
 
     // Free the last allocated sub_unit if it was not pushed
-    if (sub_index == 0 || str_size((char*) sub_unit) == 0) {
-        free(sub_unit);
-    }
+    
+    free(sub_unit);
+    
 
     return linked_buffer;
 }
@@ -320,16 +323,39 @@ enum bool std_test() {
 
     enum bool str_eq_test =  string_eq("www", "www") && !(string_eq("www", "eee"));
 
-    char* str = "aaaaa:bbbbb:cccc";
+    struct ll* l1 = new_ll();
 
+    push_dyn(l1, allocate_str("xxxx"));
+
+    uintptr_t llPtr = PTR l1;
+
+    free_ll(PTR l1);
+
+    l1 = new_ll();
+
+    enum bool llFreeTest = PTR l1 == llPtr;
+
+    free_ll(PTR l1);
+
+    char* str = "aaaaa:bbbbb:cccc";
     
     struct ll* split = split_string(str, ':');
+
+    uintptr_t splitPtr = PTR split;
 
     enum bool split_test1 = string_eq(STR get_nth_element(split, 0), "aaaaa");
 
     enum bool split_test2 = string_eq(STR get_nth_element(split, 1), "bbbbb");
 
-    return str_eq_test && split_test1 && split_test2;
+    free_ll(PTR split);
+
+    uintptr_t testAlloc = PTR allocate_str("nnnn");
+
+    enum bool allocTest = testAlloc == splitPtr;
+    
+    free(testAlloc);
+
+    return str_eq_test && llFreeTest && split_test1 && split_test2 && allocTest;
 
 }
 
