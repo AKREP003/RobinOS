@@ -288,8 +288,6 @@ struct ll* split_string(char* strin, char element) {
 
             sub_unit = (uintptr_t) alloc(sizeof(char) * 64);
             
-
-            continue;
         } else {
 
             ((char*) sub_unit)[sub_index] = strin[i];
@@ -352,7 +350,7 @@ enum bool std_test() {
     
     free(testAlloc);
 
-    return str_eq_test && llFreeTest && split_test1 && split_test2; // && allocTest;
+    return str_eq_test && llFreeTest && split_test1 && split_test2 && allocTest;
 
 }
 

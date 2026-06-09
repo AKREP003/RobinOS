@@ -31,8 +31,11 @@ void discover_files() {
 
     }
 
-    
+    print_integer(alloc(1));
     free(PTR disk_read_buffer);
+    print_integer(alloc(1));
+
+    print_inline("Discovered files: ");
 
     parse_files(sized_buffer);
 
@@ -92,7 +95,7 @@ void parse_files(char* raw) {
     
     free(PTR raw);
 
-    
+    print_integer(alloc(1));
 }
 
 

@@ -21,8 +21,9 @@ void aaa() {
     
     test_em_all();
 
+    //discover_files();
     
-    console_init();
+    //console_init();
     
     while (1) {
         short x = x % 100;

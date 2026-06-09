@@ -1,0 +1,28 @@
+
+shell truncate -s 0 memleak.txt
+
+set $allocRet = &alloc + 200
+
+set $freeRet = &free + 194
+
+break *$allocRet
+commands    
+    set logging file memleak.txt
+    set logging enabled on
+    p "allocation"
+    x/10u $sp
+    set logging enabled off
+    continue
+
+end
+
+break *$freeRet
+commands
+    set logging file memleak.txt
+    set logging enabled on
+    p "free"
+    x/10u $sp
+    set logging enabled off
+    continue
+
+end
