@@ -342,7 +342,7 @@ enum bool std_test() {
 
     enum bool split_test2 = string_eq(STR get_nth_element(split, 1), "bbbbb");
 
-    print_integer(PTR split);
+    free_ll(PTR split);
 
     uintptr_t testAlloc = split_string(str, ':');
 
