@@ -342,13 +342,13 @@ enum bool std_test() {
 
     enum bool split_test2 = string_eq(STR get_nth_element(split, 1), "bbbbb");
 
-    free_ll(PTR split);
+    print_integer(PTR split);
 
-    uintptr_t testAlloc = PTR allocate_str("nnnn");
+    uintptr_t testAlloc = split_string(str, ':');
 
     enum bool allocTest = testAlloc == splitPtr;
     
-    free(testAlloc);
+    free_ll(testAlloc);
 
     return str_eq_test && llFreeTest && split_test1 && split_test2 && allocTest;
 

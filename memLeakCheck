@@ -10,7 +10,7 @@ commands
     set logging file memleak.txt
     set logging enabled on
     p "allocation"
-    x/10u $sp
+    x/20u $sp
     set logging enabled off
     continue
 
@@ -21,7 +21,7 @@ commands
     set logging file memleak.txt
     set logging enabled on
     p "free"
-    x/10u $sp
+    x/24u $sp
     set logging enabled off
     continue
 
