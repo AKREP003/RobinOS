@@ -9,12 +9,12 @@ read:
     mov ebp, esp
 
     mov ah, 0x02        ; BIOS function 0x02 - Read sectors
-    mov al, [ebp + 8]   ; Number of sectors to read
-    mov ch, [ebp + 12]  ; track
-    mov cl, [ebp + 16]  ; Sector 
-    mov dh, [ebp + 20]  ; Head 
+    mov al, [ebp + 8]   ; Number of sectors to read 1 
+    mov ch, [ebp + 12]  ; track 61 
+    mov cl, [ebp + 16]  ; Sector 1
+    mov dh, [ebp + 20]  ; Head 0
     mov dl, 0        ; Floppy Drive 0 (A:)
-    mov bx, [ebp + 24]  ; Buffer address in memory
+    mov bx, [ebp + 24]  ; Buffer address in memory 29000
 
     int 0x13            ; BIOS Disk Read
     jc disk_error       ; Jump to error if Carry Flag is set
@@ -30,9 +30,9 @@ read_kernel:
     mov ebp, esp
 
     mov ah, 0x02        ; BIOS function 0x02 - Read sectors
-    mov al, 10   ; Number of sectors to read
+    mov al, 3   ; Number of sectors to read
     mov ch, 0  ; track
-    mov cl, 2  ; Sector 
+    mov cl, 7  ; Sector 
     mov dh, 1  ; Head 
     mov dl, 0        ; Floppy Drive 0 (A:)
     mov bx, [ebp + 8]  ; Buffer address in memory

@@ -21,8 +21,12 @@ void aaa() {
     
     test_em_all();
 
-    //discover_files();
+    discover_files();
     
+    print_inline("op succ");
+
+    print_integer(alloc(1));
+
     //console_init();
     
     while (1) {

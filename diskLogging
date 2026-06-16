@@ -1,0 +1,35 @@
+shell truncate -s 0 diskLog.txt
+
+
+break read
+commands    
+    set logging file diskLog.txt
+    set logging enabled on
+    p "read"
+    x/24u $sp
+    set logging enabled off
+    continue
+
+end
+
+break write
+commands
+    set logging file diskLog.txt
+    set logging enabled on
+    p "write"
+    x/24u $sp
+    set logging enabled off
+    continue
+
+end
+
+break read_kernel
+commands
+    set logging file diskLog.txt
+    set logging enabled on
+    p "read_kernel"
+    x/24u $sp
+    set logging enabled off
+    continue
+
+end
