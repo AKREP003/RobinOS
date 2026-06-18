@@ -4,16 +4,16 @@
 short DISK_HEADER = 0;
 
 void discover_files() {
+
     
-    char disk_read_buffer[2000];
+    
+    char disk_read_buffer[512 * 4];
 
     read_kernel((uintptr_t) disk_read_buffer);
 
     
 
-    for (int i = 0; i < 2000; i++) {
-
-        //print_char( disk_read_buffer[i]);
+    for (int i = 0; i < 512 * 4; i++) {
         
         if (disk_read_buffer[i] == 'Q' && disk_read_buffer[i + 1] == 'Q' && disk_read_buffer[i + 2] == 'Q' && disk_read_buffer[i + 3] == 'Q') {
             
@@ -35,11 +35,13 @@ void discover_files() {
 
     }
     
-    print_integer(DISK_HEADER);
+    
 
     print_inline("Discovered files: ");
 
     parse_files(sized_buffer);
+
+    free(PTR sized_buffer);
 
 }
 
@@ -81,7 +83,7 @@ void parse_files(char* raw) {
 
         print_inline(file_content);
 
-        register_file(name, file_content);
+        //register_file(name, file_content);
 
         free(PTR file_content);
 
@@ -95,7 +97,7 @@ void parse_files(char* raw) {
 
     free_ll(PTR sp_meta);
     
-    free(PTR raw);
+    
 
 }
 

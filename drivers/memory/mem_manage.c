@@ -21,11 +21,11 @@ void set_heap_mode(short mode) {
 
     if (mode) {
 
-        last_free = (uintptr_t) 30000;
+        last_free = (uintptr_t) last_free;
 
     } else {
 
-        last_free = (uintptr_t) 30000;
+        last_free = (uintptr_t) last_free;
 
     }
 
@@ -35,7 +35,7 @@ void set_heap_mode(short mode) {
 
 uintptr_t alloc(short size) {
 
-    uintptr_t buffer = (uintptr_t) 30000;
+    uintptr_t buffer = (uintptr_t) last_free;
 
     uintptr_t alloc_size = size + sizeof(struct memblock);
 
@@ -98,7 +98,7 @@ uintptr_t alloc(short size) {
 
 void free(uintptr_t ptr) {
     
-    if (ptr == 30000 || ptr <= 0) {return;}
+    if (ptr == last_free || ptr <= 0) {return;}
 
     p_memblock to_be_freed =  (p_memblock) (ptr - sizeof(struct memblock));
 

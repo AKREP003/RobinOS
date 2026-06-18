@@ -7,7 +7,6 @@ add-symbol-file init/kernel.elf 0x1000
 
 #source -s -v diskLogging
 
-
 target remote localhost:1234
 
 c
